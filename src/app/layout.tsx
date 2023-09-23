@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Roboto } from 'next/font/google'
 import { cn } from '@/lib/utils'
 
-const inter = Roboto({ subsets: ['latin'], weight: ['500', '700'] })
+const inter = Roboto({ subsets: ['latin'], weight: ['300', '500', '700'] })
 
 export const metadata: Metadata = {
 	title: 'Create Next App',

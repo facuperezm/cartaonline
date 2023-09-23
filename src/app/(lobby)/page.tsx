@@ -16,16 +16,16 @@ export default function Home() {
 				<h1 className='text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]'>
 					Bienvenido a Carta Online
 				</h1>
-				<Balancer>
-					<p className='text-base text-muted-foreground md:text-lg'>
+				<p className='max-w-[46rem] text-lg font-light text-muted-foreground sm:text-xl'>
+					<Balancer>
 						La manera mas facil de administrar tu negocio desde cualquier lugar.
 						Deja que la gente rankee tu comida rica rica
-					</p>
-				</Balancer>
+					</Balancer>
+				</p>
 
 				<div className='flex flex-wrap items-center justify-center gap-4'>
 					<Link href='/company' className={cn(buttonVariants())}>
-						Buy now!
+						Tengo hambre
 						<span className='sr-only'>buy now</span>
 					</Link>
 					<Link
