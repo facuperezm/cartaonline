@@ -6,7 +6,7 @@ import {
 import { Shell } from '@/components/shell'
 import React from 'react'
 
-export default function page() {
+export default function ComapniesPage() {
 	return (
 		<Shell>
 			<PageHeader
