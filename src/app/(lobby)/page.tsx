@@ -48,12 +48,10 @@ export default function Home() {
 					</Link>
 				</div>
 			</section>
-			<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-				<CategoryCard />
-				<CategoryCard />
-				<CategoryCard />
-				<CategoryCard />
-				<CategoryCard />
+			<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
+				<CategoryCard city="Puerto Iguazú" src="https://images.unsplash.com/photo-1556918936-3e73b945d24f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80"/>
+				<CategoryCard city="Corrientes" src="https://ciudaddecorrientes.gov.ar/sites/default/files/photo_5116340479980579523_y_0.jpg"/>
+				<CategoryCard city="Posadas" src="https://canal12misiones.com/wp-content/uploads/2022/07/Turismo-en-Posadas.jpg"/>
 			</section>
 		</Shell>
 	)
