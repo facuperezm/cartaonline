@@ -1,16 +1,16 @@
-import type { FooterItem, MainNavItem } from "@/types"
+import { useProfileStore } from "@/stores/profile"
+import type { SiteConfig } from "@/types"
 
-import { productCategories } from "@/config/products"
+import { Icons } from "@/components/icons"
 
-export type SiteConfig = typeof siteConfig
-
-const links = {
-  github: "https://github.com/facuperezm",
-}
-
-export const siteConfig = {
+export const siteConfig: SiteConfig = {
   name: "Carta Online",
   description:
-    "Publica tu menu online y llega a miles de personas.",
+    "Carta online es una pagina donde podes publicar tu menu para que la gente lo vea antes de ir a comer!",
   url: "https://cartaonline.vercel.app",
+  ogImage: "https://cartaonline.vercel.app/opengraph-image.png",
+  links: {
+    twitter: "https://twitter.com/facuperezm",
+    github: "https://github.com/facuperezm",
+  },
 }
