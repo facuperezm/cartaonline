@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 
 import { catchClerkError } from "@/lib/utils";
@@ -24,9 +25,9 @@ import { PasswordInput } from "@/components/password-input";
 
 type Inputs = z.infer<typeof authSchema>;
 
-export function SignInForm() {
+export function SignUpForm() {
   const router = useRouter();
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { isLoaded, signUp } = useSignUp();
   const [isPending, startTransition] = React.useTransition();
 
   // react-hook-form
@@ -43,19 +44,20 @@ export function SignInForm() {
 
     startTransition(async () => {
       try {
-        const result = await signIn.create({
-          identifier: data.email,
+        await signUp.create({
+          emailAddress: data.email,
           password: data.password,
         });
 
-        if (result.status === "complete") {
-          await setActive({ session: result.createdSessionId });
+        // Send email verification code
+        await signUp.prepareEmailAddressVerification({
+          strategy: "email_code",
+        });
 
-          router.push(`${window.location.origin}/`);
-        } else {
-          /*Investigate why the login hasn't completed */
-          console.log(result);
-        }
+        router.push("/signup/verify-email");
+        toast.message("Check your email", {
+          description: "We sent you a 6-digit verification code.",
+        });
       } catch (err) {
         catchClerkError(err);
       }
@@ -75,11 +77,7 @@ export function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="rodneymullen180@gmail.com"
-                  {...field}
-                />
+                <Input placeholder="rodneymullen180@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,15 +96,15 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
+        <Button disabled={isPending}>
           {isPending && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"
               aria-hidden="true"
             />
           )}
-          Sign in
-          <span className="sr-only">Sign in</span>
+          Continue
+          <span className="sr-only">Continue to email verification page</span>
         </Button>
       </form>
     </Form>

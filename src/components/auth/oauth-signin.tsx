@@ -10,7 +10,6 @@ import { Icons } from "@/components/icons";
 
 const oauthProviders = [
   { name: "Google", strategy: "oauth_google", icon: "google" },
-  { name: "Facebook", strategy: "oauth_facebook", icon: "facebook" },
 ] satisfies {
   name: string;
   icon: keyof typeof Icons;
@@ -42,7 +41,7 @@ export function OAuthSignIn() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 sm:gap-4">
       {oauthProviders.map((provider) => {
         const Icon = Icons[provider.icon];
 

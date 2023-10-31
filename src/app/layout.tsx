@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { siteConfig } from "@/config/site"
+import { siteConfig } from "@/config/site";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -22,7 +22,7 @@ export const metadata = {
     "TRPC",
     "T3-App",
     "Carta",
-    "Menu"
+    "Menu",
   ],
   authors: [
     {
@@ -42,9 +42,7 @@ export const metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      
-    ],
+    images: [],
   },
   twitter: {
     card: "summary_large_image",
@@ -58,7 +56,7 @@ export const metadata = {
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -66,16 +64,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html 
-        lang="en" 
+    <ClerkProvider
+      appearance={{
+        layout: {
+          socialButtonsPlacement: "bottom",
+          socialButtonsVariant: "iconButton",
+          termsPageUrl: "https://clerk.com/terms",
+        },
+      }}
+    >
+      <html
+        lang="en"
         className={cn(
-            "min-h-screen bg-background scroll-smooth antialiased",
-            inter.className
-          )} suppressHydrationWarning >
-        <body
-          
-        >
+          "min-h-screen bg-background scroll-smooth antialiased",
+          inter.className
+        )}
+        suppressHydrationWarning
+      >
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -1,6 +1,9 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
 import { OAuthSignIn } from "@/components/auth/oauth-signin";
 import { Shell } from "@/components/shell";
-import { SignInForm } from "@/components/signin-form";
+import { SignInForm } from "@/components/forms/signin-form";
 import {
   Card,
   CardContent,
@@ -9,17 +12,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
-export default function Signin() {
+export default async function Signin() {
+  const user = await currentUser();
+  if (user) redirect("/");
+
   return (
     <Shell className="max-w-lg">
       <div className="flex justify-center align-center m-auto h-screen">
-        <Card className="m-auto">
+        <Card>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">Bienvenido a Cartaonline</CardTitle>
+            <CardTitle className="text-2xl">Sign up</CardTitle>
             <CardDescription>
-              Inicia sesion para administrar tu empresa
+              Choose your preferred sign up method
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
@@ -34,21 +39,17 @@ export default function Signin() {
                 </span>
               </div>
             </div>
-            <SignInForm />
+            <SignUpForm />
           </CardContent>
-          <CardFooter className="flex flex-col items-center justify-center gap-y-1 text-sm sm:flex-row">
-            <div>
-              <span className="text-muted-foreground">¿No tienes cuenta?</span>
-            </div>
-            <Link href="/signup" className="font-medium text-primary">
-              Create una cuenta
-            </Link>
-            <div>
+          <CardFooter>
+            <div className="text-sm text-muted-foreground">
+              Already have an account?{" "}
               <Link
-                href="/signin/reset-password"
-                className="font-medium text-primary"
+                aria-label="Sign in"
+                href="/signin"
+                className="text-primary underline-offset-4 transition-colors hover:underline"
               >
-                Resetea la contra
+                Sign in
               </Link>
             </div>
           </CardFooter>
