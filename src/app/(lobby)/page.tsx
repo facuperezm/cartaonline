@@ -14,10 +14,10 @@ export default function Home() {
         className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"
       >
         <h1
-          className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-3xl font-bold tracking-tighter leading-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
+          className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
           style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
         >
-          <Balancer>Bienvenidos a Carta Online</Balancer>
+          <Balancer>Bienvenidos a Carta Online </Balancer>
         </h1>
         {/* <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
           <Balancer>
@@ -35,7 +35,7 @@ export default function Home() {
           </Balancer>
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link href="/companies" className={cn(buttonVariants())}>
+          <Link href="/categories" className={cn(buttonVariants())}>
             Tengo hambre
             <span className="sr-only">buy now</span>
           </Link>
