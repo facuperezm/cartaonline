@@ -1,6 +1,5 @@
 import { OAuthSignIn } from "@/components/auth/oauth-signin";
 import { Shell } from "@/components/shell";
-import { SignInForm } from "@/components/forms/signin-form";
 import {
   Card,
   CardContent,
@@ -13,14 +12,11 @@ import Link from "next/link";
 
 export default function Signin() {
   return (
-    <Shell className="max-w-lg">
+    <Shell className="max-w-lg h-screen">
       <div className="flex justify-center align-center m-auto h-screen">
         <Card className="m-auto bg-background">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">Bienvenido a Cartaonline</CardTitle>
-            <CardDescription>
-              Inicia sesion para administrar tu empresa
-            </CardDescription>
+            <CardTitle className="text-2xl">Inicia sesion</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <OAuthSignIn />
@@ -28,13 +24,12 @@ export default function Signin() {
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
+              {/* <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
                   O continua con
                 </span>
-              </div>
+              </div> */}
             </div>
-            <SignInForm />
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-between gap-2">
             <div className="text-sm text-muted-foreground">

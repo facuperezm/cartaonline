@@ -34,9 +34,12 @@ export function OAuthSignIn() {
 
       const unknownError = "Something went wrong, please try again.";
 
-      isClerkAPIResponseError(error)
-        ? toast.error(error.errors[0]?.longMessage ?? unknownError)
-        : toast.error(unknownError);
+      if (isClerkAPIResponseError(error)) {
+        toast.error(unknownError);
+      } else {
+        toast.error(String(error));
+      }
+      toast.error(unknownError);
     }
   }
 
