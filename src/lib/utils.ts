@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function catchClerkError(err: unknown) {
+export function catchClerkError(err: any) {
   const unknownErr = "Something went wrong, please try again later.";
 
   if (err instanceof z.ZodError) {

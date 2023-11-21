@@ -8,7 +8,7 @@ import { Balancer } from "react-wrap-balancer";
 
 export default function Home() {
   return (
-    <Shell className="gap-12">
+    <Shell className="gap-14">
       <section
         id="hero"
         className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"
@@ -19,13 +19,13 @@ export default function Home() {
         >
           <Balancer>Bienvenidos a Carta Online </Balancer>
         </h1>
-        {/* <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
+        <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
           <Balancer>
             La manera mas facil de administrar tu negocio desde cualquier lugar.
             Deja que la gente rankee tu comida rica rica
           </Balancer>
-        </p> */}
-        <p
+        </p>
+        {/* <p
           className="text-center opacity-0 animate-fade-up text-muted-foreground/80 md:text-xl"
           style={{ animationDelay: "0.30s", animationFillMode: "forwards" }}
         >
@@ -33,8 +33,8 @@ export default function Home() {
             La manera mas facil de administrar tu negocio desde cualquier lugar.
             Deja que la gente rankee tu comida rica rica
           </Balancer>
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        </p> */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
           <Link href="/categories" className={cn(buttonVariants())}>
             Tengo hambre
             <span className="sr-only">buy now</span>

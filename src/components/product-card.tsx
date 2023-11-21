@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Icons } from "./icons";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,12 +31,8 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
               aria-roledescription="placeholder"
               className="relative flex items-center justify-center w-full h-full"
             >
-              {/* <Icons.placeholder
-                  className="h-9 w-9 text-muted-foreground"
-                  aria-hidden="true"
-                /> */}
-              <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-black via-black/20 to-transparent"></div>
-              {/* <Image
+              <div className="absolute inset-0 opacity-60 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
+              <Image
                 className="object-cover w-full h-full bg-gradient-to-r from-blue-500"
                 width={100}
                 height={100}
@@ -43,7 +40,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
                 alt="product"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 loading="lazy"
-              /> */}
+              />
             </div>
           </AspectRatio>
         </CardHeader>
@@ -52,13 +49,13 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
       <Link href={`/product`} tabIndex={-1}>
         <CardContent className="flex flex-row gap-2.5 p-4 align-center">
           <div className="w-12 h-12 overflow-hidden rounded-md">
-            {/* <Image
+            <Image
               className="object-cover w-full h-full"
               src="https://logos-world.net/wp-content/uploads/2020/09/Starbucks-Symbol.jpg"
               alt="alala lala long"
               width={100}
               height={100}
-            /> */}
+            />
           </div>
           <CardTitle className="text-lg font-bold line-clamp-2">
             Starbucks

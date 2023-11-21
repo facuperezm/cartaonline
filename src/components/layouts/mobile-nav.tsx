@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
+import { ViewVerticalIcon } from "@radix-ui/react-icons";
+import { BookMarkedIcon } from "lucide-react";
 
 export function MobileNav() {
   const segment = useSelectedLayoutSegment();
@@ -27,8 +29,7 @@ export function MobileNav() {
           variant="ghost"
           className="px-0 mr-2 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
         >
-          TEST{" "}
-          {/* <ViewVerticalIcon className="w-6 h-6" aria-hidden="true" /> */}
+          <BookMarkedIcon className="w-6 h-6" aria-hidden="true" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>

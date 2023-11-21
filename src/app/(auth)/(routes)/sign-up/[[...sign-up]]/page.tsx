@@ -6,7 +6,6 @@ import { Shell } from "@/components/shell";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,

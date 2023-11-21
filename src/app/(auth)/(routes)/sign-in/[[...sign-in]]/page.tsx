@@ -3,7 +3,6 @@ import { Shell } from "@/components/shell";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -24,11 +23,6 @@ export default function Signin() {
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
-              {/* <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  O continua con
-                </span>
-              </div> */}
             </div>
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-between gap-2">

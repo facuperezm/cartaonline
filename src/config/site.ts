@@ -1,10 +1,7 @@
-import { useProfileStore } from "@/stores/profile"
-import type { SiteConfig } from "@/types"
-
-import { Icons } from "@/components/icons"
+import { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
-  name: "Carta Online",
+  name: "cartaonline.",
   description:
     "Carta online es una pagina donde podes publicar tu menu para que la gente lo vea antes de ir a comer!",
   url: "https://cartaonline.vercel.app",
@@ -13,4 +10,4 @@ export const siteConfig: SiteConfig = {
     twitter: "https://twitter.com/facuperezm",
     github: "https://github.com/facuperezm",
   },
-}
+};
