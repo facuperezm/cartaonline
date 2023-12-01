@@ -8,7 +8,7 @@ import { Balancer } from "react-wrap-balancer";
 
 export default function Home() {
   return (
-    <Shell className="gap-14">
+    <Shell className="gap-14 dark-magicpattern">
       <section
         id="hero"
         className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"

@@ -8,7 +8,7 @@ export default function SignInForm() {
   const [password, setPassword] = useState("");
   const router = useRouter();
   // start the sign In process.
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!isLoaded) {
       return;

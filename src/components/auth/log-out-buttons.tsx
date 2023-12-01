@@ -34,7 +34,7 @@ export function LogOutButtons() {
             {isPending && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Cerrar sesion
+            Desloguear
           </Button>
         </SignOutButton>
       ) : (
@@ -48,14 +48,14 @@ export function LogOutButtons() {
         </Skeleton>
       )}
       <Button
-        aria-label="Go back to the previous page"
+        aria-label="Volver a la pagina previa"
         variant="outline"
         size="sm"
         className="w-full"
         onClick={() => router.back()}
         disabled={isPending}
       >
-        Go back
+        Volver
       </Button>
     </div>
   );
