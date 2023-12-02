@@ -32,3 +32,9 @@ export interface NavItemWithOptionalChildren extends NavItem {
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
+
+export type Store = {
+  name: string;
+  address: string;
+  logoUrl: string;
+};

@@ -24,17 +24,27 @@ export const metadata: Metadata = {
 };
 
 export default async function StoresPage() {
-  const user = await currentUser();
+  const userfromclerk = await currentUser();
 
-  if (!user) {
+  const userfromDB = await db.user.findUnique({
+    where: {
+      id: userfromclerk!.id,
+    },
+  });
+
+  if (!userfromclerk) {
     redirect("/signin");
   }
 
   const allStores = await db.store.findMany({
-    where: {
-      userId: user.id,
+    orderBy: {
+      createdAt: "desc",
     },
   });
+
+  console.log(allStores);
+  console.log(userfromclerk);
+  console.log(userfromDB);
 
   return (
     <Shell variant="sidebar">

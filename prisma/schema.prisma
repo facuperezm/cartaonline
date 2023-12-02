@@ -38,12 +38,14 @@ model Store {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   logoUrl   String    @db.Text
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products  Product[]
-  status    Status    @default(ACTIVE)
 
-  @@index([userId], name: "userId")
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  products Product[]
+  status   Status    @default(ACTIVE)
+
+  @@index([userId])
 }
 
 model Product {
