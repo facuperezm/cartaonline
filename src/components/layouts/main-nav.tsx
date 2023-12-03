@@ -1,11 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { Icons } from "@/components/icons";
-import { BookOpenCheck } from "lucide-react";
+import { Icons } from "@/components/icons"
+import { siteConfig } from "@/config/site"
+import { BookOpenCheck } from "lucide-react"
+import Link from "next/link"
+import * as React from "react"
 
 export function MainNav() {
   return (
@@ -18,5 +17,5 @@ export function MainNav() {
         <span className="sr-only">Home</span>
       </Link>
     </div>
-  );
+  )
 }

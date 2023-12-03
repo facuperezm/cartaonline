@@ -1,12 +1,11 @@
-import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
-import { Shell } from "@/components/shell";
-import { ModeToggle } from "./theme-toggle";
-import { BookOpenCheck } from "lucide-react";
+import { Icons } from "@/components/icons"
+import { Shell } from "@/components/shell"
+import { buttonVariants } from "@/components/ui/button"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { BookOpenCheck } from "lucide-react"
+import Link from "next/link"
+import { ModeToggle } from "./theme-toggle"
 
 export function SiteFooter() {
   return (
@@ -67,7 +66,7 @@ export function SiteFooter() {
                 buttonVariants({
                   size: "icon",
                   variant: "ghost",
-                }),
+                })
               )}
             >
               <Icons.gitHub className="h-4 w-4" aria-hidden="true" />
@@ -78,5 +77,5 @@ export function SiteFooter() {
         </section>
       </Shell>
     </footer>
-  );
+  )
 }

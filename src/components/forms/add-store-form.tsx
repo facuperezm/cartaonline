@@ -1,13 +1,7 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -15,14 +9,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Icons } from "@/components/icons";
-import { db } from "@/lib/db";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { db } from "@/lib/db"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import * as React from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 interface AddStoreFormProps {
-  userId: string;
+  userId: string
 }
 
 //store schema
@@ -30,13 +29,13 @@ const storeSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long."),
   address: z.string().min(3, "Address must be at least 3 characters long."),
   logourl: z.string().min(3, "Logo URL must be at least 3 characters long."),
-});
+})
 
-type Inputs = z.infer<typeof storeSchema>;
+type Inputs = z.infer<typeof storeSchema>
 
 export function AddStoreForm({ userId }: AddStoreFormProps) {
-  const router = useRouter();
-  const [isPending, startTransition] = React.useTransition();
+  const router = useRouter()
+  const [isPending, startTransition] = React.useTransition()
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -46,12 +45,11 @@ export function AddStoreForm({ userId }: AddStoreFormProps) {
       address: "",
       logourl: "",
     },
-  });
+  })
 
   function onSubmit(data: Inputs) {
-    console.log(res);
-    toast.success("Store added successfully!");
-    router.push("/dashboard/stores");
+    toast.success("Store added successfully!")
+    router.push("/dashboard/stores")
   }
 
   return (
@@ -117,5 +115,5 @@ export function AddStoreForm({ userId }: AddStoreFormProps) {
         </Button>
       </form>
     </Form>
-  );
+  )
 }

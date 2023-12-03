@@ -1,12 +1,12 @@
-import { LogOutButtons } from "@/components/auth/log-out-buttons";
-import { Shell } from "@/components/shell";
+import { LogOutButtons } from "@/components/auth/log-out-buttons"
+import { Shell } from "@/components/shell"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 
 export default function Signout() {
   return (
@@ -23,5 +23,5 @@ export default function Signout() {
         </Card>
       </div>
     </Shell>
-  );
+  )
 }

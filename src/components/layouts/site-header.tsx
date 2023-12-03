@@ -1,14 +1,15 @@
-import Link from "next/link";
-import type { User } from "@clerk/nextjs/server";
-
+import { getUserEmail } from "@/lib/utils"
+import type { User } from "@clerk/nextjs/server"
 import {
   BookOpenCheck,
   Cog,
   LayoutDashboard,
   LogOut,
   User as UserIcon,
-} from "lucide-react";
-import { MobileNav } from "./mobile-nav";
+} from "lucide-react"
+import Link from "next/link"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button, buttonVariants } from "../ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,21 +19,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button, buttonVariants } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { getUserEmail } from "@/lib/utils";
-import { MainNav } from "./main-nav";
+} from "../ui/dropdown-menu"
+import { MainNav } from "./main-nav"
+import { MobileNav } from "./mobile-nav"
 
 interface SiteHeaderProps {
-  user: User | null;
+  user: User | null
 }
 
 export async function SiteHeader({ user }: SiteHeaderProps) {
   const initials = `${user?.firstName?.charAt(0) ?? ""} ${
     user?.lastName?.charAt(0) ?? ""
-  }`;
-  const email = getUserEmail(user);
+  }`
+  const email = getUserEmail(user)
 
   return (
     <header className="bg-background sticky top-0 z-50 w-full border-b">
@@ -116,5 +115,5 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
         </div>
       </div>
     </header>
-  );
+  )
 }

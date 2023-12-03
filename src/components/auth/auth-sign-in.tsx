@@ -1,37 +1,37 @@
-import { useState } from "react";
-import { useSignIn } from "@clerk/nextjs";
-import { useRouter } from "next/router";
+import { useSignIn } from "@clerk/nextjs"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
 export default function SignInForm() {
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+  const { isLoaded, signIn, setActive } = useSignIn()
+  const [emailAddress, setEmailAddress] = useState("")
+  const [password, setPassword] = useState("")
+  const router = useRouter()
   // start the sign In process.
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!isLoaded) {
-      return;
+      return
     }
 
     try {
       const result = await signIn.create({
         identifier: emailAddress,
         password,
-      });
+      })
 
       if (result.status === "complete") {
-        console.log(result);
-        await setActive({ session: result.createdSessionId });
-        router.push("/");
+        console.log(result)
+        await setActive({ session: result.createdSessionId })
+        router.push("/")
       } else {
         /*Investigate why the login hasn't completed */
-        console.log(result);
+        console.log(result)
       }
     } catch (err: any) {
-      console.error("error", err.errors[0].longMessage);
+      console.error("error", err.errors[0].longMessage)
     }
-  };
+  }
 
   return (
     <div>
@@ -57,5 +57,5 @@ export default function SignInForm() {
         <button onClick={handleSubmit}>Sign In</button>
       </form>
     </div>
-  );
+  )
 }

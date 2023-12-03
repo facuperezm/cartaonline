@@ -1,14 +1,13 @@
 // Modified from: https://github.com/shadcn-ui/ui/blob/main/apps/www/components/page-header.tsx
 
-import { cva, type VariantProps } from "class-variance-authority";
-import { Balancer } from "react-wrap-balancer";
-
-import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Balancer } from "react-wrap-balancer"
 
 interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType;
-  separated?: boolean;
+  as?: React.ElementType
+  separated?: boolean
 }
 
 function PageHeader({
@@ -23,7 +22,7 @@ function PageHeader({
       {children}
       {separated ? <Separator className="mt-2.5" /> : null}
     </Comp>
-  );
+  )
 }
 
 const headingVariants = cva(
@@ -39,13 +38,13 @@ const headingVariants = cva(
     defaultVariants: {
       size: "default",
     },
-  },
-);
+  }
+)
 
 interface PageHeaderHeadingProps
   extends React.HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 }
 
 function PageHeaderHeading({
@@ -56,7 +55,7 @@ function PageHeaderHeading({
 }: PageHeaderHeadingProps) {
   return (
     <Comp className={cn(headingVariants({ size, className }))} {...props} />
-  );
+  )
 }
 
 const descriptionVariants = cva("max-w-[750px] text-muted-foreground", {
@@ -70,7 +69,7 @@ const descriptionVariants = cva("max-w-[750px] text-muted-foreground", {
   defaultVariants: {
     size: "default",
   },
-});
+})
 
 interface PageHeaderDescriptionProps
   extends React.ComponentProps<typeof Balancer>,
@@ -87,7 +86,7 @@ function PageHeaderDescription({
       className={cn(descriptionVariants({ size, className }))}
       {...props}
     />
-  );
+  )
 }
 
-export { PageHeader, PageHeaderDescription, PageHeaderHeading };
+export { PageHeader, PageHeaderDescription, PageHeaderHeading }

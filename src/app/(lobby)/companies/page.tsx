@@ -2,9 +2,9 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
-import { ProductCard } from "@/components/product-card";
-import { Shell } from "@/components/shell";
+} from "@/components/page-header"
+import { ProductCard } from "@/components/product-card"
+import { Shell } from "@/components/shell"
 
 export default function ComapniesPage() {
   return (
@@ -28,5 +28,5 @@ export default function ComapniesPage() {
         <ProductCard />
       </div>
     </Shell>
-  );
+  )
 }

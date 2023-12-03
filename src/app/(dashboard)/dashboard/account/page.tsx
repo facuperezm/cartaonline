@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
-
-import { UserProfile } from "@/components/auth/user-profile";
+import { UserProfile } from "@/components/auth/user-profile"
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
-import { Shell } from "@/components/shell";
+} from "@/components/page-header"
+import { Shell } from "@/components/shell"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Account",
   description: "Manage your account settings",
-};
+}
 
 export default function AccountPage() {
   return (
@@ -34,5 +33,5 @@ export default function AccountPage() {
         <UserProfile />
       </section>
     </Shell>
-  );
+  )
 }

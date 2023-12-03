@@ -1,6 +1,6 @@
-import { UserX2, ImageIcon } from "lucide-react";
+import { ImageIcon, UserX2 } from "lucide-react"
 
-type IconProps = React.HTMLAttributes<SVGElement>;
+type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
   logo: (props: IconProps) => (
@@ -230,4 +230,4 @@ export const Icons = {
   ),
   avatar: UserX2,
   placeholder: ImageIcon,
-};
+}

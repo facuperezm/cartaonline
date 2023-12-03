@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Icons } from "./icons";
+} from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
+import * as React from "react"
+import { Icons } from "./icons"
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -70,5 +70,5 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
         </CardContent>
       </Link>
     </Card>
-  );
+  )
 }

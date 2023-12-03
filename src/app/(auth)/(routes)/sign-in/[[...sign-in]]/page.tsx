@@ -1,13 +1,13 @@
-import { OAuthSignIn } from "@/components/auth/oauth-signin";
-import { Shell } from "@/components/shell";
+import { OAuthSignIn } from "@/components/auth/oauth-signin"
+import { Shell } from "@/components/shell"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
+} from "@/components/ui/card"
+import Link from "next/link"
 
 export default function Signin() {
   return (
@@ -42,5 +42,5 @@ export default function Signin() {
         </Card>
       </div>
     </Shell>
-  );
+  )
 }

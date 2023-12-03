@@ -1,10 +1,10 @@
-import { CategoryCard } from "@/components/card";
-import { Shell } from "@/components/shell";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { UserButton } from "@clerk/nextjs";
-import Link from "next/link";
-import { Balancer } from "react-wrap-balancer";
+import { CategoryCard } from "@/components/card"
+import { Shell } from "@/components/shell"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { UserButton } from "@clerk/nextjs"
+import Link from "next/link"
+import { Balancer } from "react-wrap-balancer"
 
 export default function Home() {
   return (
@@ -63,5 +63,5 @@ export default function Home() {
         />
       </section>
     </Shell>
-  );
+  )
 }

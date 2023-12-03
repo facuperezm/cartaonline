@@ -1,15 +1,14 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input, type InputProps } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import { Input, type InputProps } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons"
+import * as React from "react"
 
 const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false)
 
     return (
       <div className="relative">
@@ -37,9 +36,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
           </span>
         </Button>
       </div>
-    );
-  },
-);
-PasswordInput.displayName = "PasswordInput";
+    )
+  }
+)
+PasswordInput.displayName = "PasswordInput"
 
-export { PasswordInput };
+export { PasswordInput }

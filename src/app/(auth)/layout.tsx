@@ -1,9 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { BookOpenCheck } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { siteConfig } from "@/config/site"
+import { BookOpenCheck } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 
 export default function AuthLayout({ children }: React.PropsWithChildren) {
   return (
@@ -46,5 +45,5 @@ export default function AuthLayout({ children }: React.PropsWithChildren) {
         </main>
       </AspectRatio>
     </div>
-  );
+  )
 }
