@@ -76,8 +76,8 @@ export default function RootLayout({
       <html
         lang="en"
         className={cn(
-          "min-h-screen bg-background scroll-smooth antialiased",
-          inter.className
+          "bg-background min-h-screen scroll-smooth antialiased",
+          inter.className,
         )}
         suppressHydrationWarning
       >

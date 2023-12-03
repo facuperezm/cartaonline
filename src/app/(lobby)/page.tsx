@@ -8,18 +8,18 @@ import { Balancer } from "react-wrap-balancer";
 
 export default function Home() {
   return (
-    <Shell className="gap-14 dark-magicpattern">
+    <Shell className="dark-magicpattern gap-14">
       <section
         id="hero"
         className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"
       >
         <h1
-          className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
+          className="animate-fade-up from-foreground to-muted-foreground bg-gradient-to-br bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
           style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
         >
           <Balancer>Bienvenidos a Carta Online </Balancer>
         </h1>
-        <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
+        <p className="text-muted-foreground max-w-[46rem] text-lg font-normal sm:text-xl">
           <Balancer>
             La manera mas facil de administrar tu negocio desde cualquier lugar.
             Deja que la gente rankee tu comida rica rica
@@ -34,7 +34,7 @@ export default function Home() {
             Deja que la gente rankee tu comida rica rica
           </Balancer>
         </p> */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
           <Link href="/categories" className={cn(buttonVariants())}>
             Tengo hambre
             <span className="sr-only">buy now</span>

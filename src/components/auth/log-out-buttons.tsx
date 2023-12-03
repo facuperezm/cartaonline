@@ -41,7 +41,7 @@ export function LogOutButtons() {
         <Skeleton
           className={cn(
             buttonVariants({ size: "sm" }),
-            "w-full bg-muted text-muted-foreground"
+            "bg-muted text-muted-foreground w-full",
           )}
         >
           Cerrar sesion

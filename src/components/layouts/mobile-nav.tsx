@@ -27,9 +27,9 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="px-0 mr-2 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
+          className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
         >
-          <BookMarkedIcon className="w-6 h-6" aria-hidden="true" />
+          <BookMarkedIcon className="h-6 w-6" aria-hidden="true" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
@@ -40,7 +40,7 @@ export function MobileNav() {
             className="flex items-center"
             onClick={() => setIsOpen(false)}
           >
-            <Icons.logo className="w-4 h-4 mr-2" aria-hidden="true" />
+            <Icons.logo className="mr-2 h-4 w-4" aria-hidden="true" />
             <span className="font-bold">CartaOnline</span>
             <span className="sr-only">Home</span>
           </Link>
@@ -71,9 +71,9 @@ function MobileLink({
     <Link
       href={href}
       className={cn(
-        "text-foreground/70 transition-colors hover:text-foreground",
+        "text-foreground/70 hover:text-foreground transition-colors",
         href.includes(segment) && "text-foreground",
-        disabled && "pointer-events-none opacity-60"
+        disabled && "pointer-events-none opacity-60",
       )}
       onClick={() => setIsOpen(false)}
     >

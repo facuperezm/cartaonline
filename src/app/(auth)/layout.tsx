@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: React.PropsWithChildren) {
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background to-background/60" />
+        <div className="from-background to-background/60 absolute inset-0 bg-gradient-to-t" />
         <Link
           href="/"
           className="absolute left-8 top-6 z-20 flex items-center text-lg font-bold tracking-tight"

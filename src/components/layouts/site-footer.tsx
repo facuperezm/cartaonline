@@ -10,7 +10,7 @@ import { BookOpenCheck } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="w-full border-t bg-background">
+    <footer className="bg-background w-full border-t">
       <Shell>
         <section
           id="footer-content"
@@ -30,7 +30,7 @@ export function SiteFooter() {
           <section
             id="footer-links"
             aria-labelledby="footer-links-heading"
-            className="grid flex-1 grid-cols-1 gap-10 xxs:grid-cols-2 sm:grid-cols-4"
+            className="xxs:grid-cols-2 grid flex-1 grid-cols-1 gap-10 sm:grid-cols-4"
           ></section>
           <section
             id="newsletter"
@@ -45,13 +45,13 @@ export function SiteFooter() {
           aria-labelledby="footer-bottom-heading"
           className="flex items-center space-x-4"
         >
-          <div className="flex-1 text-left text-sm leading-loose text-muted-foreground">
+          <div className="text-muted-foreground flex-1 text-left text-sm leading-loose">
             Hecho por{" "}
             <Link
               href={siteConfig.links.twitter}
               target="_blank"
               rel="noreferrer"
-              className="font-semibold transition-colors hover:text-foreground"
+              className="hover:text-foreground font-semibold transition-colors"
             >
               Facundo
               <span className="sr-only">X</span>
@@ -67,7 +67,7 @@ export function SiteFooter() {
                 buttonVariants({
                   size: "icon",
                   variant: "ghost",
-                })
+                }),
               )}
             >
               <Icons.gitHub className="h-4 w-4" aria-hidden="true" />

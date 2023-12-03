@@ -16,8 +16,8 @@ export default async function Signin() {
   if (user) redirect("/");
 
   return (
-    <Shell className="max-w-lg h-screen">
-      <div className="flex justify-center align-center">
+    <Shell className="h-screen max-w-lg">
+      <div className="align-center flex justify-center">
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Registrate</CardTitle>
@@ -26,7 +26,7 @@ export default async function Signin() {
             <OAuthSignIn />
           </CardContent>
           <CardFooter>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               Ya tenes una cuenta?{" "}
               <Link
                 aria-label="Sign in"

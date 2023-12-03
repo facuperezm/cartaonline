@@ -23,17 +23,17 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
       {...props}
     >
       <Link href={`/companies`}>
-        <CardHeader className="p-0 border-b">
+        <CardHeader className="border-b p-0">
           <AspectRatio ratio={8 / 3}>
             <div
               aria-label="Placeholder"
               role="img"
               aria-roledescription="placeholder"
-              className="relative flex items-center justify-center w-full h-full"
+              className="relative flex h-full w-full items-center justify-center"
             >
-              <div className="absolute inset-0 opacity-60 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-60"></div>
               <Image
-                className="object-cover w-full h-full bg-gradient-to-r from-blue-500"
+                className="h-full w-full bg-gradient-to-r from-blue-500 object-cover"
                 width={100}
                 height={100}
                 src="https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2014_14/294441/140401-starbucks-food-jsw-208p.jpg"
@@ -47,17 +47,17 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
         <span className="sr-only">nombre</span>
       </Link>
       <Link href={`/product`} tabIndex={-1}>
-        <CardContent className="flex flex-row gap-2.5 p-4 align-center">
-          <div className="w-12 h-12 overflow-hidden rounded-md">
+        <CardContent className="align-center flex flex-row gap-2.5 p-4">
+          <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
-              className="object-cover w-full h-full"
+              className="h-full w-full object-cover"
               src="https://logos-world.net/wp-content/uploads/2020/09/Starbucks-Symbol.jpg"
               alt="alala lala long"
               width={100}
               height={100}
             />
           </div>
-          <CardTitle className="text-lg font-bold line-clamp-2">
+          <CardTitle className="line-clamp-2 text-lg font-bold">
             Starbucks
             <CardDescription className="line-clamp-2">
               Cafeteria

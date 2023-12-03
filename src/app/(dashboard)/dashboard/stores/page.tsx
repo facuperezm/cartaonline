@@ -59,7 +59,7 @@ export default async function StoresPage() {
             className={cn(
               buttonVariants({
                 size: "sm",
-              })
+              }),
             )}
           >
             Create store

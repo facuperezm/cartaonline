@@ -16,10 +16,10 @@ export async function CategoryCard({
   return (
     <Link
       href={`/categories`}
-      className="relative overflow-hidden border rounded-md group"
+      className="group relative overflow-hidden rounded-md border"
     >
       <AspectRatio ratio={16 / 9}>
-        <div className="absolute inset-0 z-10 transition-colors bg-zinc-950/70 group-hover:bg-zinc-950/60" />
+        <div className="absolute inset-0 z-10 bg-zinc-950/70 transition-colors group-hover:bg-zinc-950/60" />
         <img
           src={src}
           className="object-cover transition-transform group-hover:scale-105"
@@ -28,7 +28,7 @@ export async function CategoryCard({
           priority={true}
         />
       </AspectRatio>
-      <div className="absolute z-20 flex flex-col inset-4">
+      <div className="absolute inset-4 z-20 flex flex-col">
         <div className="flex items-start justify-between space-x-4">
           <div
             className={cn(
@@ -36,7 +36,7 @@ export async function CategoryCard({
                 size: "icon",
                 className:
                   "pointer-events-none h-8 w-8 bg-zinc-100 text-zinc-950",
-              })
+              }),
             )}
             aria-hidden="true"
           >

@@ -39,7 +39,7 @@ const headingVariants = cva(
     defaultVariants: {
       size: "default",
     },
-  }
+  },
 );
 
 interface PageHeaderHeadingProps

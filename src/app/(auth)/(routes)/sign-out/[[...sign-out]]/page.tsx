@@ -10,9 +10,9 @@ import {
 
 export default function Signout() {
   return (
-    <Shell className="max-w-lg h-screen">
-      <div className="flex justify-center align-center m-auto h-screen">
-        <Card className="m-auto bg-background">
+    <Shell className="h-screen max-w-lg">
+      <div className="align-center m-auto flex h-screen justify-center">
+        <Card className="bg-background m-auto">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Queres desloguear?</CardTitle>
           </CardHeader>

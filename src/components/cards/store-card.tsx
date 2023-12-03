@@ -33,7 +33,7 @@ export function StoreCard({ store, href }: StoreCardProps) {
               "pointer-events-none absolute right-2 top-2 rounded-sm px-2 py-1 font-semibold",
               store.name
                 ? "border-green-600/20 bg-green-50 text-green-700"
-                : "border-red-600/10 bg-red-50 text-red-700"
+                : "border-red-600/10 bg-red-50 text-red-700",
             )}
           >
             {store.name ? "Active" : "Inactive"}
