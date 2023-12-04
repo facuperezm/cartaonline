@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
 
 import {
   Card,
@@ -8,13 +8,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { OAuthSignIn } from "@/components/auth/oauth-signin"
-import { Shell } from "@/components/shell"
+} from "@/components/ui/card";
+import { OAuthSignIn } from "@/components/auth/oauth-signin";
+import { Shell } from "@/components/shell";
 
 export default async function Signin() {
-  const user = await currentUser()
-  if (user) redirect("/")
+  const user = await currentUser();
+  if (user) redirect("/");
 
   return (
     <Shell className="h-screen max-w-lg">
@@ -41,5 +41,5 @@ export default async function Signin() {
         </Card>
       </div>
     </Shell>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import type { Metadata } from "next"
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
 
 import {
   Card,
@@ -8,25 +8,25 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { AddStoreForm } from "@/components/forms/add-store-form"
+} from "@/components/ui/card";
+import { AddStoreForm } from "@/components/forms/add-store-form";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header"
-import { Shell } from "@/components/shell"
+} from "@/components/page-header";
+import { Shell } from "@/components/shell";
 
 export const metadata: Metadata = {
   title: "New Store",
   description: "Add a new store",
-}
+};
 
 export default async function NewStorePage() {
-  const user = await currentUser()
+  const user = await currentUser();
 
   if (!user) {
-    redirect("/signin")
+    redirect("/signin");
   }
 
   return (
@@ -54,5 +54,5 @@ export default async function NewStorePage() {
         </CardContent>
       </Card>
     </Shell>
-  )
+  );
 }

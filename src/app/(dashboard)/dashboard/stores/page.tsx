@@ -1,50 +1,50 @@
-import * as React from "react"
-import type { Metadata } from "next"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
-import { RocketIcon } from "@radix-ui/react-icons"
+import * as React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
+import { RocketIcon } from "@radix-ui/react-icons";
 
-import { db } from "@/lib/db"
-import { cn } from "@/lib/utils"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { buttonVariants } from "@/components/ui/button"
-import { StoreCard } from "@/components/cards/store-card"
+import { db } from "@/lib/db";
+import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { buttonVariants } from "@/components/ui/button";
+import { StoreCard } from "@/components/cards/store-card";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header"
-import { Shell } from "@/components/shell"
-import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton"
+} from "@/components/page-header";
+import { Shell } from "@/components/shell";
+import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton";
 
 export const metadata: Metadata = {
   title: "Stores",
   description: "Manage your stores",
-}
+};
 
 export default async function StoresPage() {
-  const userfromclerk = await currentUser()
+  const userfromclerk = await currentUser();
 
   const userfromDB = await db.user.findUnique({
     where: {
       id: userfromclerk!.id,
     },
-  })
+  });
 
   if (!userfromclerk) {
-    redirect("/signin")
+    redirect("/signin");
   }
 
   const allStores = await db.store.findMany({
     orderBy: {
       createdAt: "desc",
     },
-  })
+  });
 
-  console.log(allStores)
-  console.log(userfromclerk)
-  console.log(userfromDB)
+  console.log(allStores);
+  console.log(userfromclerk);
+  console.log(userfromDB);
 
   return (
     <Shell variant="sidebar">
@@ -59,7 +59,7 @@ export default async function StoresPage() {
             className={cn(
               buttonVariants({
                 size: "sm",
-              })
+              }),
             )}
           >
             Create store
@@ -85,7 +85,7 @@ export default async function StoresPage() {
             <StoreCardSkeleton key={i} />
           ))}
         >
-          {allStores.map((store) => (
+          {allStores.map((store: any) => (
             <StoreCard
               key={store.id}
               store={store}
@@ -95,5 +95,5 @@ export default async function StoresPage() {
         </React.Suspense>
       </section>
     </Shell>
-  )
+  );
 }

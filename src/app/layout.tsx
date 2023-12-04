@@ -1,14 +1,14 @@
-import "@/styles/globals.css"
+import "@/styles/globals.css";
 
-import type { Metadata } from "next"
-import { Roboto } from "next/font/google"
-import { ClerkProvider } from "@clerk/nextjs"
+import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/theme-provider"
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] })
+const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] });
 
 export const metadata: Metadata = {
   title: {
@@ -58,12 +58,12 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider
@@ -79,7 +79,7 @@ export default function RootLayout({
         lang="en"
         className={cn(
           "min-h-screen scroll-smooth bg-background antialiased",
-          inter.className
+          inter.className,
         )}
         suppressHydrationWarning
       >
@@ -95,5 +95,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }

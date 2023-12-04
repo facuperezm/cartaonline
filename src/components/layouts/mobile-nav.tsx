@@ -1,26 +1,19 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
-import { ViewVerticalIcon } from "@radix-ui/react-icons"
-import { BookMarkedIcon } from "lucide-react"
+import * as React from "react";
+import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { BookMarkedIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Icons } from "@/components/icons"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Icons } from "@/components/icons";
 
 export function MobileNav() {
-  const segment = useSelectedLayoutSegment()
-  const [isOpen, setIsOpen] = React.useState(false)
+  const segment = useSelectedLayoutSegment();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -50,14 +43,14 @@ export function MobileNav() {
         </ScrollArea>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 interface MobileLinkProps extends React.PropsWithChildren {
-  href: string
-  disabled?: boolean
-  segment: string
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  href: string;
+  disabled?: boolean;
+  segment: string;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function MobileLink({
@@ -73,11 +66,11 @@ function MobileLink({
       className={cn(
         "text-foreground/70 transition-colors hover:text-foreground",
         href.includes(segment) && "text-foreground",
-        disabled && "pointer-events-none opacity-60"
+        disabled && "pointer-events-none opacity-60",
       )}
       onClick={() => setIsOpen(false)}
     >
       {children}
     </Link>
-  )
+  );
 }

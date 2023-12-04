@@ -1,26 +1,26 @@
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
 
-import { dashboardConfig } from "@/config/dashboard"
-import { InitialUser } from "@/lib/initial-user"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { SidebarNav } from "@/components/layouts/sidebar-nav"
-import { SiteFooter } from "@/components/layouts/site-footer"
-import { SiteHeader } from "@/components/layouts/site-header"
+import { dashboardConfig } from "@/config/dashboard";
+import { InitialUser } from "@/lib/initial-user";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarNav } from "@/components/layouts/sidebar-nav";
+import { SiteFooter } from "@/components/layouts/site-footer";
+import { SiteHeader } from "@/components/layouts/site-header";
 
 export default async function DashboardLayout({
   children,
 }: React.PropsWithChildren) {
-  const clerkUser = await currentUser()
+  const clerkUser = await currentUser();
 
   if (!clerkUser) {
-    redirect("/sso-callback?origin=dashboard")
+    redirect("/sso-callback?origin=dashboard");
   }
 
-  const user = await InitialUser()
+  const user = await InitialUser();
 
   if (!user) {
-    redirect("/sso-callback?origin=dashboard")
+    redirect("/sso-callback?origin=dashboard");
   }
 
   return (
@@ -36,5 +36,5 @@ export default async function DashboardLayout({
       </div>
       <SiteFooter />
     </div>
-  )
+  );
 }

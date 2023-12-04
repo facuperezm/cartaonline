@@ -1,17 +1,17 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Navigation } from "lucide-react"
+import Image from "next/image";
+import Link from "next/link";
+import { Navigation } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { buttonVariants } from "@/components/ui/button";
 
 export async function CategoryCard({
   src,
   city,
 }: {
-  src: string
-  city: string
+  src: string;
+  city: string;
 }) {
   return (
     <Link
@@ -36,7 +36,7 @@ export async function CategoryCard({
                 size: "icon",
                 className:
                   "pointer-events-none h-8 w-8 bg-zinc-100 text-zinc-950",
-              })
+              }),
             )}
             aria-hidden="true"
           >
@@ -50,5 +50,5 @@ export async function CategoryCard({
       </div>
       <span className="sr-only">{city}</span>
     </Link>
-  )
+  );
 }

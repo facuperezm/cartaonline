@@ -1,10 +1,10 @@
-import Link from "next/link"
-import { Balancer } from "react-wrap-balancer"
+import Link from "next/link";
+import { Balancer } from "react-wrap-balancer";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { CategoryCard } from "@/components/card"
-import { Shell } from "@/components/shell"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { CategoryCard } from "@/components/card";
+import { Shell } from "@/components/shell";
 
 export default function Home() {
   return (
@@ -21,12 +21,9 @@ export default function Home() {
         </h1>
         <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
           <Balancer>
-            La manera mas facil dfe administrar tu negocio desde cualquier
-            lugar. Deja que la gente rankee tu comida rica rica
+            La manera mas facil de administrar tu negocio desde cualquier lugar.
+            Deja que la gente rankee tu comida rica rica
           </Balancer>
-        </p>
-        <p className="ml-4 flex h-24 border-2 border-gray-300 p-3 text-gray-700 shadow-md">
-          testdthis iisisisis
         </p>
         {/* <p
           className="text-center opacity-0 animate-fade-up text-muted-foreground/80 md:text-xl"
@@ -66,5 +63,5 @@ export default function Home() {
         />
       </section>
     </Shell>
-  )
+  );
 }

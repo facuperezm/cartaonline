@@ -1,17 +1,31 @@
 /** @type {import("eslint").Linter.Config} */
 
 const config = {
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: true,
-  },
   plugins: ["tailwindcss"],
   extends: [
     "next/core-web-vitals",
     "prettier",
     "plugin:tailwindcss/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
-  rules: {},
+  rules: {
+    "@next/next/no-html-link-for-pages": "off",
+    "react/jsx-key": "off",
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      },
+    ],
+  },
   settings: {
     tailwindcss: {
       callees: ["cn", "cva"],
@@ -22,6 +36,12 @@ const config = {
       rootDir: ["./"],
     },
   },
-}
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx", "*.js"],
+      parser: "@typescript-eslint/parser",
+    },
+  ],
+};
 
-module.exports = config
+module.exports = config;

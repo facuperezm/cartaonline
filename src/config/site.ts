@@ -1,4 +1,4 @@
-import { SiteConfig } from "@/types"
+import { type SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
   name: "cartaonline.",
@@ -10,4 +10,4 @@ export const siteConfig: SiteConfig = {
     twitter: "https://twitter.com/facuperezm",
     github: "https://github.com/facuperezm",
   },
-}
+};
