@@ -11,8 +11,7 @@ const config = {
   rules: {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
-    "tailwindcss/no-custom-classname": "off",
-    "tailwindcss/classnames-order": "error",
+    "tailwindcss/no-custom-classname": "warn",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/array-type": "off",
