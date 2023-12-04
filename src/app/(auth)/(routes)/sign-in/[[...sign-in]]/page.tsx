@@ -1,5 +1,5 @@
-import { OAuthSignIn } from "@/components/auth/oauth-signin"
-import { Shell } from "@/components/shell"
+import Link from "next/link"
+
 import {
   Card,
   CardContent,
@@ -7,13 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import Link from "next/link"
+import { OAuthSignIn } from "@/components/auth/oauth-signin"
+import { Shell } from "@/components/shell"
 
 export default function Signin() {
   return (
     <Shell className="h-screen max-w-lg">
-      <div className="align-center m-auto flex h-screen justify-center">
-        <Card className="bg-background m-auto">
+      <div className="m-auto flex h-screen items-center justify-center">
+        <Card className="m-auto bg-background">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Inicia sesion</CardTitle>
           </CardHeader>
@@ -26,7 +27,7 @@ export default function Signin() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-between gap-2">
-            <div className="text-muted-foreground text-sm">
+            <div className="text-sm text-muted-foreground">
               <span className="mr-1 hidden sm:inline-block">
                 Todavía no tenes cuenta?
               </span>

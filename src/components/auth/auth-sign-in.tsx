@@ -1,6 +1,6 @@
-import { useSignIn } from "@clerk/nextjs"
-import { useRouter } from "next/router"
 import { useState } from "react"
+import { useRouter } from "next/router"
+import { useSignIn } from "@clerk/nextjs"
 
 export default function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn()

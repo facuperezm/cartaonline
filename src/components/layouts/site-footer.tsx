@@ -1,15 +1,17 @@
-import { Icons } from "@/components/icons"
-import { Shell } from "@/components/shell"
-import { buttonVariants } from "@/components/ui/button"
+import Link from "next/link"
+import { BookOpenCheck } from "lucide-react"
+
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { BookOpenCheck } from "lucide-react"
-import Link from "next/link"
+import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
+import { Shell } from "@/components/shell"
+
 import { ModeToggle } from "./theme-toggle"
 
 export function SiteFooter() {
   return (
-    <footer className="bg-background w-full border-t">
+    <footer className="w-full border-t bg-background">
       <Shell>
         <section
           id="footer-content"
@@ -44,13 +46,13 @@ export function SiteFooter() {
           aria-labelledby="footer-bottom-heading"
           className="flex items-center space-x-4"
         >
-          <div className="text-muted-foreground flex-1 text-left text-sm leading-loose">
+          <div className="flex-1 text-left text-sm leading-loose text-muted-foreground">
             Hecho por{" "}
             <Link
               href={siteConfig.links.twitter}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-foreground font-semibold transition-colors"
+              className="font-semibold transition-colors hover:text-foreground"
             >
               Facundo
               <span className="sr-only">X</span>

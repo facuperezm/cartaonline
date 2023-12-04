@@ -1,5 +1,7 @@
-import { OAuthSignIn } from "@/components/auth/oauth-signin"
-import { Shell } from "@/components/shell"
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { currentUser } from "@clerk/nextjs"
+
 import {
   Card,
   CardContent,
@@ -7,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { currentUser } from "@clerk/nextjs"
-import Link from "next/link"
-import { redirect } from "next/navigation"
+import { OAuthSignIn } from "@/components/auth/oauth-signin"
+import { Shell } from "@/components/shell"
 
 export default async function Signin() {
   const user = await currentUser()
@@ -17,7 +18,7 @@ export default async function Signin() {
 
   return (
     <Shell className="h-screen max-w-lg">
-      <div className="align-center flex justify-center">
+      <div className="flex items-center justify-center">
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Registrate</CardTitle>
@@ -26,7 +27,7 @@ export default async function Signin() {
             <OAuthSignIn />
           </CardContent>
           <CardFooter>
-            <div className="text-muted-foreground text-sm">
+            <div className="text-sm text-muted-foreground">
               Ya tenes una cuenta?{" "}
               <Link
                 aria-label="Sign in"

@@ -1,5 +1,6 @@
-import { db } from "@/lib/db"
 import { currentUser, redirectToSignIn } from "@clerk/nextjs"
+
+import { db } from "@/lib/db"
 
 export async function InitialUser() {
   const user = await currentUser()

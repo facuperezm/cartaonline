@@ -1,11 +1,12 @@
 "use client"
 
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
+import * as React from "react"
 import { isClerkAPIResponseError, useSignIn } from "@clerk/nextjs"
 import { type OAuthStrategy } from "@clerk/types"
-import * as React from "react"
 import { toast } from "sonner"
+
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 
 const oauthProviders = [
   { name: "Google", strategy: "oauth_google", icon: "google" },
@@ -52,7 +53,7 @@ export function OAuthSignIn() {
             aria-label={`Sign in with ${provider.name}`}
             key={provider.strategy}
             variant="outline"
-            className="bg-background w-full sm:w-auto"
+            className="w-full bg-background sm:w-auto"
             onClick={() => void oauthSignIn(provider.strategy)}
             disabled={isLoading !== null}
           >

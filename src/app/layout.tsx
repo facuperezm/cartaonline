@@ -1,10 +1,12 @@
 import "@/styles/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { ClerkProvider } from "@clerk/nextjs"
+
 import type { Metadata } from "next"
 import { Roboto } from "next/font/google"
+import { ClerkProvider } from "@clerk/nextjs"
+
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] })
 
@@ -76,7 +78,7 @@ export default function RootLayout({
       <html
         lang="en"
         className={cn(
-          "bg-background min-h-screen scroll-smooth antialiased",
+          "min-h-screen scroll-smooth bg-background antialiased",
           inter.className
         )}
         suppressHydrationWarning

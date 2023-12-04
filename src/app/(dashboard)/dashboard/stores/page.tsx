@@ -1,3 +1,14 @@
+import * as React from "react"
+import type { Metadata } from "next"
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { currentUser } from "@clerk/nextjs"
+import { RocketIcon } from "@radix-ui/react-icons"
+
+import { db } from "@/lib/db"
+import { cn } from "@/lib/utils"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { buttonVariants } from "@/components/ui/button"
 import { StoreCard } from "@/components/cards/store-card"
 import {
   PageHeader,
@@ -6,16 +17,6 @@ import {
 } from "@/components/page-header"
 import { Shell } from "@/components/shell"
 import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { buttonVariants } from "@/components/ui/button"
-import { db } from "@/lib/db"
-import { cn } from "@/lib/utils"
-import { currentUser } from "@clerk/nextjs"
-import { RocketIcon } from "@radix-ui/react-icons"
-import type { Metadata } from "next"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import * as React from "react"
 
 export const metadata: Metadata = {
   title: "Stores",

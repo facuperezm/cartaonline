@@ -1,6 +1,12 @@
 "use client"
 
-import { Icons } from "@/components/icons"
+import * as React from "react"
+import Link from "next/link"
+import { useSelectedLayoutSegment } from "next/navigation"
+import { ViewVerticalIcon } from "@radix-ui/react-icons"
+import { BookMarkedIcon } from "lucide-react"
+
+import { cn } from "@/lib/utils"
 import {
   Accordion,
   AccordionContent,
@@ -10,12 +16,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import { ViewVerticalIcon } from "@radix-ui/react-icons"
-import { BookMarkedIcon } from "lucide-react"
-import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
-import * as React from "react"
+import { Icons } from "@/components/icons"
 
 export function MobileNav() {
   const segment = useSelectedLayoutSegment()
@@ -70,7 +71,7 @@ function MobileLink({
     <Link
       href={href}
       className={cn(
-        "text-foreground/70 hover:text-foreground transition-colors",
+        "text-foreground/70 transition-colors hover:text-foreground",
         href.includes(segment) && "text-foreground",
         disabled && "pointer-events-none opacity-60"
       )}

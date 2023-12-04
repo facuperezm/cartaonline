@@ -1,10 +1,7 @@
-import { AddStoreForm } from "@/components/forms/add-store-form"
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header"
-import { Shell } from "@/components/shell"
+import type { Metadata } from "next"
+import { redirect } from "next/navigation"
+import { currentUser } from "@clerk/nextjs"
+
 import {
   Card,
   CardContent,
@@ -12,9 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { currentUser } from "@clerk/nextjs"
-import type { Metadata } from "next"
-import { redirect } from "next/navigation"
+import { AddStoreForm } from "@/components/forms/add-store-form"
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/components/page-header"
+import { Shell } from "@/components/shell"
 
 export const metadata: Metadata = {
   title: "New Store",

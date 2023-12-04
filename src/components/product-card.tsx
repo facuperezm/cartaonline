@@ -1,5 +1,10 @@
 "use client"
 
+import * as React from "react"
+import Image from "next/image"
+import Link from "next/link"
+
+import { cn } from "@/lib/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import {
   Card,
@@ -8,10 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import * as React from "react"
+
 import { Icons } from "./icons"
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -47,7 +49,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
         <span className="sr-only">nombre</span>
       </Link>
       <Link href={`/product`} tabIndex={-1}>
-        <CardContent className="align-center flex flex-row gap-2.5 p-4">
+        <CardContent className="flex flex-row items-center gap-2.5 p-4">
           <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
               className="h-full w-full object-cover"

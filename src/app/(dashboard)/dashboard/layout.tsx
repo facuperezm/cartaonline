@@ -1,11 +1,12 @@
+import { redirect } from "next/navigation"
+import { currentUser } from "@clerk/nextjs"
+
+import { dashboardConfig } from "@/config/dashboard"
+import { InitialUser } from "@/lib/initial-user"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { SidebarNav } from "@/components/layouts/sidebar-nav"
 import { SiteFooter } from "@/components/layouts/site-footer"
 import { SiteHeader } from "@/components/layouts/site-header"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { dashboardConfig } from "@/config/dashboard"
-import { InitialUser } from "@/lib/initial-user"
-import { currentUser } from "@clerk/nextjs"
-import { redirect } from "next/navigation"
 
 export default async function DashboardLayout({
   children,

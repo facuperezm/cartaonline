@@ -1,3 +1,7 @@
+import Link from "next/link"
+
+import { getRandomPatternStyle } from "@/lib/generate-pattern"
+import { cn } from "@/lib/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -6,9 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getRandomPatternStyle } from "@/lib/generate-pattern"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
 
 interface StoreCardProps {
   store: Store

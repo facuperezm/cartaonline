@@ -1,8 +1,9 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { siteConfig } from "@/config/site"
-import { BookOpenCheck } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { BookOpenCheck } from "lucide-react"
+
+import { siteConfig } from "@/config/site"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 export default function AuthLayout({ children }: React.PropsWithChildren) {
   return (
@@ -16,7 +17,7 @@ export default function AuthLayout({ children }: React.PropsWithChildren) {
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="from-background to-background/60 absolute inset-0 bg-gradient-to-t" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background to-background/60" />
         <Link
           href="/"
           className="absolute left-8 top-6 z-20 flex items-center text-lg font-bold tracking-tight"

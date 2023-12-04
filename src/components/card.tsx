@@ -1,9 +1,10 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { Navigation } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { Navigation } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { buttonVariants } from "@/components/ui/button"
 
 export async function CategoryCard({
   src,

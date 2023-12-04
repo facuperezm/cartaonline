@@ -1,9 +1,10 @@
 "use client"
 
-import { type SSOCallbackPageProps } from "@/app/(auth)/(protected-auth)/sso-callback/page"
-import { Icons } from "@/components/icons"
-import { useClerk } from "@clerk/nextjs"
 import * as React from "react"
+import { useClerk } from "@clerk/nextjs"
+
+import { Icons } from "@/components/icons"
+import { type SSOCallbackPageProps } from "@/app/(auth)/(protected-auth)/sso-callback/page"
 
 export function SSOCallback({ searchParams }: SSOCallbackPageProps) {
   const { handleRedirectCallback } = useClerk()

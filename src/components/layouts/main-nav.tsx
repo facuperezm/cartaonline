@@ -1,10 +1,11 @@
 "use client"
 
-import { Icons } from "@/components/icons"
-import { siteConfig } from "@/config/site"
-import { BookOpenCheck } from "lucide-react"
-import Link from "next/link"
 import * as React from "react"
+import Link from "next/link"
+import { BookOpenCheck } from "lucide-react"
+
+import { siteConfig } from "@/config/site"
+import { Icons } from "@/components/icons"
 
 export function MainNav() {
   return (

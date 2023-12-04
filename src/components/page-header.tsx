@@ -1,9 +1,10 @@
 // Modified from: https://github.com/shadcn-ui/ui/blob/main/apps/www/components/page-header.tsx
 
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Balancer } from "react-wrap-balancer"
+
+import { cn } from "@/lib/utils"
+import { Separator } from "@/components/ui/separator"
 
 interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: React.ElementType

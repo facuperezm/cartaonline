@@ -1,13 +1,14 @@
 "use client"
 
-import { Icons } from "@/components/icons"
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { SignOutButton } from "@clerk/nextjs"
+
+import { cn } from "@/lib/utils"
+import { useMounted } from "@/hooks/use-mounted"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useMounted } from "@/hooks/use-mounted"
-import { cn } from "@/lib/utils"
-import { SignOutButton } from "@clerk/nextjs"
-import { useRouter } from "next/navigation"
-import * as React from "react"
+import { Icons } from "@/components/icons"
 
 export function LogOutButtons() {
   const router = useRouter()
@@ -40,7 +41,7 @@ export function LogOutButtons() {
         <Skeleton
           className={cn(
             buttonVariants({ size: "sm" }),
-            "bg-muted text-muted-foreground w-full"
+            "w-full bg-muted text-muted-foreground"
           )}
         >
           Cerrar sesion

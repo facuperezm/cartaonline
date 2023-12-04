@@ -1,8 +1,9 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 import * as React from "react"
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
+
+import { cn } from "@/lib/utils"
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
@@ -41,7 +42,7 @@ const ScrollBar = React.forwardRef<
   >
     <ScrollAreaPrimitive.ScrollAreaThumb
       className={cn(
-        "bg-border relative rounded-full",
+        "relative rounded-full bg-border",
         orientation === "vertical" && "flex-1"
       )}
     />
