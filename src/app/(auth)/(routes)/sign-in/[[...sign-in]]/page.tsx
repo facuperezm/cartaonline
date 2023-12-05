@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { SignInForm } from "@/components/auth/auth-sign-in";
 import { OAuthSignIn } from "@/components/auth/oauth-signin";
 import { Shell } from "@/components/shell";
 
@@ -25,6 +26,7 @@ export default function Signin() {
                 <span className="w-full border-t" />
               </div>
             </div>
+            <SignInForm />
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-between gap-2">
             <div className="text-sm text-muted-foreground">

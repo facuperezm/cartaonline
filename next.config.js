@@ -12,6 +12,19 @@ const nextConfig = {
         hostname: "logos-world.net",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "ciudaddecorrientes.gov.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "canal12misiones.com",
+      },
     ],
   },
 };

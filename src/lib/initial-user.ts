@@ -8,7 +8,7 @@ export async function InitialUser() {
   if (!user) {
     return redirectToSignIn();
   }
-
+  // check if the user is in the database
   const profile = await db.user.findUnique({
     where: {
       userId: user.id,
