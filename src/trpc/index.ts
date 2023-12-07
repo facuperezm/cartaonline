@@ -1,9 +1,10 @@
 import { currentUser } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import { db } from "@/lib/db";
 
-import { publicProcedure, router } from "./trpc";
+import { privateProcedure, publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -33,6 +34,17 @@ export const appRouter = router({
       });
     }
     return { success: true };
+  }),
+  getStores: privateProcedure.query(async ({ ctx }) => {
+    const { userId, user } = ctx;
+    console.log(userId);
+    console.log(user.id);
+
+    return await db.store.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
   }),
 });
 

@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import Providers from "@/components/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] });
@@ -83,16 +84,18 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
+        <Providers>
+          <body>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </body>
+        </Providers>
       </html>
     </ClerkProvider>
   );

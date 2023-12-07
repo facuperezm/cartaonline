@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -17,6 +17,8 @@ import {
 } from "@/components/page-header";
 import { Shell } from "@/components/shell";
 import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton";
+import Stores from "@/components/stores";
+import { trpc } from "@/app/_trpc/client";
 
 export const metadata: Metadata = {
   title: "Stores",
@@ -26,11 +28,11 @@ export const metadata: Metadata = {
 export default async function StoresPage() {
   const userfromclerk = await currentUser();
 
-  const userfromDB = await db.user.findUnique({
-    where: {
-      id: userfromclerk!.id,
-    },
-  });
+  // const userfromDB = await db.user.findUnique({
+  //   where: {
+  //     id: userfromclerk!.id,
+  //   },
+  // });
 
   if (!userfromclerk) {
     redirect("/signin");
@@ -41,10 +43,6 @@ export default async function StoresPage() {
       createdAt: "desc",
     },
   });
-
-  console.log(allStores);
-  console.log(userfromclerk);
-  console.log(userfromDB);
 
   return (
     <Shell variant="sidebar">
@@ -85,13 +83,7 @@ export default async function StoresPage() {
             <StoreCardSkeleton key={i} />
           ))}
         >
-          {allStores.map((store: any) => (
-            <StoreCard
-              key={store.id}
-              store={store}
-              href={`/dashboard/stores/${store.id}`}
-            />
-          ))}
+          <Stores />
         </React.Suspense>
       </section>
     </Shell>
