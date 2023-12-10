@@ -37,9 +37,14 @@ export const appRouter = router({
   }),
   getStores: privateProcedure.query(async ({ ctx }) => {
     const { userId, user } = ctx;
-    console.log(userId);
-    console.log(user.id);
-
+    // check if the user is in the database
+    // but I think this is not necessary
+    if (!userId || !user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are not authorized to access this resource",
+      });
+    }
     return await db.store.findMany({
       where: {
         userId: user.id,
@@ -56,6 +61,20 @@ export const appRouter = router({
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.userId;
 
+      // check if name is taken
+      const storeWithTheSameName = await db.store.findFirst({
+        where: {
+          name: input.name,
+        },
+      });
+
+      if (storeWithTheSameName) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Store name is already taken",
+        });
+      }
+
       await db.store.create({
         data: {
           name: input.name,
@@ -63,10 +82,6 @@ export const appRouter = router({
           address: input.address,
         },
       });
-
-      console.log("THIS IS WORKING");
-      console.log(ctx.user.id);
-      console.log(userId);
 
       return { success: true };
     }),

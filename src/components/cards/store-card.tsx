@@ -46,7 +46,7 @@ export function StoreCard({ store, href }: StoreCardProps) {
         <CardHeader className="space-y-2">
           <CardTitle className="line-clamp-1">{store.name}</CardTitle>
           <CardDescription className="line-clamp-1">
-            Explore {store.name} products
+            #{store.id}
           </CardDescription>
         </CardHeader>
       </Card>

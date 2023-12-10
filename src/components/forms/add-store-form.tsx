@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import { z } from "zod";
 
 import { catchError } from "@/lib/utils";
@@ -18,13 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Icons } from "@/components/icons";
 import { trpc } from "@/app/_trpc/client";
-
-interface AddStoreFormProps {
-  userId: string;
-}
 
 //store schema
 const storeSchema = z.object({
@@ -35,7 +30,6 @@ const storeSchema = z.object({
 type Inputs = z.infer<typeof storeSchema>;
 
 export function AddStoreForm() {
-  const router = useRouter();
   const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<Inputs>({
@@ -46,20 +40,26 @@ export function AddStoreForm() {
     },
   });
 
-  const { mutate } = trpc.createStore.useMutation({
+  const { mutate, isLoading } = trpc.createStore.useMutation({
     onSuccess: () => {
-      router.push("/dashboard/stores");
+      form.reset();
+      toast.success("Store added successfully.");
+      revalidatePath("/dashboard/stores");
+    },
+    onError: (err) => {
+      const errorMessage = err.message;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage);
+      } else {
+        toast.error("Failed to post! Please try again later.");
+      }
     },
   });
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        await mutate(data);
-
-        form.reset();
-        toast.success("Store added successfully.");
-        router.push("/dashboard/stores");
+        mutate(data);
       } catch (err) {
         catchError(err);
       }
@@ -68,6 +68,7 @@ export function AddStoreForm() {
 
   return (
     <Form {...form}>
+      <Toaster richColors closeButton />
       <form
         className="grid w-full max-w-xl gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
@@ -77,9 +78,9 @@ export function AddStoreForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nombre de la tienda</FormLabel>
               <FormControl>
-                <Input placeholder="Type store name here." {...field} />
+                <Input placeholder="Empanadas Argentas" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,8 +93,8 @@ export function AddStoreForm() {
             <FormItem>
               <FormLabel>Direccion</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Type store description here."
+                <Input
+                  placeholder="Av. Corrientes 1234, CABA, Argentina"
                   {...field}
                 />
               </FormControl>
@@ -101,15 +102,19 @@ export function AddStoreForm() {
             </FormItem>
           )}
         />
-        <Button className="w-fit" disabled={isPending}>
-          {isPending && (
-            <Icons.spinner
-              className="mr-2 h-4 w-4 animate-spin"
-              aria-hidden="true"
-            />
-          )}
-          Add Store
-          <span className="sr-only">Add Store</span>
+        <Button
+          className="w-fit transition-all"
+          disabled={isPending || isLoading}
+        >
+          {isPending ||
+            (isLoading && (
+              <Icons.spinner
+                className="mr-2 h-4 w-4 animate-spin"
+                aria-hidden="true"
+              />
+            ))}
+          {isPending || isLoading ? "Agregando tienda" : "Agregar tienda"}
+          <span className="sr-only">Agregar tienda</span>
         </Button>
       </form>
     </Form>

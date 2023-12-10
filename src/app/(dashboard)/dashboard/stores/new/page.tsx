@@ -35,9 +35,9 @@ export default async function NewStorePage() {
         id="new-store-page-header"
         aria-labelledby="new-store-page-header-heading"
       >
-        <PageHeaderHeading size="sm">New Store</PageHeaderHeading>
+        <PageHeaderHeading size="sm">Nueva tienda</PageHeaderHeading>
         <PageHeaderDescription size="sm">
-          Add a new store to your account
+          Agregá una nueva tienda a tu cuenta
         </PageHeaderDescription>
       </PageHeader>
       <Card
@@ -46,11 +46,13 @@ export default async function NewStorePage() {
         aria-labelledby="new-store-page-form-heading"
       >
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Add store</CardTitle>
-          <CardDescription>Add a new store to your account</CardDescription>
+          <CardTitle className="text-2xl">
+            Información de la nueva tienda
+          </CardTitle>
+          <CardDescription>Datos importantes</CardDescription>
         </CardHeader>
         <CardContent>
-          <AddStoreForm userId={user.id} />
+          <AddStoreForm />
         </CardContent>
       </Card>
     </Shell>
