@@ -46,6 +46,30 @@ export const appRouter = router({
       },
     });
   }),
+  createStore: privateProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        address: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.userId;
+
+      await db.store.create({
+        data: {
+          name: input.name,
+          userId,
+          address: input.address,
+        },
+      });
+
+      console.log("THIS IS WORKING");
+      console.log(ctx.user.id);
+      console.log(userId);
+
+      return { success: true };
+    }),
 });
 
 export type AppRouter = typeof appRouter;
