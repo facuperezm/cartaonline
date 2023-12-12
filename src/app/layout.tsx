@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import Providers from "@/components/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Roboto({ subsets: ["latin"], weight: ["300", "500", "700"] });
+const inter = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
 
 export const metadata: Metadata = {
   title: {
