@@ -7,8 +7,8 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function AuthLayout({ children }: React.PropsWithChildren) {
   return (
-    <div className="grid min-h-screen grid-cols-1 overflow-hidden ">
-      <AspectRatio ratio={16 / 9}>
+    <div className="grid min-h-screen grid-cols-1 overflow-hidden">
+      <AspectRatio ratio={18 / 6}>
         <Image
           src="/images/auth-background.webp"
           alt="a table with food on it"

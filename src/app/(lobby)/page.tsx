@@ -11,7 +11,7 @@ export default function Home() {
     <Shell className="gap-14">
       <section
         id="hero"
-        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"
+        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-40"
       >
         <h1
           className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
@@ -19,7 +19,7 @@ export default function Home() {
         >
           <Balancer>Bienvenidos a Carta Online </Balancer>
         </h1>
-        <p className="max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
+        <p className="mb-2 max-w-[46rem] text-lg font-normal text-muted-foreground sm:text-xl">
           <Balancer>
             La manera mas facil de administrar tu negocio desde cualquier lugar.
             Deja que la gente rankee tu comida rica rica
