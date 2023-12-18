@@ -34,7 +34,6 @@ export function SignInForm() {
     resolver: zodResolver(authSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -45,7 +44,6 @@ export function SignInForm() {
       try {
         const result = await signIn.create({
           identifier: data.email,
-          password: data.password,
         });
 
         if (result.status === "complete") {
@@ -85,19 +83,7 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button type="submit" disabled={isPending}>
           {isPending && (
             <Icons.spinner
