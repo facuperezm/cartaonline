@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { catchClerkError } from "@/lib/utils";
-import { authSchema } from "@/lib/validations/auth";
+import { verifyEmailSchema } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,21 +20,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/icons";
-import { PasswordInput } from "@/components/password-input";
 
-type Inputs = z.infer<typeof authSchema>;
+type Inputs = z.infer<typeof verifyEmailSchema>;
 
-export function SignInForm() {
+export function VerifyEmailForm() {
   const router = useRouter();
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { isLoaded, signUp, setActive } = useSignUp();
   const [isPending, startTransition] = React.useTransition();
 
   // react-hook-form
   const form = useForm<Inputs>({
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(verifyEmailSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      code: "",
     },
   });
 
@@ -43,17 +41,18 @@ export function SignInForm() {
 
     startTransition(async () => {
       try {
-        const result = await signIn.create({
-          identifier: data.email,
-          password: data.password,
+        const completeSignUp = await signUp.attemptEmailAddressVerification({
+          code: data.code,
         });
-
-        if (result.status === "complete") {
-          await setActive({ session: result.createdSessionId });
+        if (completeSignUp.status !== "complete") {
+          /*  investigate the response, to see if there was an error
+             or if the user needs to complete more steps.*/
+          console.log(JSON.stringify(completeSignUp, null, 2));
+        }
+        if (completeSignUp.status === "complete") {
+          await setActive({ session: completeSignUp.createdSessionId });
 
           router.push(`${window.location.origin}/`);
-        } else {
-          console.log(result);
         }
       } catch (err) {
         catchClerkError(err);
@@ -69,39 +68,33 @@ export function SignInForm() {
       >
         <FormField
           control={form.control}
-          name="email"
+          name="code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Verification Code</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="johndoe@gmail.com" {...field} />
+                <Input
+                  placeholder="169420"
+                  {...field}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.trim();
+                    field.onChange(e);
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
+        <Button disabled={isPending}>
           {isPending && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"
               aria-hidden="true"
             />
           )}
-          Inicia sesión
-          <span className="sr-only">Inicia sesión</span>
+          Create account
+          <span className="sr-only">Create account</span>
         </Button>
       </form>
     </Form>

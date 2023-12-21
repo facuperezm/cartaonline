@@ -25,15 +25,6 @@ export default function Home() {
             Deja que la gente rankee tu comida rica rica
           </Balancer>
         </p>
-        {/* <p
-          className="text-center opacity-0 animate-fade-up text-muted-foreground/80 md:text-xl"
-          style={{ animationDelay: "0.30s", animationFillMode: "forwards" }}
-        >
-          <Balancer>
-            La manera mas facil de administrar tu negocio desde cualquier lugar.
-            Deja que la gente rankee tu comida rica rica
-          </Balancer>
-        </p> */}
         <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
           <Link href="/categories" className={cn(buttonVariants())}>
             Tengo hambre

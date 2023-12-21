@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -95,6 +96,7 @@ export default function RootLayout({
               {children}
             </ThemeProvider>
           </body>
+          <Toaster richColors closeButton />
         </Providers>
       </html>
     </ClerkProvider>

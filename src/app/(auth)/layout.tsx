@@ -7,7 +7,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function AuthLayout({ children }: React.PropsWithChildren) {
   return (
-    <div className="grid min-h-screen grid-cols-1 overflow-hidden">
+    <div className="flex min-h-screen overflow-hidden">
       <AspectRatio ratio={18 / 6}>
         <Image
           src="/images/auth-background.webp"
@@ -41,7 +41,7 @@ export default function AuthLayout({ children }: React.PropsWithChildren) {
             Unsplash
           </a>
         </div>
-        <main className="absolute top-1/2 col-span-1 mx-auto flex w-full -translate-y-1/2 items-center md:static md:top-0 md:col-span-2 md:flex md:translate-y-0 lg:col-span-1">
+        <main className="absolute top-1/2 w-full -translate-y-1/2">
           {children}
         </main>
       </AspectRatio>

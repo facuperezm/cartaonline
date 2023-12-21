@@ -53,7 +53,7 @@ export function SignUpForm() {
           strategy: "email_code",
         });
 
-        router.push("/signup/verify-email");
+        router.push("/sign-up/verify-email");
         toast.message("Check your email", {
           description: "We sent you a 6-digit verification code.",
         });
@@ -76,7 +76,7 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="rodneymullen180@gmail.com" {...field} />
+                <Input placeholder="johndoe@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,7 +87,7 @@ export function SignUpForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contraseña</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="**********" {...field} />
               </FormControl>
@@ -102,8 +102,8 @@ export function SignUpForm() {
               aria-hidden="true"
             />
           )}
-          Continue
-          <span className="sr-only">Continue to email verification page</span>
+          Verificar tu email
+          <span className="sr-only">Verificar tu email</span>
         </Button>
       </form>
     </Form>

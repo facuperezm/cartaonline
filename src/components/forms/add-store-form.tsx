@@ -4,7 +4,7 @@ import * as React from "react";
 import { revalidatePath } from "next/cache";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { catchError } from "@/lib/utils";
@@ -68,7 +68,6 @@ export function AddStoreForm() {
 
   return (
     <Form {...form}>
-      <Toaster richColors closeButton />
       <form
         className="grid w-full max-w-xl gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
