@@ -15,7 +15,7 @@
     "@clerk/themes": "1.7.9",
     "@clerk/types": "3.58.1",
     "@hookform/resolvers": "3.3.2",
-    "@prisma/client": "5.7.0",
+    "@prisma/client": "5.7.1",
     "@radix-ui/react-accordion": "1.1.2",
     "@radix-ui/react-aspect-ratio": "1.0.3",
     "@radix-ui/react-avatar": "1.0.4",
@@ -60,7 +60,7 @@
     "eslint-plugin-tailwindcss": "3.13.0",
     "prettier": "3.1.0",
     "prettier-plugin-tailwindcss": "0.5.9",
-    "prisma": "5.7.0",
+    "prisma": "5.7.1",
     "tailwindcss": "3.3.6",
     "tailwindcss-animate": "1.0.7",
     "typescript": "5.3.3"
