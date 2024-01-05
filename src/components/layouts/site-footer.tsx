@@ -16,7 +16,7 @@ export function SiteFooter() {
         <section
           id="footer-content"
           aria-labelledby="footer-content-heading"
-          className="flex flex-col gap-10 lg:flex-row lg:gap-20"
+          className="flex flex-col gap-4 lg:flex-row lg:gap-10"
         >
           <section
             id="footer-branding"
@@ -28,11 +28,7 @@ export function SiteFooter() {
               <span className="sr-only">Home</span>
             </Link>
           </section>
-          <section
-            id="footer-links"
-            aria-labelledby="footer-links-heading"
-            className="xxs:grid-cols-2 grid flex-1 grid-cols-1 gap-10 sm:grid-cols-4"
-          ></section>
+
           <section
             id="newsletter"
             aria-labelledby="newsletter-heading"

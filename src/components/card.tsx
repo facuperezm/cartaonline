@@ -15,7 +15,7 @@ export async function CategoryCard({
 }) {
   return (
     <Link
-      href={`/categories`}
+      href={`/companies`}
       className="group relative overflow-hidden rounded-md border"
     >
       <AspectRatio ratio={16 / 9}>

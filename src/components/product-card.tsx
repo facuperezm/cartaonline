@@ -31,7 +31,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
               aria-roledescription="placeholder"
               className="relative flex h-full w-full items-center justify-center"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-60"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-80"></div>
               <Image
                 className="h-full w-full bg-gradient-to-r from-blue-500 object-cover"
                 width={100}
@@ -47,7 +47,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
         <span className="sr-only">nombre</span>
       </Link>
       <Link href={`/product`} tabIndex={-1}>
-        <CardContent className="flex flex-row items-center gap-2.5 p-4">
+        <CardContent className="flex flex-row items-center gap-2.5 p-3">
           <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
               className="h-full w-full object-cover"
