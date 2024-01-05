@@ -25,7 +25,7 @@ export default function Home() {
             Deja que la gente rankee tu comida rica rica
           </Balancer>
         </p>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
+        {/* <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
           <Link href="/categories" className={cn(buttonVariants())}>
             Tengo hambre
             <span className="sr-only">buy now</span>
@@ -37,9 +37,9 @@ export default function Home() {
             Publica tu restaurant{" "}
             <span className="sr-only">publica tu restaurant aca</span>
           </Link>
-        </div>
+        </div> */}
       </section>
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3">
         <CategoryCard
           city="Puerto Iguazú"
           src="https://images.unsplash.com/photo-1556918936-3e73b945d24f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80"
@@ -52,6 +52,9 @@ export default function Home() {
           city="Posadas"
           src="https://canal12misiones.com/wp-content/uploads/2022/07/Turismo-en-Posadas.jpg"
         />
+        <CategoryCard city="Buenos Aires" src="/images/buenosaires.jpeg" />
+        <CategoryCard city="Córdoba" src="/images/cordoba.jpeg" />
+        <CategoryCard city="Ushuaia" src="/images/ushuaia.jpeg" />
       </section>
     </Shell>
   );

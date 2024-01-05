@@ -67,7 +67,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                     <DropdownMenuItem asChild disabled>
                       <Link href="/dashboard/account">
                         <UserIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Account
+                        Cuenta
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -76,13 +76,13 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"
                         />
-                        Dashboard
+                        Panel general
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild disabled>
                       <Link href="/dashboard/settings">
                         <Cog className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Settings
+                        Configuración
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
@@ -90,7 +90,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                   <DropdownMenuItem asChild>
                     <Link href="/sign-out">
                       <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
-                      Log out
+                      Cerrar sesión
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -102,8 +102,8 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                   size: "sm",
                 })}
               >
-                Sign In
-                <span className="sr-only">Sign In</span>
+                Iniciar sesión
+                <span className="sr-only">Iniciar sesión</span>
               </Link>
             )}
           </nav>
