@@ -8,7 +8,6 @@ import { Toaster } from "sonner";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Providers from "@/components/Providers";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
 
@@ -35,10 +34,7 @@ export const metadata: Metadata = {
     },
   ],
   creator: "Facundo Perez Montalvo",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  themeColor: [{ media: "(prefers-color-scheme: light)", color: "white" }],
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -87,14 +83,10 @@ export default function RootLayout({
       >
         <Providers>
           <body>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
+            <div className="absolute top-0 -z-10 h-full w-full bg-white">
+              <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div>
+            </div>
+            {children}
           </body>
           <Toaster richColors closeButton />
         </Providers>

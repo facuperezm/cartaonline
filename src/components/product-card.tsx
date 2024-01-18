@@ -22,7 +22,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
       className={cn("h-full overflow-hidden rounded-sm", className)}
       {...props}
     >
-      <Link href={`/companies`}>
+      <Link href={`/companies/1`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={8 / 3}>
             <div

@@ -1,6 +1,12 @@
 import Link from "next/link";
 import type { User } from "@clerk/nextjs/server";
-import { Cog, LayoutDashboard, LogOut, User as UserIcon } from "lucide-react";
+import {
+  BookMarkedIcon,
+  Cog,
+  LayoutDashboard,
+  LogOut,
+  User as UserIcon,
+} from "lucide-react";
 
 import { getUserEmail } from "@/lib/utils";
 
@@ -32,7 +38,6 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
         <MainNav />
-        <MobileNav />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             {user ? (
@@ -100,6 +105,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                 href="/signin"
                 className={buttonVariants({
                   size: "sm",
+                  variant: "ghost",
                 })}
               >
                 Iniciar sesión

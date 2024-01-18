@@ -12,7 +12,7 @@ import { ModeToggle } from "./theme-toggle";
 export function SiteFooter() {
   return (
     <footer className="w-full border-t bg-background">
-      <Shell>
+      <Shell className="gap-2">
         <section
           id="footer-content"
           aria-labelledby="footer-content-heading"
@@ -70,7 +70,6 @@ export function SiteFooter() {
               <Icons.gitHub className="h-4 w-4" aria-hidden="true" />
               <span className="sr-only">GitHub</span>
             </Link>
-            <ModeToggle />
           </div>
         </section>
       </Shell>
