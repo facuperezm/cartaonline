@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -6,7 +7,9 @@ import {
 import { ProductCard } from "@/components/product-card";
 import { Shell } from "@/components/shell";
 
-export default function ComapniesPage() {
+export default async function ComapniesPage() {
+  const stores = await db.store.findMany();
+  console.log(stores);
   return (
     <Shell>
       <PageHeader
@@ -21,11 +24,13 @@ export default function ComapniesPage() {
         </PageHeaderDescription>
       </PageHeader>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {stores.map((company) => (
+          <ProductCard
+            key={company.id}
+            name={company.name}
+            address={company.address}
+          />
+        ))}
       </div>
     </Shell>
   );

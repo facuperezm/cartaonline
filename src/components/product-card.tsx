@@ -14,15 +14,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  name: string;
+  address: string;
+}
 
-export function ProductCard({ className, ...props }: ProductCardProps) {
+export function ProductCard({
+  className,
+  name,
+  address,
+  ...props
+}: ProductCardProps) {
   return (
     <Card
       className={cn("h-full overflow-hidden rounded-sm", className)}
       {...props}
     >
-      <Link href={`/companies/1`}>
+      <Link href={`/stores/1`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={8 / 3}>
             <div
@@ -44,7 +52,7 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
             </div>
           </AspectRatio>
         </CardHeader>
-        <span className="sr-only">nombre</span>
+        <span className="sr-only">{name}</span>
       </Link>
       <Link href={`/product`} tabIndex={-1}>
         <CardContent className="flex flex-row items-center gap-2.5 p-3">
@@ -57,15 +65,11 @@ export function ProductCard({ className, ...props }: ProductCardProps) {
               height={100}
             />
           </div>
-          <CardTitle className="line-clamp-2 text-lg font-bold">
-            Starbucks
+          <CardTitle className="line-clamp-2 text-lg font-bold capitalize">
+            {name}
             <CardDescription className="line-clamp-2">
-              Cafeteria
+              {address}
             </CardDescription>
-            {/* <Icons.whatsapp
-              className="w-5 text-muted-foreground"
-              aria-hidden="true"
-            /> */}
           </CardTitle>
         </CardContent>
       </Link>

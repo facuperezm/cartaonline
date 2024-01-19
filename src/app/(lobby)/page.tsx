@@ -1,7 +1,6 @@
 import { Balancer } from "react-wrap-balancer";
 
 import { CategoryCard } from "@/components/card";
-import { CardSpotlightEffect } from "@/components/card-with-shadow";
 import { Shell } from "@/components/shell";
 
 export default function Home() {
@@ -34,10 +33,7 @@ export default function Home() {
           city="Posadas"
           src="https://canal12misiones.com/wp-content/uploads/2022/07/Turismo-en-Posadas.jpg"
         />
-        <CardSpotlightEffect
-          city="Buenos Aires"
-          src="/images/buenosaires.jpeg"
-        />
+
         <CategoryCard city="Buenos Aires" src="/images/buenosaires.jpeg" />
         <CategoryCard city="Córdoba" src="/images/cordoba.jpeg" />
         <CategoryCard city="Ushuaia" src="/images/ushuaia.jpeg" />
