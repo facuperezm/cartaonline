@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import Providers from "@/components/Providers";
+import Providers from "@/components/providers";
 
 const inter = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
 

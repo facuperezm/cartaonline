@@ -22,6 +22,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function ProductCard({
   className,
   name,
+  id,
   address,
   ...props
 }: ProductCardProps) {
@@ -30,7 +31,7 @@ export function ProductCard({
       className={cn("h-full overflow-hidden rounded-sm", className)}
       {...props}
     >
-      <Link href={`/stores/1`}>
+      <Link href={`/stores/${id}`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={8 / 3}>
             <div

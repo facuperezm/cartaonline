@@ -7,55 +7,27 @@ import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Shell } from "@/components/shell";
 
-import { ModeToggle } from "./theme-toggle";
-
 export function SiteFooter() {
   return (
     <footer className="w-full border-t bg-background">
-      <Shell className="gap-2">
+      <Shell className="py-6">
         <section
           id="footer-content"
           aria-labelledby="footer-content-heading"
-          className="flex flex-col gap-4 lg:flex-row lg:gap-10"
+          className="flex justify-between gap-4 lg:flex-row lg:gap-10"
         >
-          <section
+          <article
             id="footer-branding"
             aria-labelledby="footer-branding-heading"
+            className="flex items-center"
           >
             <Link href="/" className="flex w-fit items-center space-x-2">
               <BookOpenCheck className="h-6 w-6" aria-hidden="true" />
               <span className="font-bold">{siteConfig.name}</span>
               <span className="sr-only">Home</span>
             </Link>
-          </section>
-
-          <section
-            id="newsletter"
-            aria-labelledby="newsletter-heading"
-            className="space-y-3"
-          >
-            <h4 className="text-base font-medium">Come rico siempre.</h4>
-          </section>
-        </section>
-        <section
-          id="footer-bottom"
-          aria-labelledby="footer-bottom-heading"
-          className="flex items-center space-x-4"
-        >
-          <div className="flex-1 text-left text-sm leading-loose text-muted-foreground">
-            Hecho por{" "}
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold transition-colors hover:text-foreground"
-            >
-              Facundo
-              <span className="sr-only">X</span>
-            </Link>
-            .
-          </div>
-          <div className="flex items-center space-x-1">
+          </article>
+          <article>
             <Link
               href={siteConfig.links.github}
               target="_blank"
@@ -70,7 +42,7 @@ export function SiteFooter() {
               <Icons.gitHub className="h-4 w-4" aria-hidden="true" />
               <span className="sr-only">GitHub</span>
             </Link>
-          </div>
+          </article>
         </section>
       </Shell>
     </footer>
