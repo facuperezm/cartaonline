@@ -6,13 +6,7 @@ import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { buttonVariants } from "@/components/ui/button";
 
-export async function CategoryCard({
-  src,
-  city,
-}: {
-  src: string;
-  city: string;
-}) {
+export async function CityCard({ src, city }: { src: string; city: string }) {
   return (
     <Link
       href={`/stores`}

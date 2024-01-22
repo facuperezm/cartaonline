@@ -12,6 +12,7 @@ const config = {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
     "tailwindcss/no-custom-classname": "warn",
+    "tailwindcss/enforces-negative-arbitrary-values": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/array-type": "off",

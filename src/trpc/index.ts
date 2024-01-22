@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { currentUser } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -83,7 +84,7 @@ export const appRouter = router({
           address: input.address,
         },
       });
-
+      revalidatePath("/dashboard/stores");
       return { success: true };
     }),
 });

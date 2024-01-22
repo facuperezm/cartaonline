@@ -1,12 +1,6 @@
 import Link from "next/link";
 import type { User } from "@clerk/nextjs/server";
-import {
-  BookMarkedIcon,
-  Cog,
-  LayoutDashboard,
-  LogOut,
-  User as UserIcon,
-} from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 
 import { getUserEmail } from "@/lib/utils";
 
@@ -22,7 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { MainNav } from "./main-nav";
-import { MobileNav } from "./mobile-nav";
 
 interface SiteHeaderProps {
   user: User | null;
@@ -69,12 +62,6 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem asChild disabled>
-                      <Link href="/dashboard/account">
-                        <UserIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Cuenta
-                      </Link>
-                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard/stores">
                         <LayoutDashboard
@@ -82,12 +69,6 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                           aria-hidden="true"
                         />
                         Panel general
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild disabled>
-                      <Link href="/dashboard/settings">
-                        <Cog className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Configuración
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>

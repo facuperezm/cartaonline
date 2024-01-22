@@ -22,7 +22,6 @@ export function SiteFooter() {
             className="flex items-center"
           >
             <Link href="/" className="flex w-fit items-center space-x-2">
-              <BookOpenCheck className="h-6 w-6" aria-hidden="true" />
               <span className="font-bold">{siteConfig.name}</span>
               <span className="sr-only">Home</span>
             </Link>

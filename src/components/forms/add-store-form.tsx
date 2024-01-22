@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,6 +30,7 @@ const storeSchema = z.object({
 type Inputs = z.infer<typeof storeSchema>;
 
 export function AddStoreForm() {
+  const router = useRouter();
   const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<Inputs>({
@@ -44,7 +45,7 @@ export function AddStoreForm() {
     onSuccess: () => {
       form.reset();
       toast.success("Store added successfully.");
-      revalidatePath("/dashboard/stores");
+      router.push("/dashboard/stores");
     },
     onError: (err) => {
       const errorMessage = err.message;

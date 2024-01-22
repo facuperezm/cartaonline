@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Providers from "@/components/providers";
 
-const inter = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
 
 export const metadata: Metadata = {
   title: {
@@ -77,7 +77,7 @@ export default function RootLayout({
         lang="en"
         className={cn(
           "min-h-screen scroll-smooth bg-background antialiased",
-          inter.className,
+          roboto.className,
         )}
         suppressHydrationWarning
       >

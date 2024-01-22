@@ -1,20 +1,19 @@
 import { type Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { deleteStore, updateStore } from "@/lib/actions/store";
+import { db } from "@/lib/db";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { LoadingButton } from "@/components/loading-button";
 
 export const metadata: Metadata = {
   title: "Manage Store",
@@ -32,102 +31,76 @@ export default async function UpdateStorePage({
 }: UpdateStorePageProps) {
   const storeId = Number(params.id);
 
+  const store = await db.store.findFirst({
+    where: {
+      id: storeId,
+    },
+  });
+
+  if (!store) {
+    return (
+      <div className="mx-auto flex h-dvh items-center">Store not found</div>
+    );
+  }
+
   return (
-    <div className="space-y-10">
+    <div className="mt-10 space-y-10">
       <Card as="section">
         <CardHeader className="space-y-1">
-          <CardTitle className="line-clamp-1 text-2xl">
-            Manage Stripe account
+          <CardTitle className="text-2xl">
+            Actualizar tienda{" "}
+            <span className="font-light italic text-muted-foreground">
+              #{storeId}
+            </span>
           </CardTitle>
           <CardDescription>
-            Manage your Stripe account and view your payouts
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-5 sm:grid-cols-2">
-          <div className="grid gap-2.5">
-            <Label htmlFor="stripe-account-email">Email</Label>
-            <Input
-              id="stripe-account-email"
-              name="stripeAccountEmail"
-              readOnly
-            />
-          </div>
-          <div className="grid gap-2.5">
-            <Label htmlFor="stripe-account-country">Country</Label>
-            <Input
-              id="stripe-account-country"
-              name="stripeAccountCountry"
-              readOnly
-            />
-          </div>
-          <div className="grid gap-2.5">
-            <Label htmlFor="stripe-account-currency">Currency</Label>
-            <Input
-              id="stripe-account-currency"
-              name="stripeAccountCurrency"
-              className="uppercase"
-              readOnly
-            />
-          </div>
-          <div className="grid gap-2.5">
-            <Label htmlFor="stripe-account-created">Created</Label>
-            <Input
-              id="stripe-account-created"
-              name="stripeAccountCreated"
-              readOnly
-            />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Link
-            aria-label="Manage Stripe account"
-            href="https://dashboard.stripe.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({
-                className: "text-center",
-              }),
-            )}
-          >
-            Manage Stripe account
-          </Link>
-        </CardFooter>
-      </Card>
-
-      <Card as="section">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Update your store</CardTitle>
-          <CardDescription>
-            Update your store name and description, or delete it
+            Actualizar nombre, dirección y/o eliminar tienda.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid w-full max-w-xl gap-5">
+          <form
+            action={updateStore.bind(null, storeId)}
+            className="grid w-full max-w-xl gap-5"
+          >
             <div className="grid gap-2.5">
-              <Label htmlFor="update-store-name">Name</Label>
+              <Label htmlFor="update-store-name">Nombre</Label>
               <Input
                 id="update-store-name"
-                aria-describedby="update-store-name-description"
+                aria-describedby="update-store-name"
                 name="name"
                 required
                 minLength={3}
                 maxLength={50}
-                placeholder="Type store name here."
+                placeholder="Acá va el nombre de tu tienda."
+                defaultValue={store.name ?? ""}
               />
             </div>
             <div className="grid gap-2.5">
-              <Label htmlFor="update-store-description">Description</Label>
+              <Label htmlFor="update-store-address">Dirección</Label>
               <Textarea
-                id="update-store-description"
-                aria-describedby="update-store-description-description"
-                name="description"
+                id="update-store-address"
+                aria-describedby="update-store-address"
+                name="address"
                 minLength={3}
                 maxLength={255}
-                placeholder="Type store description here."
+                placeholder="Acá va tu dirección."
+                defaultValue={store.address ?? ""}
               />
             </div>
-            <div className="xs:flex-row flex flex-col gap-2"></div>
+            <div className="xs:flex-row flex flex-col gap-2">
+              <LoadingButton action="update">
+                Actualizar información
+                <span className="sr-only">Actualizar</span>
+              </LoadingButton>
+              <LoadingButton
+                formAction={deleteStore.bind(null, storeId)}
+                variant="destructive"
+                action="delete"
+              >
+                Borrar tienda
+                <span className="sr-only">Borrar tienda</span>
+              </LoadingButton>
+            </div>
           </form>
         </CardContent>
       </Card>
