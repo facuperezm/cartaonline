@@ -1,5 +1,4 @@
 import { type Metadata } from "next";
-import { toast } from "sonner";
 
 import { deleteStore, updateStore } from "@/lib/actions/store";
 import { db } from "@/lib/db";
@@ -39,13 +38,15 @@ export default async function UpdateStorePage({
 
   if (!store) {
     return (
-      <div className="mx-auto flex h-dvh items-center">Store not found</div>
+      <div className="mx-auto flex h-dvh items-center font-bold">
+        Store not found
+      </div>
     );
   }
 
   return (
-    <div className="mt-10 space-y-10">
-      <Card as="section">
+    <div className="mt-10">
+      <Card as="section" className="max-w-3xl">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">
             Actualizar tienda{" "}
@@ -58,10 +59,7 @@ export default async function UpdateStorePage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form
-            action={updateStore.bind(null, storeId)}
-            className="grid w-full max-w-xl gap-5"
-          >
+          <form action={updateStore.bind(null, storeId)} className="grid gap-5">
             <div className="grid gap-2.5">
               <Label htmlFor="update-store-name">Nombre</Label>
               <Input
