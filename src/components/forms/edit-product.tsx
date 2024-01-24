@@ -119,9 +119,12 @@ export default function EditProduct({ id }: { id: number }) {
           </Label>
           <Label htmlFor="category">
             Categoría
-            <Select name="category" defaultValue={product?.category}>
+            <Select name="category" defaultValue={product?.category || ""}>
               <SelectTrigger className="mt-2">
-                <SelectValue placeholder="Seleccionar categoría" />
+                <SelectValue
+                  defaultValue={product?.category}
+                  placeholder="Seleccionar categoría"
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Comida">Comida</SelectItem>

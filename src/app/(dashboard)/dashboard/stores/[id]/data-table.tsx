@@ -13,7 +13,6 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 
-import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

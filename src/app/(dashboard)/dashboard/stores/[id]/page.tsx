@@ -2,13 +2,6 @@ import { type Metadata } from "next";
 
 import { deleteStore, updateStore } from "@/lib/actions/store";
 import { db } from "@/lib/db";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,7 +58,7 @@ export default async function UpdateStorePage({
       <h2 className="mb-4 text-2xl font-semibold leading-none tracking-tight">
         Actualizar tienda
       </h2>
-      <form action={updateStore.bind(null, storeId)} className="grid gap-5">
+      <form action={updateStore.bind(null, storeId)} className="grid gap-3">
         <div className="grid gap-2.5">
           <Label htmlFor="update-store-name">Nombre</Label>
           <Input
@@ -81,7 +74,7 @@ export default async function UpdateStorePage({
         </div>
         <div className="grid gap-2.5">
           <Label htmlFor="update-store-address">Dirección</Label>
-          <Textarea
+          <Input
             id="update-store-address"
             aria-describedby="update-store-address"
             name="address"

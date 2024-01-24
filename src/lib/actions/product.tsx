@@ -3,7 +3,7 @@
 import { revalidatePath, unstable_noStore } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { updateProductSchema } from "@/components/data/products-schema";
+import { updateProductSchema } from "@/lib/validations/product";
 
 import { db } from "../db";
 
