@@ -30,6 +30,12 @@ enum Status {
   INACTIVE
 }
 
+enum Category {
+  COMIDA
+  BEBIDA
+  POSTRE
+}
+
 model Store {
   id        Int       @id @default(autoincrement())
   name      String    @unique
@@ -52,10 +58,10 @@ model Product {
   id        Int       @id @default(autoincrement())
   name      String
   price     Int
+  category  Category  @default(COMIDA)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  imageUrl  String    @db.Text
   storeId   Int
   store     Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
