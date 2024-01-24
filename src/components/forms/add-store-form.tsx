@@ -41,7 +41,7 @@ export function AddStoreForm() {
     },
   });
 
-  const { mutate, isLoading } = trpc.createStore.useMutation({
+  const { mutate: addStore, isLoading } = trpc.createStore.useMutation({
     onSuccess: () => {
       form.reset();
       toast.success("Store added successfully.");
@@ -60,7 +60,7 @@ export function AddStoreForm() {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        mutate(data);
+        addStore(data);
       } catch (err) {
         catchError(err);
       }

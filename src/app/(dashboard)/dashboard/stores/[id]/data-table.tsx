@@ -36,11 +36,13 @@ import { AddProductForm } from "@/components/forms/add-product.form";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  storeId: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  storeId,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -85,7 +87,7 @@ export function DataTable<TData, TValue>({
                 Agregar producto a tu tienda
               </DialogDescription>
             </DialogHeader>
-            <AddProductForm setOpen={setOpen} />
+            <AddProductForm storeId={storeId} setOpen={setOpen} />
           </DialogContent>
         </Dialog>
       </div>

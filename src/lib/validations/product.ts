@@ -4,7 +4,7 @@ export const productsSchema = z.object({
   id: z.string(),
   name: z.string(),
   price: z.string(),
-  category: z.string(),
+  category: z.enum(["Comida", "Bebida", "Postre"]),
 });
 
 export const updateProductSchema = z.object({

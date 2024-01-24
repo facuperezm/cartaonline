@@ -4,7 +4,6 @@ import { deleteStore, updateStore } from "@/lib/actions/store";
 import { db } from "@/lib/db";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { LoadingButton } from "@/components/loading-button";
 
 import { columns } from "./columns";
@@ -103,7 +102,11 @@ export default async function UpdateStorePage({
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
         </h2>
-        <DataTable columns={columns} data={productsFromStore} />
+        <DataTable
+          storeId={store.id}
+          columns={columns}
+          data={productsFromStore}
+        />
       </div>
     </div>
   );

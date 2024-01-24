@@ -32,15 +32,17 @@ import {
 const productSchema = z.object({
   name: z.string(),
   price: z.string(),
-  category: z.enum(["COMIDA", "BEBIDA", "POSTRE"]),
+  category: z.enum(["Comida", "Bebida", "Postre"]),
 });
 
 type Inputs = z.infer<typeof productSchema>;
 
 export function AddProductForm({
   setOpen,
+  storeId,
 }: {
   setOpen: (value: boolean) => void;
+  storeId: number;
 }) {
   const router = useRouter();
 
@@ -70,7 +72,7 @@ export function AddProductForm({
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        addProduct(data);
+        addProduct({ ...data, storeId });
       } catch (err) {
         catchError(err);
       }

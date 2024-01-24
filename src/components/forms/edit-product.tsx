@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { set } from "react-hook-form";
 import { toast } from "sonner";
 
 import { updateProduct } from "@/lib/actions/product";
@@ -28,11 +27,7 @@ import {
   SelectValue,
 } from "../ui/select";
 
-function SubmitButton({
-  setOpenEdit,
-}: {
-  setOpenEdit: (value: boolean) => void;
-}) {
+function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
@@ -43,8 +38,8 @@ function SubmitButton({
           aria-hidden="true"
         />
       )}
-      {pending ? "Agregando producto" : "Agregar producto"}
-      <span className="sr-only">Agregar producto</span>
+      {pending ? "Editando producto" : "Editar producto"}
+      <span className="sr-only">Editar producto</span>
     </Button>
   );
 }
@@ -133,7 +128,7 @@ export default function EditProduct({ id }: { id: number }) {
               </SelectContent>
             </Select>
           </Label>
-          <SubmitButton setOpenEdit={setOpenEdit} />
+          <SubmitButton />
         </form>
       </DialogContent>
     </Dialog>

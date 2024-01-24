@@ -16,7 +16,6 @@ export const appRouter = router({
       },
     });
   }),
-
   createStore: privateProcedure
     .input(
       z.object({
@@ -58,16 +57,14 @@ export const appRouter = router({
         price: z
           .string({ invalid_type_error: "El precio debe ser un número" })
           .min(1, { message: "El precio debe ser mayor a 0" }),
-        category: z.enum(["COMIDA", "BEBIDA", "POSTRE"]),
+        category: z.enum(["Comida", "Bebida", "Postre"]),
+        storeId: z.number(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
-      const { userId } = ctx;
-
-      // check if name is taken
+    .mutation(async ({ input }) => {
       const store = await db.store.findFirst({
         where: {
-          userId,
+          id: Number(input.storeId),
         },
       });
 
@@ -83,7 +80,7 @@ export const appRouter = router({
           name: input.name,
           price: Number(input.price),
           category: input.category,
-          storeId: store.id,
+          storeId: Number(input.storeId),
         },
       });
       revalidatePath(`/dashboard/stores/${store.id}`);
