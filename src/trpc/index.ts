@@ -54,8 +54,10 @@ export const appRouter = router({
   createProduct: privateProcedure
     .input(
       z.object({
-        name: z.string(),
-        price: z.string(),
+        name: z.string({ invalid_type_error: "El nombre debe ser un texto" }),
+        price: z
+          .string({ invalid_type_error: "El precio debe ser un número" })
+          .min(1, { message: "El precio debe ser mayor a 0" }),
         category: z.enum(["COMIDA", "BEBIDA", "POSTRE"]),
       }),
     )
@@ -84,8 +86,6 @@ export const appRouter = router({
           storeId: store.id,
         },
       });
-      console.log("revalidating");
-      console.log(`/dashboard/stores/${store.id}`, "from createProduct");
       revalidatePath(`/dashboard/stores/${store.id}`);
       return { success: true };
     }),

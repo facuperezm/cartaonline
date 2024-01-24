@@ -1,3 +1,10 @@
+"use client";
+
+import React from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { set } from "react-hook-form";
+import { toast } from "sonner";
+
 import { updateProduct } from "@/lib/actions/product";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,12 +19,58 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trpc } from "@/app/_trpc/client";
 
+import { Icons } from "../icons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
+function SubmitButton({
+  setOpenEdit,
+}: {
+  setOpenEdit: (value: boolean) => void;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button className="mt-2 w-full transition-all" disabled={pending}>
+      {pending && (
+        <Icons.spinner
+          className="mr-2 h-4 w-4 animate-spin"
+          aria-hidden="true"
+        />
+      )}
+      {pending ? "Agregando producto" : "Agregar producto"}
+      <span className="sr-only">Agregar producto</span>
+    </Button>
+  );
+}
+
+const initialState = {
+  message: "",
+  status: "",
+};
+
 export default function EditProduct({ id }: { id: number }) {
   const { data: product } = trpc.getProduct.useQuery({ id });
+  const [openEdit, setOpenEdit] = React.useState(false);
 
-  console.log(product);
+  const [state, formAction] = useFormState(updateProduct, initialState);
+
+  React.useEffect(() => {
+    if (state.status === "success") {
+      toast.success(state.message);
+      setOpenEdit(false);
+    } else if (state.status === "error") {
+      toast.error(state.message);
+    }
+  }, [state.status, state.message]);
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={setOpenEdit} open={openEdit}>
       <DialogTrigger asChild>
         <Button
           className="relative flex h-8 w-full cursor-default select-none items-center justify-start rounded-sm px-2 text-left text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
@@ -31,22 +84,53 @@ export default function EditProduct({ id }: { id: number }) {
           <DialogTitle>Editar producto</DialogTitle>
           <DialogDescription>Cambiar</DialogDescription>
         </DialogHeader>
-        <form action={updateProduct.bind(null, id)}>
-          <Label htmlFor="link" className="sr-only">
-            Nombre del producto
-          </Label>
-
+        <form action={formAction} className="grid w-full max-w-xl gap-3">
+          <Label htmlFor="id" className="sr-only" />
           <Input
-            name="name"
-            required
-            minLength={3}
-            maxLength={50}
-            placeholder="empanadas"
-            defaultValue={product?.name ?? ""}
+            name="id"
+            type="hidden"
+            className="mt-2"
+            defaultValue={product?.id ?? ""}
           />
-          <Button type="submit" className="">
-            Editar
-          </Button>
+          <Label htmlFor="name">
+            Nombre del producto
+            <Input
+              name="name"
+              required
+              minLength={3}
+              maxLength={50}
+              className="mt-2"
+              placeholder="empanadas"
+              defaultValue={product?.name ?? ""}
+            />
+          </Label>
+          <Label htmlFor="price">
+            Precio
+            <Input
+              name="price"
+              required
+              type="number"
+              minLength={3}
+              className="mt-2"
+              maxLength={50}
+              placeholder="1230"
+              defaultValue={product?.price ?? ""}
+            />
+          </Label>
+          <Label htmlFor="category">
+            Categoría
+            <Select name="category" defaultValue={product?.category}>
+              <SelectTrigger className="mt-2">
+                <SelectValue placeholder="Seleccionar categoría" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Comida">Comida</SelectItem>
+                <SelectItem value="Bebida">Bebida</SelectItem>
+                <SelectItem value="Postre">Postre</SelectItem>
+              </SelectContent>
+            </Select>
+          </Label>
+          <SubmitButton setOpenEdit={setOpenEdit} />
         </form>
       </DialogContent>
     </Dialog>

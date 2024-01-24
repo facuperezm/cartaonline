@@ -53,7 +53,7 @@ export function SignInForm() {
 
           router.push(`${window.location.origin}/`);
         } else {
-          console.log(result);
+          console.error(result);
         }
       } catch (err) {
         catchClerkError(err);

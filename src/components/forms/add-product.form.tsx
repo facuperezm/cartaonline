@@ -53,16 +53,16 @@ export function AddProductForm({
   const { mutate: addProduct, isLoading } = trpc.createProduct.useMutation({
     onSuccess: () => {
       form.reset();
-      toast.success("Product added successfully.");
+      toast.success("El producto se agregó correctamente.");
       setOpen(false);
       router.refresh();
     },
     onError: (err) => {
-      const errorMessage = err.message;
+      const errorMessage = JSON.parse(err.message);
       if (errorMessage && errorMessage[0]) {
-        toast.error(errorMessage);
+        toast.error(errorMessage[0].message);
       } else {
-        toast.error("Failed to post! Please try again later.");
+        toast.error("Ocurrió un error, porfavor probá denuevo.");
       }
     },
   });
@@ -103,7 +103,7 @@ export function AddProductForm({
             <FormItem>
               <FormLabel>Precio</FormLabel>
               <FormControl>
-                <Input placeholder="1200" {...field} />
+                <Input type="number" placeholder="1200" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,7 +113,6 @@ export function AddProductForm({
           control={form.control}
           name="category"
           render={({ field }) => {
-            console.log(field);
             return (
               <FormItem>
                 <FormLabel>Categoria</FormLabel>
@@ -127,9 +126,9 @@ export function AddProductForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="BEBIDA">Bebida</SelectItem>
-                    <SelectItem value="POSTRE">Postre</SelectItem>
-                    <SelectItem value="COMIDA">Comida</SelectItem>
+                    <SelectItem value="Bebida">Bebida</SelectItem>
+                    <SelectItem value="Postre">Postre</SelectItem>
+                    <SelectItem value="Comida">Comida</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

@@ -9,7 +9,6 @@ import { Shell } from "@/components/shell";
 
 export default async function ComapniesPage() {
   const stores = await db.store.findMany();
-  console.log(stores);
   return (
     <Shell>
       <PageHeader

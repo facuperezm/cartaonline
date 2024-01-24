@@ -19,7 +19,7 @@ export type Product = {
   id: number;
   name: string;
   price: number;
-  category: "COMIDA" | "BEBIDA" | "POSTRE";
+  category: "Comida" | "Bebida" | "Postre";
 };
 
 export const columns: ColumnDef<Product>[] = [
