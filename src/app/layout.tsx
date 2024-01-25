@@ -9,7 +9,10 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Providers from "@/components/providers";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["300", "700"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 export const metadata: Metadata = {
   title: {
