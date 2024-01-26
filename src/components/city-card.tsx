@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Navigation } from "lucide-react";
 
+import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { buttonVariants } from "@/components/ui/button";
 
 export async function CityCard({ src, city }: { src: string; city: string }) {
+  const stores = await db.store.findMany();
+
   return (
     <Link
       href={`/stores`}
@@ -29,14 +32,16 @@ export async function CityCard({ src, city }: { src: string; city: string }) {
               buttonVariants({
                 size: "icon",
                 className:
-                  "pointer-events-none h-8 w-8 bg-zinc-100 text-zinc-950",
+                  "pointer-events-none h-8 w-8 bg-zinc-100/90 text-zinc-950",
               }),
             )}
             aria-hidden="true"
           >
-            <Navigation />
+            <Navigation strokeWidth={1.6} className="-translate-x-[0.07rem]" />
           </div>
-          <p className="text-sm text-zinc-200">123 comercios</p>
+          <p className="text-sm text-zinc-200">
+            {stores?.length} {stores?.length > 1 ? "comercios" : "comercio"}
+          </p>
         </div>
         <h3 className="mt-auto text-xl font-medium capitalize text-zinc-200">
           {city}

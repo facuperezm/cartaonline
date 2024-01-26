@@ -5,10 +5,10 @@ import { Shell } from "@/components/shell";
 
 export default function Home() {
   return (
-    <Shell className="gap-14">
+    <Shell className="gap-10 md:gap-14">
       <section
         id="hero"
-        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-2 pt-6 text-center md:pt-10 lg:py-8"
+        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-2 pt-3 text-center md:pt-10 lg:py-8"
       >
         <h1
           className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-6xl/[5rem]"
