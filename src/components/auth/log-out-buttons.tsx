@@ -44,7 +44,7 @@ export function LogOutButtons() {
             "w-full bg-muted text-muted-foreground",
           )}
         >
-          Cerrar sesion
+          Desloguear
         </Skeleton>
       )}
       <Button

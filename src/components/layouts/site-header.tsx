@@ -89,7 +89,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                   variant: "ghost",
                 })}
               >
-                Iniciar sesión
+                Creá tu tienda
                 <span className="sr-only">Iniciar sesión</span>
               </Link>
             )}

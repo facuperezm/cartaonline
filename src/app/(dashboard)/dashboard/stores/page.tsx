@@ -50,7 +50,7 @@ export default async function StoresPage() {
       </PageHeader>
       {/* implement an Alert with info about the subscription */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StoreList />
+        <StoreList userId={user.id} />
       </section>
     </Shell>
   );

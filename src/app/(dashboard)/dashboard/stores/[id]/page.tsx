@@ -1,7 +1,20 @@
 import { type Metadata } from "next";
+import { AlertCircleIcon } from "lucide-react";
 
-import { deleteStore, updateStore } from "@/lib/actions/store";
+import {
+  deleteStore,
+  updateStore,
+  updateStoreStatus,
+} from "@/lib/actions/store";
 import { db } from "@/lib/db";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoadingButton } from "@/components/loading-button";
@@ -26,9 +39,14 @@ export default async function UpdateStorePage({
 }: UpdateStorePageProps) {
   const storeId = Number(params.id);
 
+  // TODO: maybe this two queries can be improved to one
+
   const store = await db.store.findFirst({
     where: {
       id: storeId,
+    },
+    include: {
+      products: true,
     },
   });
 
@@ -54,7 +72,17 @@ export default async function UpdateStorePage({
 
   return (
     <div className="mt-10">
-      <h2 className="mb-4 text-2xl font-semibold leading-none tracking-tight">
+      {store?.status === "ACTIVE" ? null : (
+        <Alert variant="destructive" className="mb-5">
+          <AlertCircleIcon className="size-4" />
+          <AlertTitle>Aviso importante</AlertTitle>
+          <AlertDescription>
+            Tu tienda está inactiva, nadie puede verla. Activala para que todos
+            puedan verla.
+          </AlertDescription>
+        </Alert>
+      )}
+      <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
       <form action={updateStore.bind(null, storeId)} className="grid gap-3">
@@ -98,7 +126,7 @@ export default async function UpdateStorePage({
           </LoadingButton>
         </div>
       </form>
-      <div className="mx-auto py-10">
+      <div className="mx-auto pb-4 pt-10">
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
         </h2>
@@ -108,6 +136,43 @@ export default async function UpdateStorePage({
           data={productsFromStore}
         />
       </div>
+      <form className="mb-4">
+        <Card className="flex flex-row items-center justify-between">
+          <CardHeader>
+            <CardTitle>
+              Queres {store.status === "ACTIVE" ? "desactivar" : "activar"} tu
+              tienda?
+            </CardTitle>
+            <CardDescription>
+              <p>
+                {store.status === "ACTIVE"
+                  ? "Tu tienda no estará disponible."
+                  : "Tu tienda estará disponible."}
+              </p>
+              <span>
+                <input
+                  type="hidden"
+                  name="status"
+                  value={store.status}
+                  aria-hidden
+                />
+              </span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <LoadingButton
+              variant={store.status === "ACTIVE" ? "destructive" : "default"}
+              action="update"
+              formAction={updateStoreStatus.bind(null, storeId)}
+            >
+              {store.status === "ACTIVE" ? "Desactivar" : "Activar"}
+              <span className="sr-only">
+                {store.status === "ACTIVE" ? "Desactivar" : "Activar"}
+              </span>
+            </LoadingButton>
+          </CardContent>
+        </Card>
+      </form>
     </div>
   );
 }

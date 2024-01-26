@@ -1,14 +1,18 @@
-"use client";
-
-import { trpc } from "@/app/_trpc/client";
+import { db } from "@/lib/db";
 
 import { StoreCard } from "./cards/store-card";
 import { StoreCardSkeleton } from "./skeletons/store-card-skeleton";
 
-export default function StoreList() {
-  const { data: allStores, isLoading } = trpc.getUserStores.useQuery();
+export default async function StoreList({ userId }: { userId: string }) {
+  // const { data: allStores, isLoading } = trpc.getUserStores.useQuery();
 
-  if (!allStores || isLoading) {
+  const allStores = await db.store.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  if (!allStores) {
     return (
       <>
         <StoreCardSkeleton />

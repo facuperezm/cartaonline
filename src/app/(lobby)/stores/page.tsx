@@ -8,7 +8,12 @@ import { ProductCard } from "@/components/product-card";
 import { Shell } from "@/components/shell";
 
 export default async function ComapniesPage() {
-  const stores = await db.store.findMany();
+  const stores = await db.store.findMany({
+    where: {
+      status: "ACTIVE",
+    },
+  });
+
   return (
     <Shell>
       <PageHeader

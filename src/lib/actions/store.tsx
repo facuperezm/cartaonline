@@ -73,3 +73,25 @@ export async function updateStore(storeId: number, fd: FormData) {
       : new Error("Something went wrong, please try again.");
   }
 }
+
+export async function updateStoreStatus(storeId: number, fd: FormData) {
+  try {
+    const status = fd.get("status");
+
+    await db.store.update({
+      where: {
+        id: storeId,
+      },
+      data: {
+        status: status === "ACTIVE" ? "INACTIVE" : "ACTIVE",
+      },
+    });
+
+    revalidatePath(`/dashboard/stores/${storeId}`);
+    redirect("/dashboard/stores");
+  } catch (err) {
+    throw err instanceof Error
+      ? err
+      : new Error("Something went wrong, please try again.");
+  }
+}
