@@ -1,17 +1,22 @@
+import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs";
+import { AlertOctagon } from "lucide-react";
 
+import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { buttonVariants } from "@/components/ui/button";
+import { StoreCard } from "@/components/cards/store-card";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
 import { Shell } from "@/components/shell";
-import StoreList from "@/components/stores-list";
+import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton";
 
 export const metadata: Metadata = {
   title: "Mis tiendas",
@@ -23,6 +28,27 @@ export default async function StoresPage() {
 
   if (!user) {
     redirect("/signin");
+  }
+
+  const allStores = await db.store.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!allStores) {
+    return (
+      <>
+        <Alert className="col-span-3">
+          <AlertOctagon className="size-4" />
+          <AlertTitle>No tenés tiendas creadas</AlertTitle>
+          <AlertDescription>
+            Para crear una tienda, hacé click en el botón &quot;Crear
+            tienda&quot; en la barra lateral.
+          </AlertDescription>
+        </Alert>
+      </>
+    );
   }
 
   return (
@@ -50,7 +76,19 @@ export default async function StoresPage() {
       </PageHeader>
       {/* implement an Alert with info about the subscription */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StoreList userId={user.id} />
+        <React.Suspense
+          fallback={Array.from({ length: 3 }).map((_, i) => (
+            <StoreCardSkeleton key={i} />
+          ))}
+        >
+          {allStores.map((store) => (
+            <StoreCard
+              key={store.id}
+              store={store}
+              href={`/dashboard/stores/${store.id}`}
+            />
+          ))}
+        </React.Suspense>
       </section>
     </Shell>
   );

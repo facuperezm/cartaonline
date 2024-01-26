@@ -18,9 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoadingButton } from "@/components/loading-button";
-
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
+import { columns } from "@/components/tables/columns";
+import { DataTable } from "@/components/tables/data-table";
 
 export const metadata: Metadata = {
   title: "Manage Store",

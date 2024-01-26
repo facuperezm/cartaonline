@@ -33,8 +33,25 @@ export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
 
-export type Store = {
+export interface Store {
+  id: number;
   name: string;
   address: string;
-  logoUrl: string;
+  logoUrl: string | null;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+  deletedAt?: Date | null;
+  userId: string;
+  products?: Product[];
+  status: "ACTIVE" | "INACTIVE";
+}
+
+export type Product = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  storeId: number;
+  store: Store;
+  status: "ACTIVE" | "INACTIVE";
 };
