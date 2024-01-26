@@ -4,7 +4,6 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeleteProduct from "@/components/delete-file";
 import EditProduct from "@/components/forms/edit-product";
+
+import { statuses } from "./data";
+import { DataTableColumnHeader } from "./data-table-column-header";
 
 export type Product = {
   id: number;
@@ -29,26 +31,49 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "category",
-    header: () => <div className="text-left font-bold">Categoría</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Categoría" />
+    ),
+    cell: ({ row }) => {
+      const status = statuses.find(
+        (status) => status.value === row.getValue("category"),
+      );
+
+      if (!status) {
+        return null;
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          {status.icon && (
+            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+          )}
+          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
-          className="text-center font-bold"
+          className="text-center"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nombre
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="ml-2 size-3.5" />
         </Button>
       );
     },
   },
   {
     accessorKey: "price",
-    header: () => <div className="text-right font-bold">Precio</div>,
+    header: () => <div className="text-right">Precio</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
