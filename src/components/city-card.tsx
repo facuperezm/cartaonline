@@ -39,7 +39,9 @@ export async function CityCard({ src, city }: { src: string; city: string }) {
           >
             <Navigation strokeWidth={1.6} className="-translate-x-[0.07rem]" />
           </div>
-          <p className="text-sm text-zinc-200">123 comercios</p>
+          <p className="text-sm text-zinc-200">
+            {totalStores.length} {totalStores.length > 1 ? "tiendas" : "tienda"}
+          </p>
         </div>
         <h3 className="mt-auto text-xl font-medium capitalize text-zinc-200">
           {city}
