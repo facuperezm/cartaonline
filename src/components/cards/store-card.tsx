@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { type Store } from "@/types";
 
-import { db } from "@/lib/db";
 import { getRandomPatternStyle } from "@/lib/generate-pattern";
 import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -17,19 +17,7 @@ interface StoreCardProps {
   href: string;
 }
 
-type Store = {
-  id: number;
-  name: string;
-};
-
-export async function StoreCard({ store, href }: StoreCardProps) {
-  //check in db if store is active or inactive to display the badge
-  const currentStore = await db.store.findFirst({
-    where: {
-      id: store.id,
-    },
-  });
-
+export function StoreCard({ store, href }: StoreCardProps) {
   return (
     <Link href={href}>
       <span className="sr-only">{store.name}</span>
@@ -38,18 +26,18 @@ export async function StoreCard({ store, href }: StoreCardProps) {
           <div
             className={cn(
               "absolute inset-0 bg-gradient-to-t from-transparent to-zinc-950/40",
-              currentStore?.status !== "ACTIVE" && "bg-black/70",
+              store?.status !== "ACTIVE" && "bg-black/70",
             )}
           />
           <Badge
             className={cn(
               "pointer-events-none absolute right-2 top-2 rounded-sm px-2 py-1 font-semibold",
-              currentStore?.status === "ACTIVE"
+              store?.status === "ACTIVE"
                 ? "border-green-600/20 bg-green-50 text-green-700"
                 : "border-red-600/10 bg-red-50 text-red-700",
             )}
           >
-            {currentStore?.status === "ACTIVE" ? "Activa" : "Inactiva"}
+            {store?.status === "ACTIVE" ? "Activa" : "Inactiva"}
           </Badge>
           <div
             className="h-full rounded-t-md border-b"
@@ -59,7 +47,7 @@ export async function StoreCard({ store, href }: StoreCardProps) {
         <CardHeader className="space-y-2">
           <CardTitle className="line-clamp-1">{store.name}</CardTitle>
           <CardDescription className="line-clamp-1">
-            {currentStore?.address}
+            {store?.address}
           </CardDescription>
         </CardHeader>
       </Card>

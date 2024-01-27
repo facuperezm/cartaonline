@@ -185,8 +185,8 @@ devDependencies:
     specifier: 0.5.9
     version: 0.5.9(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.1.0)
   prisma:
-    specifier: 5.7.1
-    version: 5.7.1
+    specifier: 5.8.1
+    version: 5.8.1
   tailwindcss:
     specifier: 3.4.1
     version: 3.4.1
@@ -196,9 +196,6 @@ devDependencies:
   typescript:
     specifier: 5.3.3
     version: 5.3.3
-  vitest:
-    specifier: ^1.2.2
-    version: 1.2.2(@types/node@20.10.4)(jsdom@24.0.0)
 
 packages:
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -1325,7 +1322,7 @@ packages:
       prisma:
         optional: true
     dependencies:
-      prisma: 5.7.1
+      prisma: 5.8.1
     dev: false
 
   /@prisma/debug@5.7.1:
@@ -5475,15 +5472,6 @@ packages:
     engines: { node: ">=16.17.0" }
     dev: true
 
-  /husky@9.0.6:
-    resolution:
-      {
-        integrity: sha512-EEuw/rfTiMjOfuL7pGO/i9otg1u36TXxqjIA6D9qxVjd/UXoDOsLor/BSFf5hTK50shwzCU3aVVwdXDp/lp7RA==,
-      }
-    engines: { node: ">=18" }
-    hasBin: true
-    dev: true
-
   /iconv-lite@0.6.3:
     resolution:
       {
@@ -7036,6 +7024,7 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
 
   /react-hook-form@7.48.2(react@18.2.0):
     resolution:
@@ -7191,6 +7180,7 @@ packages:
     engines: { node: ">=0.10.0" }
     dependencies:
       loose-envify: 1.4.0
+    dev: false
 
   /read-cache@1.0.0:
     resolution:
@@ -7398,6 +7388,7 @@ packages:
       }
     dependencies:
       loose-envify: 1.4.0
+    dev: false
 
   /semver@6.3.1:
     resolution:

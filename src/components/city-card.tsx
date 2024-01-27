@@ -8,7 +8,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { buttonVariants } from "@/components/ui/button";
 
 export async function CityCard({ src, city }: { src: string; city: string }) {
-  const stores = await db.store.findMany();
+  const totalStores = await db.store.findMany();
 
   return (
     <Link
@@ -39,9 +39,7 @@ export async function CityCard({ src, city }: { src: string; city: string }) {
           >
             <Navigation strokeWidth={1.6} className="-translate-x-[0.07rem]" />
           </div>
-          <p className="text-sm text-zinc-200">
-            {stores?.length} {stores?.length > 1 ? "comercios" : "comercio"}
-          </p>
+          <p className="text-sm text-zinc-200">123 comercios</p>
         </div>
         <h3 className="mt-auto text-xl font-medium capitalize text-zinc-200">
           {city}
