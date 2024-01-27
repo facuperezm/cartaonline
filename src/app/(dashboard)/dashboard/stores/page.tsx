@@ -74,7 +74,7 @@ export default async function StoresPage() {
           Administra tus tiendas
         </PageHeaderDescription>
       </PageHeader>
-      {/* implement an Alert with info about the subscription */}
+
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <React.Suspense
           fallback={Array.from({ length: 3 }).map((_, i) => (

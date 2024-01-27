@@ -22,25 +22,18 @@ import { columns } from "@/components/tables/columns";
 import { DataTable } from "@/components/tables/data-table";
 
 export const metadata: Metadata = {
-  title: "Manage Store",
-  description: "Manage your store",
+  title: "Administrá tu tienda",
+  description: "Modifica toda la información de tu tienda",
 };
-
-interface UpdateStorePageProps {
-  params: {
-    id: string;
-  };
-}
-export const revalidate = 1;
 
 export default async function UpdateStorePage({
   params,
-}: UpdateStorePageProps) {
+}: {
+  params: { id: string };
+}) {
   const storeId = Number(params.id);
 
-  // TODO: maybe this two queries can be improved to one
-
-  const store = await db.store.findFirst({
+  const storeWithProducts = await db.store.findFirst({
     where: {
       id: storeId,
     },
@@ -49,19 +42,7 @@ export default async function UpdateStorePage({
     },
   });
 
-  const productsFromStore = await db.product.findMany({
-    where: {
-      storeId,
-    },
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      category: true,
-    },
-  });
-
-  if (!store) {
+  if (!storeWithProducts) {
     return (
       <div className="mx-auto flex h-dvh items-center font-bold">
         Store not found
@@ -71,7 +52,7 @@ export default async function UpdateStorePage({
 
   return (
     <div className="mt-10">
-      {store?.status === "ACTIVE" ? null : (
+      {storeWithProducts?.status === "ACTIVE" ? null : (
         <Alert variant="destructive" className="mb-5">
           <AlertCircleIcon className="size-4" />
           <AlertTitle>Aviso importante</AlertTitle>
@@ -95,7 +76,7 @@ export default async function UpdateStorePage({
             minLength={3}
             maxLength={50}
             placeholder="Acá va el nombre de tu tienda."
-            defaultValue={store.name ?? ""}
+            defaultValue={storeWithProducts.name ?? ""}
           />
         </div>
         <div className="grid gap-2.5">
@@ -107,7 +88,7 @@ export default async function UpdateStorePage({
             minLength={3}
             maxLength={255}
             placeholder="Acá va tu dirección."
-            defaultValue={store.address ?? ""}
+            defaultValue={storeWithProducts.address ?? ""}
           />
         </div>
         <div className="flex flex-col gap-2 lg:flex-row">
@@ -130,21 +111,22 @@ export default async function UpdateStorePage({
           Lista de productos
         </h2>
         <DataTable
-          storeId={store.id}
+          storeId={storeWithProducts.id}
           columns={columns}
-          data={productsFromStore}
+          data={storeWithProducts.products}
         />
       </div>
       <form className="mb-4">
         <Card className="flex flex-row items-center justify-between">
           <CardHeader>
             <CardTitle>
-              Queres {store.status === "ACTIVE" ? "desactivar" : "activar"} tu
-              tienda?
+              Queres{" "}
+              {storeWithProducts.status === "ACTIVE" ? "desactivar" : "activar"}{" "}
+              tu tienda?
             </CardTitle>
             <CardDescription>
               <p>
-                {store.status === "ACTIVE"
+                {storeWithProducts.status === "ACTIVE"
                   ? "Tu tienda no estará disponible."
                   : "Tu tienda estará disponible."}
               </p>
@@ -152,7 +134,7 @@ export default async function UpdateStorePage({
                 <input
                   type="hidden"
                   name="status"
-                  value={store.status}
+                  value={storeWithProducts.status}
                   aria-hidden
                 />
               </span>
@@ -160,13 +142,19 @@ export default async function UpdateStorePage({
           </CardHeader>
           <CardContent className="pt-6">
             <LoadingButton
-              variant={store.status === "ACTIVE" ? "destructive" : "default"}
+              variant={
+                storeWithProducts.status === "ACTIVE"
+                  ? "destructive"
+                  : "default"
+              }
               action="update"
               formAction={updateStoreStatus.bind(null, storeId)}
             >
-              {store.status === "ACTIVE" ? "Desactivar" : "Activar"}
+              {storeWithProducts.status === "ACTIVE" ? "Desactivar" : "Activar"}
               <span className="sr-only">
-                {store.status === "ACTIVE" ? "Desactivar" : "Activar"}
+                {storeWithProducts.status === "ACTIVE"
+                  ? "Desactivar"
+                  : "Activar"}
               </span>
             </LoadingButton>
           </CardContent>
