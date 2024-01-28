@@ -17,6 +17,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { LoadingButton } from "@/components/loading-button";
 import { columns } from "@/components/tables/columns";
 import { DataTable } from "@/components/tables/data-table";
@@ -90,6 +99,31 @@ export default async function UpdateStorePage({
             placeholder="Acá va tu dirección."
             defaultValue={storeWithProducts.address ?? ""}
           />
+        </div>
+        <div className="grid gap-2.5">
+          <Label htmlFor="update-store-city">Ciudad</Label>
+          <Select name="city" defaultValue={storeWithProducts?.city}>
+            <SelectTrigger>
+              <SelectValue placeholder="Elegí tu ciudad" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Ciudad</SelectLabel>
+                <SelectItem value="Puerto_Iguazu">Puerto Iguazú</SelectItem>
+                <SelectItem value="Posadas">Posadas</SelectItem>
+                <SelectItem value="Corrientes">Corrientes</SelectItem>
+                <SelectItem disabled value="Cordoba">
+                  Córdoba
+                </SelectItem>
+                <SelectItem disabled value="Buenos_Aires">
+                  Buenos Aires
+                </SelectItem>
+                <SelectItem disabled value="Ushuaia">
+                  Ushuaia
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex flex-col gap-2 lg:flex-row">
           <LoadingButton action="update">

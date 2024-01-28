@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { Separator } from "@/components/ui/separator";
 import { Shell } from "@/components/shell";
 
-export default async function ProductPage({
+export default async function StorePage({
   params,
 }: {
   params: { id: string };
@@ -13,6 +13,10 @@ export default async function ProductPage({
     where: { id: Number(params.id) },
     include: { products: true },
   });
+
+  if (!store) {
+    return null;
+  }
 
   return (
     <>

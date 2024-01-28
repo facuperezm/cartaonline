@@ -18,6 +18,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Icons } from "@/components/icons";
 import { trpc } from "@/app/_trpc/client";
 
@@ -25,6 +34,14 @@ import { trpc } from "@/app/_trpc/client";
 const storeSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long."),
   address: z.string().min(3, "Address must be at least 3 characters long."),
+  city: z.enum([
+    "Buenos_Aires",
+    "Puerto_Iguazu",
+    "Corrientes",
+    "Posadas",
+    "Ushuaia",
+    "Cordoba",
+  ]),
 });
 
 type Inputs = z.infer<typeof storeSchema>;
@@ -38,6 +55,7 @@ export function AddStoreForm() {
     defaultValues: {
       name: "",
       address: "",
+      city: "Puerto_Iguazu",
     },
   });
 
@@ -98,6 +116,40 @@ export function AddStoreForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Ciudad</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Elegí tu ciudad" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Ciudad</SelectLabel>
+                    <SelectItem value="Puerto_Iguazu">Puerto Iguazú</SelectItem>
+                    <SelectItem value="Posadas">Posadas</SelectItem>
+                    <SelectItem value="Corrientes">Corrientes</SelectItem>
+                    <SelectItem disabled value="Cordoba">
+                      Córdoba
+                    </SelectItem>
+                    <SelectItem disabled value="Buenos_Aires">
+                      Buenos Aires
+                    </SelectItem>
+                    <SelectItem disabled value="Ushuaia">
+                      Ushuaia
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

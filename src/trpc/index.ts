@@ -21,6 +21,14 @@ export const appRouter = router({
       z.object({
         name: z.string(),
         address: z.string(),
+        city: z.enum([
+          "Buenos_Aires",
+          "Puerto_Iguazu",
+          "Corrientes",
+          "Posadas",
+          "Ushuaia",
+          "Cordoba",
+        ]),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -45,6 +53,7 @@ export const appRouter = router({
           name: input.name,
           userId,
           address: input.address,
+          city: input.city,
         },
       });
       revalidatePath("/dashboard/stores");

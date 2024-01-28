@@ -25,16 +25,7 @@ model User {
   stores Store[]
 }
 
-enum Status {
-  ACTIVE
-  INACTIVE
-}
 
-enum Category {
-  Comida
-  Bebida
-  Postre
-}
 
 model Store {
   id        Int       @id @default(autoincrement())
@@ -50,6 +41,8 @@ model Store {
 
   products Product[]
   status   Status    @default(ACTIVE)
+  city      City     @default(corrientes)
+
 
   @@index([userId])
 }
@@ -66,4 +59,24 @@ model Product {
   store     Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@index([storeId], name: "storeId")
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum Category {
+  Comida
+  Bebida
+  Postre
+}
+
+enum City {
+  corrientes
+  cordoba
+  buenos_aires
+  ushuaia
+  posadas
+  puerto_iguazu
 }

@@ -55,3 +55,21 @@ export type Product = {
   store: Store;
   status: "ACTIVE" | "INACTIVE";
 };
+
+export enum City {
+  puerto_iguazu,
+  posadas,
+  cordoba,
+  ushuaia,
+  corrientes,
+  buenos_aires,
+}
+
+export type EnumCityFilter = {
+  puerto_iguazu: "Puerto Iguazú";
+  posadas: "Posadas";
+  corrientes: "Corrientes";
+  buenos_aires: "Buenos Aires";
+  cordoba: "Córdoba";
+  ushuaia: "Ushuaia";
+};
