@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Navigation } from "lucide-react";
 
-import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { buttonVariants } from "@/components/ui/button";
 
 interface CityCardProps extends React.HTMLAttributes<HTMLAnchorElement> {
   src: string;
