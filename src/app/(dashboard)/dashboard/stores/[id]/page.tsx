@@ -109,16 +109,16 @@ export default async function UpdateStorePage({
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Ciudad</SelectLabel>
-                <SelectItem value="Puerto_Iguazu">Puerto Iguazú</SelectItem>
-                <SelectItem value="Posadas">Posadas</SelectItem>
-                <SelectItem value="Corrientes">Corrientes</SelectItem>
-                <SelectItem disabled value="Cordoba">
+                <SelectItem value="puerto_Iguazu">Puerto Iguazú</SelectItem>
+                <SelectItem value="posadas">Posadas</SelectItem>
+                <SelectItem value="corrientes">Corrientes</SelectItem>
+                <SelectItem disabled value="cordoba">
                   Córdoba
                 </SelectItem>
-                <SelectItem disabled value="Buenos_Aires">
+                <SelectItem disabled value="buenos_aires">
                   Buenos Aires
                 </SelectItem>
-                <SelectItem disabled value="Ushuaia">
+                <SelectItem disabled value="ushuaia">
                   Ushuaia
                 </SelectItem>
               </SelectGroup>
