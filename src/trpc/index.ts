@@ -22,12 +22,12 @@ export const appRouter = router({
         name: z.string(),
         address: z.string(),
         city: z.enum([
-          "Buenos_Aires",
-          "Puerto_Iguazu",
-          "Corrientes",
-          "Posadas",
-          "Ushuaia",
-          "Cordoba",
+          "buenos_aires",
+          "puerto_iguazu",
+          "corrientes",
+          "posadas",
+          "ushuaia",
+          "cordoba",
         ]),
       }),
     )

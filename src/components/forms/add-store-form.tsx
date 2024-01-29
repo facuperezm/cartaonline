@@ -35,12 +35,12 @@ const storeSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long."),
   address: z.string().min(3, "Address must be at least 3 characters long."),
   city: z.enum([
-    "Buenos_Aires",
-    "Puerto_Iguazu",
-    "Corrientes",
-    "Posadas",
-    "Ushuaia",
-    "Cordoba",
+    "buenos_aires",
+    "puerto_iguazu",
+    "corrientes",
+    "posadas",
+    "ushuaia",
+    "cordoba",
   ]),
 });
 
@@ -55,7 +55,7 @@ export function AddStoreForm() {
     defaultValues: {
       name: "",
       address: "",
-      city: "Puerto_Iguazu",
+      city: "puerto_iguazu",
     },
   });
 

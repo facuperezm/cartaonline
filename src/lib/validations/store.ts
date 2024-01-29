@@ -5,12 +5,12 @@ export const updateStoreSchema = z.object({
   address: z.string().optional(),
   city: z
     .enum([
-      "Buenos_Aires",
-      "Puerto_Iguazu",
-      "Corrientes",
-      "Posadas",
-      "Ushuaia",
-      "Cordoba",
+      "puerto_iguazu",
+      "posadas",
+      "cordoba",
+      "ushuaia",
+      "corrientes",
+      "buenos_aires",
     ])
     .optional(),
 });
