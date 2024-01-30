@@ -74,8 +74,8 @@ export default async function UpdateStorePage({
       <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
-      <form action={updateStore.bind(null, storeId)} className="grid gap-3">
-        <div className="grid gap-2.5">
+      <form action={updateStore.bind(null, storeId)} className="grid gap-4">
+        <div className="grid gap-1">
           <Label htmlFor="update-store-name">Nombre</Label>
           <Input
             id="update-store-name"
@@ -88,7 +88,7 @@ export default async function UpdateStorePage({
             defaultValue={storeWithProducts.name ?? ""}
           />
         </div>
-        <div className="grid gap-2.5">
+        <div className="grid gap-1">
           <Label htmlFor="update-store-address">Dirección</Label>
           <Input
             id="update-store-address"
@@ -100,7 +100,7 @@ export default async function UpdateStorePage({
             defaultValue={storeWithProducts.address ?? ""}
           />
         </div>
-        <div className="grid gap-2.5">
+        <div className="grid gap-1">
           <Label htmlFor="update-store-city">Ciudad</Label>
           <Select name="city" defaultValue={storeWithProducts?.city}>
             <SelectTrigger>
@@ -109,7 +109,7 @@ export default async function UpdateStorePage({
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Ciudad</SelectLabel>
-                <SelectItem value="puerto_Iguazu">Puerto Iguazú</SelectItem>
+                <SelectItem value="puerto_iguazu">Puerto Iguazú</SelectItem>
                 <SelectItem value="posadas">Posadas</SelectItem>
                 <SelectItem value="corrientes">Corrientes</SelectItem>
                 <SelectItem disabled value="cordoba">

@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between pb-2 pt-5">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col  items-start gap-1 md:flex-row">
           <Input
             placeholder="Buscar producto"
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
 
         <Dialog onOpenChange={setOpen} open={open}>
           <DialogTrigger asChild>
-            <Button variant="outline" className="h-8">
+            <Button variant="outline" className="ml-1 h-8">
               Agregar
             </Button>
           </DialogTrigger>
