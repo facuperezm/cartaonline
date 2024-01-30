@@ -16,34 +16,33 @@ export const cities = [
   {
     name: "Puerto Iguazú",
     href: "/stores/puerto_iguazu",
-    src: "https://images.unsplash.com/photo-1556918936-3e73b945d24f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80",
+    src: "/images/puertoiguazu.webp",
   },
   {
     name: "Corrientes",
     href: "/stores/corrientes",
-
-    src: "https://ciudaddecorrientes.gov.ar/sites/default/files/photo_5116340479980579523_y_0.jpg",
+    src: "/images/corrientes.webp",
   },
   {
     name: "Posadas",
     href: "/stores/posadas",
-    src: "https://canal12misiones.com/wp-content/uploads/2022/07/Turismo-en-Posadas.jpg",
+    src: "/images/posadas.webp",
   },
   {
     name: "Buenos Aires",
-    src: "/images/buenosaires.jpeg",
+    src: "/images/buenosaires.webp",
     href: "/stores/buenos_aires",
     disabled: true,
   },
   {
     name: "Córdoba",
-    src: "/images/cordoba.jpeg",
+    src: "/images/cordoba.webp",
     href: "/stores/cordoba",
     disabled: true,
   },
   {
     name: "Ushuaia",
-    src: "/images/ushuaia.jpeg",
+    src: "/images/ushuaia.webp",
     href: "/stores/ushuaia",
     disabled: true,
   },

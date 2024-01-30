@@ -48,7 +48,7 @@ export function ProductCard({
                 className="h-full w-full bg-gradient-to-r from-blue-500 object-cover"
                 width={100}
                 height={100}
-                src="https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2014_14/294441/140401-starbucks-food-jsw-208p.jpg"
+                src="/images/restaurantphoto.webp"
                 alt="product"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 loading="lazy"
@@ -63,7 +63,7 @@ export function ProductCard({
           <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
               className="h-full w-full object-cover"
-              src="https://logos-world.net/wp-content/uploads/2020/09/Starbucks-Symbol.jpg"
+              src="/images/logo-company.webp"
               alt="alala lala long"
               width={100}
               height={100}
