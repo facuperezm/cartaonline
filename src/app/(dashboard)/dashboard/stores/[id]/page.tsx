@@ -29,6 +29,7 @@ import {
 import { LoadingButton } from "@/components/loading-button";
 import { columns } from "@/components/tables/columns";
 import { DataTable } from "@/components/tables/data-table";
+import UploadBtn from "@/components/upload-btn";
 
 export const metadata: Metadata = {
   title: "Administrá tu tienda",
@@ -140,6 +141,9 @@ export default async function UpdateStorePage({
           </LoadingButton>
         </div>
       </form>
+      <div>
+        <UploadBtn />
+      </div>
       <div className="mx-auto pb-4 pt-10">
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           Lista de productos

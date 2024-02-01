@@ -157,6 +157,27 @@ export const appRouter = router({
       });
       return product;
     }),
+  getFiles: privateProcedure
+    .input(z.object({ key: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const file = await db.store.findFirst({
+        where: {
+          logoUrl: input.key,
+          userId,
+        },
+      });
+
+      if (!file) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "File not found",
+        });
+      }
+
+      return file;
+    }),
 });
 
 export type AppRouter = typeof appRouter;
