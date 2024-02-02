@@ -1,49 +1,41 @@
 "use client";
 
-import { on } from "events";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { retryDelay } from "@trpc/client/dist/internals/retryDelay";
-import { Cloud, File as FileSVG } from "lucide-react";
+import { Cloud, File as FileSVG, Loader2 } from "lucide-react";
 import Dropzone from "react-dropzone";
-import sharp from "sharp";
-import { toast } from "sonner";
 
 import { useUploadThing } from "@/lib/uploadthing";
+import { compressImage } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 
+import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Progress } from "./ui/progress";
 import { useToast } from "./ui/use-toast";
 
 // TODO: make a compression function to improve the image upload
-// async function compress(file: any) {
-//   // Read the input image
-//   const compressedFile = await sharp(file)
-//     .withMetadata()
-//     .resize({ width: 800, height: 600 }) // Adjust the dimensions as needed
-//     .webp({ quality: 10 })
-//     .toFile(file.name);
-
-//   return compressedFile;
-// }
 
 function UploadDropzone() {
   const router = useRouter();
-  const [isUploading, setIsUploading] = React.useState(true);
+  const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
 
-  const { startUpload } = useUploadThing("storeLogoUploader");
+  const { startUpload } = useUploadThing("storeLogoUploader", {
+    onClientUploadComplete: () => {
+      router.refresh();
+    },
+  });
+
   const { toast } = useToast();
-  const { mutate: startPoling } = trpc.getFile.useMutation({
+  const { mutate: startPolling } = trpc.getFiles.useMutation({
     onSuccess: () => {
-      router.push(`/dashboard/stores`);
-      setIsUploading(false);
+      router.refresh();
     },
     retry: true,
     retryDelay: 500,
   });
-  const startSimulatedPrgoress = () => {
+  const startSimulatedProgress = () => {
     setUploadProgress(0);
 
     const interval = setInterval(() => {
@@ -65,17 +57,19 @@ function UploadDropzone() {
       onDrop={async (acceptedFile) => {
         setIsUploading(true);
 
-        const progressInterval = startSimulatedPrgoress();
+        const progressInterval = startSimulatedProgress();
 
-        // const compressedImage = await compress(acceptedFile[0]);
-        // console.log(compressedImage);
+        const compressed = await compressImage(
+          acceptedFile[0],
+          0.5,
+          acceptedFile[0].name,
+        );
 
-        const res = await startUpload(acceptedFile);
-
+        const res = await startUpload([compressed]);
         if (!res) {
           return toast({
-            title: "Algo salió mal",
-            description: "No se pudo subir la imagen",
+            title: "Something went wrong",
+            description: "Please try again later",
             variant: "destructive",
           });
         }
@@ -86,8 +80,8 @@ function UploadDropzone() {
 
         if (!key) {
           return toast({
-            title: "Algo salió mal",
-            description: "No se pudo subir la imagen",
+            title: "Something went wrong",
+            description: "Please try again later",
             variant: "destructive",
           });
         }
@@ -95,7 +89,7 @@ function UploadDropzone() {
         clearInterval(progressInterval);
         setUploadProgress(100);
 
-        startPoling({ key });
+        startPolling({ key });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -139,6 +133,12 @@ function UploadDropzone() {
                     value={uploadProgress}
                     className="h-1 w-full bg-zinc-200"
                   />
+                  {uploadProgress === 100 ? (
+                    <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      Redirecting...
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
 
@@ -169,7 +169,9 @@ export default function UploadBtn() {
           }
         }}
       >
-        <DialogTrigger onClick={() => setIsOpen(true)}>OPEN BTN</DialogTrigger>
+        <DialogTrigger onClick={() => setIsOpen(true)} asChild>
+          <Button className="mt-2">Subir logo de tienda</Button>
+        </DialogTrigger>
         <DialogContent>
           <UploadDropzone />
         </DialogContent>

@@ -25,7 +25,21 @@ model User {
   stores Store[]
 }
 
+model Logo {
+  id        String       @id @default(cuid())
+  name String
+  key      String
+  url       String
 
+  status    UploadStatus @default(PENDING)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  storeId   Int?
+  store     Store?        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@index([storeId])
+}
 
 model Store {
   id        Int       @id @default(autoincrement())
@@ -34,15 +48,14 @@ model Store {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
-  logoUrl   String?   @db.Text
 
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
   products Product[]
   status   Status    @default(ACTIVE)
-  city      City     @default(corrientes)
-
+  city     City      @default(corrientes)
+  Logo     Logo[]
 
   @@index([userId])
 }
@@ -79,4 +92,11 @@ enum City {
   ushuaia
   posadas
   puerto_iguazu
+}
+
+enum UploadStatus {
+  PENDING
+  PROCESSING
+  FAILED
+  SUCCESS
 }

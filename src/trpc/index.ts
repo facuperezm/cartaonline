@@ -159,13 +159,10 @@ export const appRouter = router({
     }),
   getFiles: privateProcedure
     .input(z.object({ key: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const { userId } = ctx;
-
-      const file = await db.store.findFirst({
+    .mutation(async ({ input }) => {
+      const file = await db.logo.findFirst({
         where: {
-          logoUrl: input.key,
-          userId,
+          key: input.key,
         },
       });
 

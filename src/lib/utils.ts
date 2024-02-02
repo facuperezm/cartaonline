@@ -1,6 +1,7 @@
 import { isClerkAPIResponseError } from "@clerk/nextjs";
 import type { User } from "@clerk/nextjs/server";
 import { clsx, type ClassValue } from "clsx";
+import * as imageConversion from "image-conversion";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import * as z from "zod";
@@ -48,5 +49,25 @@ export function catchError(err: unknown) {
     return toast(err.message);
   } else {
     return toast("Something went wrong, please try again later.");
+  }
+}
+
+export async function compressImage(file: Blob, quality: number, name: string) {
+  try {
+    const compressedBlob = await imageConversion.compress(file, {
+      quality,
+    });
+    // Create a File object with the compressedBlob
+    const compressedFile = new File(
+      [compressedBlob],
+      `${name.split(".")[0]}.webp`,
+      {
+        lastModified: Date.now(),
+      },
+    );
+    return compressedFile;
+  } catch (error) {
+    console.error("Compression failed:", error);
+    throw error;
   }
 }

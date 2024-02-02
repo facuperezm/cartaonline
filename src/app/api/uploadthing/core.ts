@@ -6,26 +6,24 @@ import { db } from "@/lib/db";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  storeLogoUploader: f({ image: { maxFileSize: "1MB" } })
-    .middleware(async ({}) => {
+  storeLogoUploader: f({ image: { maxFileSize: "2MB" } })
+    .middleware(async () => {
       const user = await currentUser();
 
       if (!user) {
         throw new Error("Not authenticated");
       }
-
       return { userId: user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
-      const createdFile = await db.store.find({
-        where: {
-          userId: metadata.userId,
-        },
+    .onUploadComplete(async ({ file }) => {
+      await db.logo.create({
         data: {
-          logoUrl: file.url,
+          name: file.name,
+          url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+          status: "PROCESSING",
+          key: file.key,
         },
       });
-      return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;
 
