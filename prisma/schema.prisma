@@ -26,17 +26,17 @@ model User {
 }
 
 model Logo {
-  id        String       @id @default(cuid())
+  id   String @id @default(cuid())
   name String
-  key      String
-  url       String
+  key  String
+  url  String
 
-  status    UploadStatus @default(PENDING)
+  status UploadStatus @default(PENDING)
 
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   storeId   Int?
-  store     Store?        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store     Store?   @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@index([storeId])
 }
@@ -55,7 +55,7 @@ model Store {
   products Product[]
   status   Status    @default(ACTIVE)
   city     City      @default(corrientes)
-  Logo     Logo[]
+  logoUrl  Logo[]
 
   @@index([userId])
 }

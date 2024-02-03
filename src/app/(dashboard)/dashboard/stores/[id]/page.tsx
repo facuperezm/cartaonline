@@ -142,7 +142,7 @@ export default async function UpdateStorePage({
         </div>
       </form>
       <div>
-        <UploadBtn />
+        <UploadBtn storeId={storeId} />
       </div>
       <div className="mx-auto pb-4 pt-10">
         <h2 className="text-2xl font-semibold leading-none tracking-tight">

@@ -37,12 +37,19 @@ export interface Store {
   id: number;
   name: string;
   address: string;
-  logoUrl: string | null;
   createdAt?: Date | null;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
   userId: string;
   products?: Product[];
+  status: "ACTIVE" | "INACTIVE";
+}
+
+export interface Logo {
+  id: number;
+  url: string;
+  storeId: number;
+  store: Store;
   status: "ACTIVE" | "INACTIVE";
 }
 

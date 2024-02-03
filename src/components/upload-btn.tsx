@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Cloud, File as FileSVG, Loader2 } from "lucide-react";
 import Dropzone from "react-dropzone";
 
+import { db } from "@/lib/db";
 import { useUploadThing } from "@/lib/uploadthing";
 import { compressImage } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
@@ -16,16 +17,12 @@ import { useToast } from "./ui/use-toast";
 
 // TODO: make a compression function to improve the image upload
 
-function UploadDropzone() {
+function UploadDropzone({ storeId }: { storeId: string }) {
   const router = useRouter();
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
 
-  const { startUpload } = useUploadThing("storeLogoUploader", {
-    onClientUploadComplete: () => {
-      router.refresh();
-    },
-  });
+  const { startUpload } = useUploadThing("storeLogoUploader");
 
   const { toast } = useToast();
   const { mutate: startPolling } = trpc.getFiles.useMutation({
@@ -156,7 +153,7 @@ function UploadDropzone() {
   );
 }
 
-export default function UploadBtn() {
+export default function UploadBtn({ storeId }: { storeId: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -173,7 +170,7 @@ export default function UploadBtn() {
           <Button className="mt-2">Subir logo de tienda</Button>
         </DialogTrigger>
         <DialogContent>
-          <UploadDropzone />
+          <UploadDropzone storeId={storeId} />
         </DialogContent>
       </Dialog>
     </>

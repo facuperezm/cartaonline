@@ -10,7 +10,6 @@ export default authMiddleware({
     "signup",
     "/sso-callback(.*)",
     "/api/uploadthing",
-    "/api/uploadthing/(.*)",
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {

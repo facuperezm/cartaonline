@@ -1,20 +1,21 @@
-import { currentUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 import { db } from "@/lib/db";
 
 const f = createUploadthing();
 
-export const ourFileRouter = {
-  storeLogoUploader: f({ image: { maxFileSize: "2MB" } })
-    .middleware(async () => {
-      const user = await currentUser();
+function handleAuth() {
+  const { userId } = auth();
+  if (!userId) {
+    throw new Error("No autorizado");
+  }
+  return { userId: userId };
+}
 
-      if (!user) {
-        throw new Error("Not authenticated");
-      }
-      return { userId: user.id };
-    })
+export const ourFileRouter = {
+  storeLogoUploader: f({ image: { maxFileSize: "4MB" } })
+    .middleware(() => handleAuth())
     .onUploadComplete(async ({ file }) => {
       await db.logo.create({
         data: {
