@@ -12,7 +12,7 @@ const Providers = ({ children }: PropsWithChildren) => {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "https://cartaonline.facupm.dev/api/trpc",
+          url: "/api/trpc",
         }),
       ],
     }),

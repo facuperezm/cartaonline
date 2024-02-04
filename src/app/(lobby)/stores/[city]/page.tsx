@@ -38,6 +38,7 @@ export default async function CityPage({
         {stores.map((company) => (
           <ProductCard
             city={company.city}
+            logoUrl={company.logoUrl}
             key={company.id}
             id={company.id.toString()}
             name={company.name}

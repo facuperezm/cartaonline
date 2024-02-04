@@ -19,6 +19,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   address: string;
   id: string;
   city: string;
+  logoUrl?: string | null | undefined;
 }
 
 export function ProductCard({
@@ -27,6 +28,7 @@ export function ProductCard({
   id,
   address,
   city,
+  logoUrl,
   ...props
 }: ProductCardProps) {
   return (
@@ -63,7 +65,7 @@ export function ProductCard({
           <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
               className="h-full w-full object-cover"
-              src="/images/logo-company.webp"
+              src={logoUrl || "/images/logo-company.webp"}
               alt="alala lala long"
               width={100}
               height={100}

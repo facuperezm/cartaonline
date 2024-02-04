@@ -36,7 +36,6 @@ model Logo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   storeId   Int?
-  store     Store?   @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@index([storeId])
 }
@@ -55,7 +54,7 @@ model Store {
   products Product[]
   status   Status    @default(ACTIVE)
   city     City      @default(corrientes)
-  logoUrl  Logo[]
+  logoUrl  String?   @db.Text
 
   @@index([userId])
 }

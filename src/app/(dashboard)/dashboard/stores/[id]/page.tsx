@@ -72,11 +72,18 @@ export default async function UpdateStorePage({
           </AlertDescription>
         </Alert>
       )}
-      <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tighter">
+      <h2 className="mb-6 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
-      <form action={updateStore.bind(null, storeId)} className="grid gap-4">
-        <div className="grid gap-1">
+      <div className="mb-3 grid gap-3">
+        <Label>Logo de la tienda</Label>
+        <UploadBtn
+          storeId={storeId}
+          storeLogo={storeWithProducts.logoUrl ?? ""}
+        />
+      </div>
+      <form action={updateStore.bind(null, storeId)} className="grid gap-6">
+        <div className="grid gap-3">
           <Label htmlFor="update-store-name">Nombre</Label>
           <Input
             id="update-store-name"
@@ -89,7 +96,7 @@ export default async function UpdateStorePage({
             defaultValue={storeWithProducts.name ?? ""}
           />
         </div>
-        <div className="grid gap-1">
+        <div className="grid gap-3">
           <Label htmlFor="update-store-address">Dirección</Label>
           <Input
             id="update-store-address"
@@ -101,7 +108,7 @@ export default async function UpdateStorePage({
             defaultValue={storeWithProducts.address ?? ""}
           />
         </div>
-        <div className="grid gap-1">
+        <div className="grid gap-3">
           <Label htmlFor="update-store-city">Ciudad</Label>
           <Select name="city" defaultValue={storeWithProducts?.city}>
             <SelectTrigger>
@@ -141,11 +148,8 @@ export default async function UpdateStorePage({
           </LoadingButton>
         </div>
       </form>
-      <div>
-        <UploadBtn storeId={storeId} />
-      </div>
-      <div className="mx-auto pb-4 pt-10">
-        <h2 className="text-2xl font-semibold leading-none tracking-tight">
+      <div className="mx-auto mb-6 pt-10">
+        <h2 className="mb-2 text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
         </h2>
         <DataTable
@@ -154,7 +158,7 @@ export default async function UpdateStorePage({
           data={storeWithProducts.products}
         />
       </div>
-      <form className="mb-4">
+      <form className="mb-6">
         <Card className="flex flex-row items-center justify-between">
           <CardHeader>
             <CardTitle>

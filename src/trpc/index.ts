@@ -126,7 +126,39 @@ export const appRouter = router({
       revalidatePath(`/dashboard/stores/${store.id}`);
       return { success: true };
     }),
+  createStoreImage: privateProcedure
+    .input(
+      z.object({
+        url: z.string(),
+        storeId: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const store = db.store.findFirst({
+        where: {
+          id: input.storeId,
+          userId: ctx.userId,
+        },
+      });
 
+      if (!store) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Store not found",
+        });
+      }
+
+      await db.store.update({
+        where: {
+          id: input.storeId,
+        },
+        data: {
+          logoUrl: input.url,
+        },
+      });
+      revalidatePath(`/dashboard/stores/${input.storeId}`);
+      return { success: true };
+    }),
   getProduct: privateProcedure
     .input(
       z.object({
@@ -158,22 +190,23 @@ export const appRouter = router({
       return product;
     }),
   getFiles: privateProcedure
-    .input(z.object({ key: z.string() }))
+    .input(z.object({ url: z.string(), storeId: z.number() }))
     .mutation(async ({ input }) => {
-      const file = await db.logo.findFirst({
+      const fileInStore = await db.store.findFirst({
         where: {
-          key: input.key,
+          id: input.storeId,
+          logoUrl: input.url,
         },
       });
 
-      if (!file) {
+      if (!fileInStore) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "File not found",
         });
       }
 
-      return file;
+      return fileInStore;
     }),
 });
 

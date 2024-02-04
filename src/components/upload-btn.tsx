@@ -2,32 +2,41 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Cloud, File as FileSVG, Loader2 } from "lucide-react";
+import { Cloud, File as FileSVG, Loader2, X } from "lucide-react";
 import Dropzone from "react-dropzone";
 
-import { db } from "@/lib/db";
 import { useUploadThing } from "@/lib/uploadthing";
 import { compressImage } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Progress } from "./ui/progress";
 import { useToast } from "./ui/use-toast";
 
 // TODO: make a compression function to improve the image upload
 
-function UploadDropzone({ storeId }: { storeId: string }) {
+function UploadDropzone({ storeId }: { storeId: number }) {
   const router = useRouter();
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
 
-  const { startUpload } = useUploadThing("storeLogoUploader");
+  const { mutate } = trpc.createStoreImage.useMutation();
+
+  const { startUpload } = useUploadThing("storeLogoUploader", {
+    async onClientUploadComplete(res) {
+      try {
+        await mutate({ url: res[0].url, storeId });
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  });
 
   const { toast } = useToast();
   const { mutate: startPolling } = trpc.getFiles.useMutation({
     onSuccess: () => {
-      router.refresh();
+      router.push(`/dashboard/stores/${storeId}`);
     },
     retry: true,
     retryDelay: 500,
@@ -73,9 +82,9 @@ function UploadDropzone({ storeId }: { storeId: string }) {
 
         const [fileResponse] = res;
 
-        const key = fileResponse?.key;
+        const url = fileResponse?.url;
 
-        if (!key) {
+        if (!url) {
           return toast({
             title: "Something went wrong",
             description: "Please try again later",
@@ -86,7 +95,7 @@ function UploadDropzone({ storeId }: { storeId: string }) {
         clearInterval(progressInterval);
         setUploadProgress(100);
 
-        startPolling({ key });
+        startPolling({ url, storeId });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -153,7 +162,13 @@ function UploadDropzone({ storeId }: { storeId: string }) {
   );
 }
 
-export default function UploadBtn({ storeId }: { storeId: string }) {
+export default function UploadBtn({
+  storeId,
+  storeLogo,
+}: {
+  storeId: number;
+  storeLogo: string;
+}) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -167,7 +182,11 @@ export default function UploadBtn({ storeId }: { storeId: string }) {
         }}
       >
         <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-          <Button className="mt-2">Subir logo de tienda</Button>
+          <Avatar className="h-16 w-16">
+            <X className="size-6" />
+            <AvatarImage src={storeLogo} />
+            <AvatarFallback>C.</AvatarFallback>
+          </Avatar>
         </DialogTrigger>
         <DialogContent>
           <UploadDropzone storeId={storeId} />
