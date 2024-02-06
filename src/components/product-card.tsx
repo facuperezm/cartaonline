@@ -20,6 +20,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string;
   city: string;
   logoUrl?: string | null | undefined;
+  banner?: string | null | undefined;
 }
 
 export function ProductCard({
@@ -29,6 +30,7 @@ export function ProductCard({
   address,
   city,
   logoUrl,
+  banner,
   ...props
 }: ProductCardProps) {
   return (
@@ -50,7 +52,7 @@ export function ProductCard({
                 className="h-full w-full bg-gradient-to-r from-blue-500 object-cover"
                 width={100}
                 height={100}
-                src="/images/restaurantphoto.webp"
+                src={banner ?? "/images/restaurantphoto.webp"}
                 alt="product"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 loading="lazy"

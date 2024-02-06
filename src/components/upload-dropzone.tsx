@@ -2,31 +2,36 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Cloud, File as FileSVG, Loader2, X } from "lucide-react";
+import { Cloud, File as FileSVG } from "lucide-react";
 import Dropzone from "react-dropzone";
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { compressImage } from "@/lib/utils";
-import { trpc } from "@/app/_trpc/client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Progress } from "./ui/progress";
 import { useToast } from "./ui/use-toast";
 
-// TODO: make a compression function to improve the image upload
-
-function UploadDropzone({ storeId }: { storeId: number }) {
+export default function UploadDropzone({
+  storeId,
+  setIsOpen,
+  polling,
+  createImage,
+}: {
+  storeId: number;
+  setIsOpen: (v: boolean) => void;
+  polling: (v: { storeId: number; url: string }) => void;
+  createImage: (v: { storeId: number; url: string }) => void;
+}) {
   const router = useRouter();
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
 
-  const { mutate } = trpc.createStoreImage.useMutation();
-
-  const { startUpload } = useUploadThing("storeLogoUploader", {
+  const { startUpload } = useUploadThing("imageUploader", {
     async onClientUploadComplete(res) {
       try {
-        await mutate({ url: res[0].url, storeId });
+        createImage({ url: res[0].url, storeId });
+        router.refresh();
+        setIsOpen(false);
       } catch (err) {
         console.error(err);
       }
@@ -34,13 +39,7 @@ function UploadDropzone({ storeId }: { storeId: number }) {
   });
 
   const { toast } = useToast();
-  const { mutate: startPolling } = trpc.getFiles.useMutation({
-    onSuccess: () => {
-      router.push(`/dashboard/stores/${storeId}`);
-    },
-    retry: true,
-    retryDelay: 500,
-  });
+
   const startSimulatedProgress = () => {
     setUploadProgress(0);
 
@@ -50,7 +49,7 @@ function UploadDropzone({ storeId }: { storeId: number }) {
           clearInterval(interval);
           return prev;
         }
-        return prev + 5;
+        return prev + 2;
       });
     }, 500);
 
@@ -95,7 +94,11 @@ function UploadDropzone({ storeId }: { storeId: number }) {
         clearInterval(progressInterval);
         setUploadProgress(100);
 
-        startPolling({ url, storeId });
+        if (!polling) {
+          return null;
+        }
+
+        polling({ url, storeId });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -139,12 +142,6 @@ function UploadDropzone({ storeId }: { storeId: number }) {
                     value={uploadProgress}
                     className="h-1 w-full bg-zinc-200"
                   />
-                  {uploadProgress === 100 ? (
-                    <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                      Redirecting...
-                    </div>
-                  ) : null}
                 </div>
               ) : null}
 
@@ -159,39 +156,5 @@ function UploadDropzone({ storeId }: { storeId: number }) {
         </div>
       )}
     </Dropzone>
-  );
-}
-
-export default function UploadBtn({
-  storeId,
-  storeLogo,
-}: {
-  storeId: number;
-  storeLogo: string;
-}) {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  return (
-    <>
-      <Dialog
-        open={isOpen}
-        onOpenChange={(v) => {
-          if (!v) {
-            setIsOpen(v);
-          }
-        }}
-      >
-        <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-          <Avatar className="h-16 w-16">
-            <X className="size-6" />
-            <AvatarImage src={storeLogo} />
-            <AvatarFallback>C.</AvatarFallback>
-          </Avatar>
-        </DialogTrigger>
-        <DialogContent>
-          <UploadDropzone storeId={storeId} />
-        </DialogContent>
-      </Dialog>
-    </>
   );
 }

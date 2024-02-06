@@ -29,7 +29,8 @@ import {
 import { LoadingButton } from "@/components/loading-button";
 import { columns } from "@/components/tables/columns";
 import { DataTable } from "@/components/tables/data-table";
-import UploadBtn from "@/components/upload-btn";
+import BannerBtn from "@/components/upload-btn-banner";
+import UploadBtn from "@/components/upload-btn-logo";
 
 export const metadata: Metadata = {
   title: "Administrá tu tienda",
@@ -75,12 +76,21 @@ export default async function UpdateStorePage({
       <h2 className="mb-6 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
-      <div className="mb-3 grid gap-3">
-        <Label>Logo de la tienda</Label>
-        <UploadBtn
-          storeId={storeId}
-          storeLogo={storeWithProducts.logoUrl ?? ""}
-        />
+      <div className="mb-3 grid grid-cols-4 gap-3">
+        <div className="col-span-1 place-items-end">
+          <Label>Logo</Label>
+          <UploadBtn
+            storeId={storeId}
+            storeLogo={storeWithProducts.logoUrl ?? ""}
+          />
+        </div>
+        <div className="col-span-3">
+          <Label>Banner</Label>
+          <BannerBtn
+            storeId={storeId}
+            storeBanner={storeWithProducts.bannerUrl ?? ""}
+          />
+        </div>
       </div>
       <form action={updateStore.bind(null, storeId)} className="grid gap-6">
         <div className="grid gap-3">

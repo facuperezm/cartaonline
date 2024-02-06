@@ -25,7 +25,7 @@ export default async function StorePage({
           <div className="absolute z-10 size-full bg-gradient-to-t from-stone-900 from-5% to-transparent to-90%"></div>
           <Image
             className="h-56 w-full object-cover md:h-72"
-            src="/images/restaurant.jpg"
+            src={store?.bannerUrl ?? "/images/restaurant.webp"}
             alt="this is a nice restaurant picture"
             width={800}
             height={1000}
@@ -59,10 +59,10 @@ export default async function StorePage({
                       })}
                     </span>
                   </div>
-                  <p className="line-clamp-6 text-pretty font-light">
+                  {/* <p className="line-clamp-6 text-pretty font-light">
                     Empanadas de carne hechas al horno con masa casera. Pueden
                     pedir la opción vegana, o de jamón y queso.
-                  </p>
+                  </p> */}
                 </li>
               ))}
             </ul>

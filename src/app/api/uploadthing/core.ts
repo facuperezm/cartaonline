@@ -14,7 +14,7 @@ function handleAuth() {
 }
 
 export const ourFileRouter = {
-  storeLogoUploader: f({ image: { maxFileSize: "4MB" } })
+  imageUploader: f({ image: { maxFileSize: "4MB" } })
     .middleware(() => handleAuth())
     .onUploadComplete(async ({ file }) => {
       await db.logo.create({

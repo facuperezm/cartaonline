@@ -55,6 +55,7 @@ model Store {
   status   Status    @default(ACTIVE)
   city     City      @default(corrientes)
   logoUrl  String?   @db.Text
+  bannerUrl String? @db.Text
 
   @@index([userId])
 }

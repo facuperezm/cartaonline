@@ -7,15 +7,6 @@ import { db } from "@/lib/db";
 import { privateProcedure, router } from "./trpc";
 
 export const appRouter = router({
-  getUserStores: privateProcedure.query(async ({ ctx }) => {
-    const { userId } = ctx;
-
-    return await db.store.findMany({
-      where: {
-        userId,
-      },
-    });
-  }),
   createStore: privateProcedure
     .input(
       z.object({
@@ -103,7 +94,6 @@ export const appRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx;
-
       // check if name is taken
       const store = await db.store.findFirst({
         where: {
@@ -124,6 +114,39 @@ export const appRouter = router({
         },
       });
       revalidatePath(`/dashboard/stores/${store.id}`);
+      return { success: true };
+    }),
+  createBannerImage: privateProcedure
+    .input(
+      z.object({
+        url: z.string(),
+        storeId: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const store = db.store.findFirst({
+        where: {
+          id: input.storeId,
+          userId: ctx.userId,
+        },
+      });
+
+      if (!store) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Store not found",
+        });
+      }
+
+      await db.store.update({
+        where: {
+          id: input.storeId,
+        },
+        data: {
+          bannerUrl: input.url,
+        },
+      });
+      revalidatePath(`/dashboard/stores/${input.storeId}`);
       return { success: true };
     }),
   createStoreImage: privateProcedure
@@ -189,13 +212,32 @@ export const appRouter = router({
       });
       return product;
     }),
-  getFiles: privateProcedure
+  getLogoFromUploadthing: privateProcedure
     .input(z.object({ url: z.string(), storeId: z.number() }))
     .mutation(async ({ input }) => {
       const fileInStore = await db.store.findFirst({
         where: {
           id: input.storeId,
           logoUrl: input.url,
+        },
+      });
+
+      if (!fileInStore) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "File not found",
+        });
+      }
+
+      return fileInStore;
+    }),
+  getBannerFromUploadthing: privateProcedure
+    .input(z.object({ url: z.string(), storeId: z.number() }))
+    .mutation(async ({ input }) => {
+      const fileInStore = await db.store.findFirst({
+        where: {
+          id: input.storeId,
+          bannerUrl: input.url,
         },
       });
 
