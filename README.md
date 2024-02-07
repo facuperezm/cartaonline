@@ -1,40 +1,40 @@
 <div align="center">
-<img src="public/favicon.svg" height="50px" width="auto" /> 
+    <img src="public/favicon.ico" height="50px" width="auto" /> 
 <h3>
- My portfolio
+ cartaonline.
 </h3>
-<p>This is my portfolio website made with Next.js and styled with Tailwind CSS</p>
-<span>&nbsp;✦&nbsp;</span>
-<a href="http://facuperezm.com">Live website</a>
-<span>&nbsp;✦&nbsp;</span>
+<p>Cartaonline is a streamlined store management application designed specifically for local restaurants. It provides an intuitive platform for restaurants to effortlessly upload and manage their menus.</p>
 
-</div>
-
-## 📸 Screenshots
+<span>&nbsp;✦&nbsp;</span>
+<a href="https://cartaonline.facupm.dev">Live website</a>
+<span>&nbsp;✦&nbsp;</span>
 
 ![App Screenshot](./public/screenshot.png)
+
+</div>
 
 ## 🛠️ Stack
 
 - [**React**](https://reactjs.org/) - A JavaScript library for building user interfaces.
 - [**Next.js 14**](https://nextjs.org/) - The React framework for building production-ready websites.
 - [**Tailwind CSS**](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
-- [**Framer Motion**](https://www.framer.com/motion/) - A production-ready motion library for React.
-- [**Emailjs**](https://www.emailjs.com/) - A cloud-based email service for sending emails directly from the frontend.
 - [**React-hook-form**](https://react-hook-form.com/) - Performant, flexible, and extensible forms with easy-to-use React hooks.
 - [**Zod**](https://github.com/colinhacks/zod) - A TypeScript-first schema declaration and validation library.
+- [**Shadcn/ui**](https://ui.shadcn.com/) - A collection of UI components for React.
+- [**Prisma ORM**](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM for PostgreSQL, MySQL, and SQLite.
+- [**Clerk Authentication**](https://clerk.com/) - The most comprehensive User Management Platform.
+- [**Uploadthing**](https://uploadthing.com/) File Uploads For Next.js Developers
 
 **Deploy:** Vercel
 
-## Optimizations
+## Optimizations & features
 
-- [x] Improve colors variables in Tailwind config file to use better conventions
-- [x] Add dark mode
-- [x] Dark/Light theme
-- [x] Improve contact form validation and error handling
-- [x] Add a toast message when sending the email
-- [ ] Separate works in new page
-- [ ] Add a new page for the blog
+- []
+- []
+- []
+- []
+- []
+- []
 
 ## Author
 

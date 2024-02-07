@@ -19,9 +19,9 @@ export default function UploadBtn({
   const [isOpen, setIsOpen] = React.useState(false);
   const router = useRouter();
 
-  const { mutate: createBanner } = trpc.createBannerImage.useMutation();
+  const { mutate: createBanner } = trpc.createStoreImage.useMutation();
 
-  const { mutate: startPolling } = trpc.getBannerFromUploadthing.useMutation({
+  const { mutate: startPolling } = trpc.getLogoFromUploadthing.useMutation({
     onSuccess: async () => {
       router.refresh();
       setIsOpen(false);
