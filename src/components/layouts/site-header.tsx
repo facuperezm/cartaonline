@@ -16,10 +16,38 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { MainNav } from "./main-nav";
+import { MobileNav } from "./mobile-nav";
 
 interface SiteHeaderProps {
   user: User | null;
 }
+
+const mainNav = [
+  {
+    title: "Lobby",
+    items: [
+      {
+        title: "Main page",
+        href: "/",
+      },
+    ],
+  },
+];
+
+const sidebarNav = [
+  {
+    title: "Account",
+    href: "/dashboard/account",
+    icon: "avatar",
+    items: [],
+  },
+  {
+    title: "Stores",
+    href: "/dashboard/stores",
+    icon: "store",
+    items: [],
+  },
+];
 
 export async function SiteHeader({ user }: SiteHeaderProps) {
   const initials = `${user?.firstName?.charAt(0) ?? ""} ${
@@ -31,6 +59,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
         <MainNav />
+        <MobileNav mainNavItems={mainNav} sidebarNavItems={sidebarNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             {user ? (
