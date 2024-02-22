@@ -26,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import CliboardShare from "@/components/cards/clipboard-share";
 import { LoadingButton } from "@/components/loading-button";
 import { columns } from "@/components/tables/columns";
 import { DataTable } from "@/components/tables/data-table";
@@ -171,6 +172,9 @@ export default async function UpdateStorePage({
           </LoadingButton>
         </div>
       </form>
+      {storeWithProducts.slug && (
+        <CliboardShare slug={storeWithProducts.slug} />
+      )}
       <div className="mx-auto mb-6 pt-10">
         <h2 className="mb-2 text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
