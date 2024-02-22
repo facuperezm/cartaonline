@@ -13,4 +13,5 @@ export const updateStoreSchema = z.object({
       "buenos_aires",
     ])
     .optional(),
+  slug: z.string().min(3).max(20),
 });

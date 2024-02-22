@@ -107,6 +107,19 @@ export default async function UpdateStorePage({
           />
         </div>
         <div className="grid gap-3">
+          <Label htmlFor="update-store-slug">Url de la tienda</Label>
+          <Input
+            id="update-store-slug"
+            aria-describedby="update-store-slug"
+            name="slug"
+            required
+            minLength={3}
+            maxLength={20}
+            placeholder="Acá va el url de tu tienda."
+            defaultValue={storeWithProducts.slug ?? ""}
+          />
+        </div>
+        <div className="grid gap-3">
           <Label htmlFor="update-store-address">Dirección</Label>
           <Input
             id="update-store-address"

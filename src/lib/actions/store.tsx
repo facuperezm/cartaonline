@@ -41,6 +41,7 @@ export async function updateStore(storeId: number, fd: FormData) {
       name: fd.get("name"),
       address: fd.get("address"),
       city: fd.get("city"),
+      slug: fd.get("slug"),
     });
 
     const storeWithSameName = await db.store.findFirst({
@@ -64,6 +65,7 @@ export async function updateStore(storeId: number, fd: FormData) {
         name: input.name,
         address: input.address,
         city: input.city,
+        slug: input.slug,
       },
     });
 
