@@ -46,13 +46,6 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/api/og.tsx`],
-    creator: "@facuperezm",
-  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
