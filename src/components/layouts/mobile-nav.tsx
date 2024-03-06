@@ -41,7 +41,7 @@ export function MobileNav() {
               <Link href="/dashboard/account">Mi cuenta</Link>
             </Button>
             <Button variant="ghost" className="w-full">
-              <Link href="/dashboard/stores">Panel general</Link>
+              <Link href="/dashboard/stores">Mis tiendas</Link>
             </Button>
           </div>
         </ScrollArea>
