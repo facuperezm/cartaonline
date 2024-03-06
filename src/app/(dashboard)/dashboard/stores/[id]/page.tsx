@@ -77,101 +77,111 @@ export default async function UpdateStorePage({
       <h2 className="mb-6 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
-      <div className="mb-4 grid grid-cols-4 gap-2">
-        <div className="col-span-1 place-items-end space-y-2">
-          <Label>Logo</Label>
-          <UploadBtn
-            storeId={storeId}
-            storeLogo={storeWithProducts.logoUrl ?? ""}
-          />
-        </div>
-        <div className="col-span-3 space-y-2">
-          <Label>Banner</Label>
-          <BannerBtn
-            storeId={storeId}
-            storeBanner={storeWithProducts.bannerUrl ?? ""}
-          />
-        </div>
-      </div>
-      <form action={updateStore.bind(null, storeId)} className="grid gap-6">
-        <div className="grid gap-3">
-          <Label htmlFor="update-store-name">Nombre</Label>
-          <Input
-            id="update-store-name"
-            aria-describedby="update-store-name"
-            name="name"
-            required
-            minLength={3}
-            maxLength={50}
-            placeholder="Acá va el nombre de tu tienda."
-            defaultValue={storeWithProducts.name ?? ""}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="update-store-slug">Url de la tienda</Label>
-          <Input
-            id="update-store-slug"
-            aria-describedby="update-store-slug"
-            name="slug"
-            required
-            minLength={3}
-            maxLength={20}
-            placeholder="Acá va el url de tu tienda."
-            defaultValue={storeWithProducts.slug ?? ""}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="update-store-address">Dirección</Label>
-          <Input
-            id="update-store-address"
-            aria-describedby="update-store-address"
-            name="address"
-            minLength={3}
-            maxLength={255}
-            placeholder="Acá va tu dirección."
-            defaultValue={storeWithProducts.address ?? ""}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="update-store-city">Ciudad</Label>
-          <Select name="city" defaultValue={storeWithProducts?.city}>
-            <SelectTrigger>
-              <SelectValue placeholder="Elegí tu ciudad" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Ciudad</SelectLabel>
-                <SelectItem value="puerto_iguazu">Puerto Iguazú</SelectItem>
-                <SelectItem value="posadas">Posadas</SelectItem>
-                <SelectItem value="corrientes">Corrientes</SelectItem>
-                <SelectItem disabled value="cordoba">
-                  Córdoba
-                </SelectItem>
-                <SelectItem disabled value="buenos_aires">
-                  Buenos Aires
-                </SelectItem>
-                <SelectItem disabled value="ushuaia">
-                  Ushuaia
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col gap-2 lg:flex-row">
-          <LoadingButton action="update">
-            Actualizar información
-            <span className="sr-only">Actualizar</span>
-          </LoadingButton>
-          <LoadingButton
-            formAction={deleteStore.bind(null, storeId)}
-            variant="destructive"
-            action="delete"
-          >
-            Borrar tienda
-            <span className="sr-only">Borrar tienda</span>
-          </LoadingButton>
-        </div>
-      </form>
+      <Card>
+        <CardHeader>
+          <CardTitle>Información de la tienda</CardTitle>
+          <CardDescription>
+            <p>Modifica la información de tu tienda.</p>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4 grid grid-cols-4 gap-2">
+            <div className="col-span-1 place-items-end space-y-2">
+              <Label>Logo</Label>
+              <UploadBtn
+                storeId={storeId}
+                storeLogo={storeWithProducts.logoUrl ?? ""}
+              />
+            </div>
+            <div className="col-span-3 space-y-2">
+              <Label>Banner</Label>
+              <BannerBtn
+                storeId={storeId}
+                storeBanner={storeWithProducts.bannerUrl ?? ""}
+              />
+            </div>
+          </div>
+          <form action={updateStore.bind(null, storeId)} className="grid gap-6">
+            <div className="grid gap-3">
+              <Label htmlFor="update-store-name">Nombre</Label>
+              <Input
+                id="update-store-name"
+                aria-describedby="update-store-name"
+                name="name"
+                required
+                minLength={3}
+                maxLength={50}
+                placeholder="Acá va el nombre de tu tienda."
+                defaultValue={storeWithProducts.name ?? ""}
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="update-store-slug">Url de la tienda</Label>
+              <Input
+                id="update-store-slug"
+                aria-describedby="update-store-slug"
+                name="slug"
+                required
+                minLength={3}
+                maxLength={20}
+                placeholder="Acá va el url de tu tienda."
+                defaultValue={storeWithProducts.slug ?? ""}
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="update-store-address">Dirección</Label>
+              <Input
+                id="update-store-address"
+                aria-describedby="update-store-address"
+                name="address"
+                minLength={3}
+                maxLength={255}
+                placeholder="Acá va tu dirección."
+                defaultValue={storeWithProducts.address ?? ""}
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="update-store-city">Ciudad</Label>
+              <Select name="city" defaultValue={storeWithProducts?.city}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Elegí tu ciudad" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Ciudad</SelectLabel>
+                    <SelectItem value="puerto_iguazu">Puerto Iguazú</SelectItem>
+                    <SelectItem value="posadas">Posadas</SelectItem>
+                    <SelectItem value="corrientes">Corrientes</SelectItem>
+                    <SelectItem disabled value="cordoba">
+                      Córdoba
+                    </SelectItem>
+                    <SelectItem disabled value="buenos_aires">
+                      Buenos Aires
+                    </SelectItem>
+                    <SelectItem disabled value="ushuaia">
+                      Ushuaia
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2 lg:flex-row">
+              <LoadingButton action="update">
+                Actualizar información
+                <span className="sr-only">Actualizar</span>
+              </LoadingButton>
+              <LoadingButton
+                formAction={deleteStore.bind(null, storeId)}
+                variant="destructive"
+                action="delete"
+              >
+                Borrar tienda
+                <span className="sr-only">Borrar tienda</span>
+              </LoadingButton>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
       {storeWithProducts.slug && (
         <CliboardShare slug={storeWithProducts.slug} />
       )}
