@@ -77,15 +77,15 @@ export default async function UpdateStorePage({
       <h2 className="mb-6 text-2xl font-bold leading-tight tracking-tighter">
         Actualizar tienda
       </h2>
-      <div className="mb-3 grid grid-cols-4 gap-3">
-        <div className="col-span-1 place-items-end">
+      <div className="mb-4 grid grid-cols-4 gap-2">
+        <div className="col-span-1 place-items-end space-y-2">
           <Label>Logo</Label>
           <UploadBtn
             storeId={storeId}
             storeLogo={storeWithProducts.logoUrl ?? ""}
           />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-3 space-y-2">
           <Label>Banner</Label>
           <BannerBtn
             storeId={storeId}
