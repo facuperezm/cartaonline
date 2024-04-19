@@ -17,7 +17,7 @@ export default async function PricingPage() {
 
   const pricingItems = [
     {
-      plan: "Free",
+      plan: "Gratis",
       tagline: "Para empezar a vender",
       quota: 10,
       features: [
