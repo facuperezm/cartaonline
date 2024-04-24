@@ -24,6 +24,7 @@ export default async function PricingPage() {
         {
           text: "Hasta 10 productos",
           footnote: "Todas las funcionalidades de la plataforma",
+          negative: false,
         },
       ],
     },
@@ -83,10 +84,10 @@ export default async function PricingPage() {
                   }: {
                     text: string;
                     footnote: string;
-                    negative: string;
+                    negative: boolean;
                   }) => (
                     <li key={text} className="flex space-x-5">
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {negative ? (
                           <Minus className="h-6 w-6 text-gray-300" />
                         ) : (
