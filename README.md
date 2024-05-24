@@ -27,14 +27,24 @@
 
 **Deploy:** Vercel
 
+## 🚀 Features
+
+- **User Authentication:** Users can log in and create an account using Clerk Authentication.
+- **Store Management:** Users can create stores and add products to their stores.
+- **Temporary Store Hiding:** Users can temporarily hide their store from public view if they do not want it to be publicly available.
+- **Custom Store Path:** Each store gets a custom URL path that can be easily shared on social media.
+- **Price Editing:** Users have the ability to edit product prices.
+- **Dashboard Management:** Users can manage their entire store, including editing store details and managing products, from a comprehensive dashboard.
+
 ## Optimizations & features
 
-- []
-- []
-- []
-- []
-- []
-- []
+- [] Enable stores to process payments directly through MercadoPago, providing a seamless checkout experience for customers.
+- [] Introduce free and paid subscription tiers, offering advanced features for paid users such as additional customization options, analytics, and priority support.
+- [] Provide detailed analytics for store owners to track sales, customer behavior, and product performance.
+- [] Add support for multiple languages to cater to a broader audience.
+- [] Implement a review system where customers can leave feedback on products and stores.
+- [] Allow store owners to create and manage promotions and discount codes to attract more customers.
+- [] Improve the application's SEO to increase visibility on search engines, helping stores attract more organic traffic.
 
 ## Author
 
