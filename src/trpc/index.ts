@@ -58,6 +58,7 @@ export const appRouter = router({
           .string({ invalid_type_error: "El precio debe ser un número" })
           .min(1, { message: "El precio debe ser mayor a 0" }),
         category: z.enum(["Comida", "Bebida", "Postre"]),
+        description: z.string().max(350),
         storeId: z.number(),
       }),
     )
@@ -79,6 +80,7 @@ export const appRouter = router({
         data: {
           name: input.name,
           price: Number(input.price),
+          description: input.description,
           category: input.category,
           storeId: Number(input.storeId),
         },

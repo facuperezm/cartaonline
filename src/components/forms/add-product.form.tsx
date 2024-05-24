@@ -33,6 +33,7 @@ const productSchema = z.object({
   name: z.string(),
   price: z.string(),
   category: z.enum(["Comida", "Bebida", "Postre"]),
+  description: z.string(),
 });
 
 type Inputs = z.infer<typeof productSchema>;
@@ -106,6 +107,23 @@ export function AddProductForm({
               <FormLabel>Precio</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="1200" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descripción</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Empanada de choclo rellena de queso"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
