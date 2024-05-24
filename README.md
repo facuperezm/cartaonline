@@ -36,7 +36,7 @@
 - **Price Editing:** Users have the ability to edit product prices.
 - **Dashboard Management:** Users can manage their entire store, including editing store details and managing products, from a comprehensive dashboard.
 
-## Optimizations & features
+## 📈 Optimizations & features
 
 - [ ] Enable stores to process payments directly through MercadoPago, providing a seamless checkout experience for customers.
 - [ ] Introduce free and paid subscription tiers, offering advanced features for paid users such as additional customization options, analytics, and priority support.
