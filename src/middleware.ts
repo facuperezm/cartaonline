@@ -4,13 +4,14 @@ import { authMiddleware, clerkClient } from "@clerk/nextjs";
 export default authMiddleware({
   publicRoutes: [
     "/",
+    "/share/(.*)",
     "/stores",
     "/stores/(.*)",
+    "/pricing",
     "sign-up",
     "signup",
     "/sso-callback(.*)",
     "/api/uploadthing",
-    "/pricing",
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {

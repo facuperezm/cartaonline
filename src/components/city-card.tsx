@@ -19,8 +19,6 @@ export async function CityCard({
   href,
   amountOfStores,
 }: CityCardProps) {
-  // const totalStores = await db.store.findMany();
-
   if (!amountOfStores) {
     amountOfStores = 1;
   }

@@ -55,10 +55,9 @@ export default async function StoreUrlShared({
                       })}
                     </span>
                   </div>
-                  {/* <p className="line-clamp-6 text-pretty font-light">
-                    Empanadas de carne hechas al horno con masa casera. Pueden
-                    pedir la opción vegana, o de jamón y queso.
-                  </p> */}
+                  <p className="line-clamp-6 text-pretty font-light">
+                    {product.description}
+                  </p>
                 </li>
               ))}
             </ul>

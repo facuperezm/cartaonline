@@ -61,14 +61,12 @@ export function ProductCard({
           </AspectRatio>
         </CardHeader>
         <span className="sr-only">{name}</span>
-      </Link>
-      <Link href={`/product`} tabIndex={-1}>
         <CardContent className="flex flex-row items-center gap-2.5 p-3">
           <div className="h-12 w-12 overflow-hidden rounded-md">
             <Image
               className="h-full w-full object-cover"
               src={logoUrl || "/images/logo-company.webp"}
-              alt="alala lala long"
+              alt="Company logo"
               width={100}
               height={100}
             />

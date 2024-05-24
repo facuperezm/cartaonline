@@ -30,14 +30,14 @@ export default function CliboardShare({ slug }: { slug: string | null }) {
               id="store-url"
               aria-describedby="store-url"
               readOnly
-              value={`cartaonline.facupm.dev/${slug}`}
+              value={`cartaonline.facupm.dev/share/${slug}`}
             />
             <Button
               className="shrink-0"
               onClick={() => {
                 toast.success("Link copiado al portapapeles");
                 navigator.clipboard.writeText(
-                  `https://www.cartaonline.facupm.dev/${slug}`,
+                  `https://www.cartaonline.facupm.dev/share/${slug}`,
                 );
               }}
             >
