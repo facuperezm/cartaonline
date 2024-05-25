@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { trpc } from "@/app/_trpc/client";
 
+import { Button } from "./ui/button";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 
 export default function DeleteProduct({ id }: { id: number }) {
@@ -15,8 +16,14 @@ export default function DeleteProduct({ id }: { id: number }) {
   });
 
   return (
-    <DropdownMenuItem onClick={() => deleteProduct({ id })} className="">
-      Borrar producto
+    <DropdownMenuItem
+      asChild
+      onClick={() => deleteProduct({ id })}
+      className=""
+    >
+      <Button variant="destructive" className="w-full">
+        Borrar producto
+      </Button>
     </DropdownMenuItem>
   );
 }

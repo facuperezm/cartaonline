@@ -99,8 +99,8 @@ export const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Configuraciones</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DeleteProduct id={info.id} />
             <EditProduct id={info.id} />
+            <DeleteProduct id={info.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
