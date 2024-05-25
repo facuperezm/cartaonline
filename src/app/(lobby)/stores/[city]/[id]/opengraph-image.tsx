@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
 import { db } from "@/lib/db";
+import { absoluteUrl } from "@/lib/utils";
 
 export const alt = "Carta online";
 export const size = {
@@ -76,10 +77,7 @@ export default async function Image({ params }: { params: { id: number } }) {
             }}
           >
             <img
-              src={
-                store?.logoUrl ??
-                "https://plus.unsplash.com/premium_photo-1708598173791-ccf42a677c47?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              }
+              src={store?.logoUrl ?? absoluteUrl("/favicon.ico")}
               alt="restaurant logo"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -108,8 +106,8 @@ export default async function Image({ params }: { params: { id: number } }) {
             color: "white",
           }}
         >
-          {store
-            ? `cartaonline.facupm.dev/share/${store.slug}`
+          {store?.slug
+            ? `cartaonline.facupm.dev/share/${store?.slug}`
             : "cartaonline.facupm.dev"}
         </div>
       </div>
