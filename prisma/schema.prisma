@@ -42,7 +42,9 @@ model Logo {
 model Store {
   id        Int       @id @default(autoincrement())
   name      String    @unique
+  description String
   address   String    @db.Text
+  phone    String
   slug     String?    @unique
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
