@@ -12,6 +12,8 @@ export const appRouter = router({
       z.object({
         name: z.string(),
         address: z.string(),
+        description: z.string(),
+        phone: z.string(),
         city: z.enum([
           "buenos_aires",
           "puerto_iguazu",
@@ -43,10 +45,13 @@ export const appRouter = router({
         data: {
           name: input.name,
           userId,
+          phone: input.phone,
+          description: input.description,
           address: input.address,
           city: input.city,
         },
       });
+
       revalidatePath("/dashboard/stores");
       return { success: true };
     }),

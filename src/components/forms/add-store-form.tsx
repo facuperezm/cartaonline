@@ -30,10 +30,14 @@ import {
 import { Icons } from "@/components/icons";
 import { trpc } from "@/app/_trpc/client";
 
+import { Textarea } from "../ui/textarea";
+
 //store schema
 const storeSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long."),
   address: z.string().min(3, "Address must be at least 3 characters long."),
+  phone: z.string().min(8, "Phone must be at least 8 characters long."),
+  description: z.string(),
   city: z.enum([
     "buenos_aires",
     "puerto_iguazu",
@@ -55,6 +59,8 @@ export function AddStoreForm() {
     defaultValues: {
       name: "",
       address: "",
+      description: "",
+      phone: "",
       city: "puerto_iguazu",
     },
   });
@@ -113,6 +119,36 @@ export function AddStoreForm() {
               <FormControl>
                 <Input
                   placeholder="Av. Corrientes 1234, CABA, Argentina"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Teléfono</FormLabel>
+              <FormControl>
+                <Input placeholder="543757123123" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descripción del negocio</FormLabel>
+              <FormControl>
+                <Textarea
+                  autoComplete="false"
+                  placeholder="El mejor restaurant de taquitos del planeta tierra"
                   {...field}
                 />
               </FormControl>
