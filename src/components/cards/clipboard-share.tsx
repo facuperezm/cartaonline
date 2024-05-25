@@ -37,7 +37,7 @@ export default function CliboardShare({ slug }: { slug: string | null }) {
               onClick={() => {
                 toast.success("Link copiado al portapapeles");
                 navigator.clipboard.writeText(
-                  `https://www.cartaonline.facupm.dev/share/${slug}`,
+                  `https://cartaonline.facupm.dev/share/${slug}`,
                 );
               }}
             >
