@@ -63,7 +63,7 @@ export default async function UpdateStorePage({
   }
 
   return (
-    <div className="mt-10">
+    <div className="pt-6">
       {storeWithProducts?.status === "ACTIVE" ? null : (
         <Alert variant="destructive" className="mb-5">
           <AlertCircleIcon className="size-4" />
