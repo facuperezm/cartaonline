@@ -18,8 +18,8 @@ import {
 import { Shell } from "@/components/shell";
 
 export const metadata: Metadata = {
-  title: "New Store",
-  description: "Add a new store",
+  title: "Nueva empresa",
+  description: "Agrega tu nueva empresa a Carta Online",
 };
 
 export default async function NewStorePage() {
