@@ -61,6 +61,7 @@
     "react-wrap-balancer": "1.1.0",
     "sonner": "1.2.4",
     "tailwind-merge": "2.1.0",
+    "ts-node": "^10.9.2",
     "uploadthing": "^6.3.3",
     "zod": "3.22.4"
   },
