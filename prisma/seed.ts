@@ -13,6 +13,8 @@ async function main() {
     {
       name: "Empanadas Iguazu",
       address: "Calle 123",
+      phone: "123456789",
+      description: "Las mejores empanadas de Puerto Iguazú",
       city: City.puerto_iguazu,
       slug: "empanadas-iguazu",
       status: Status.ACTIVE,
@@ -96,6 +98,9 @@ async function main() {
     {
       name: "Parrilla Iguazu",
       address: "Av. Libertad 456",
+      phone: "123456789",
+      description:
+        "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
       city: City.puerto_iguazu,
       slug: "parrilla-iguazu",
       status: Status.ACTIVE,
@@ -180,6 +185,9 @@ async function main() {
     {
       name: "Dulce de Leche Iguazu",
       address: "Calle San Martín 789",
+      phone: "123456789",
+      description:
+        "Dulce de leche artesanal de Puerto Iguazú. El mejor dulce de leche de la región.",
       city: City.puerto_iguazu,
       slug: "dulce-de-leche-iguazu",
       status: Status.ACTIVE,
@@ -247,6 +255,9 @@ async function main() {
     {
       name: "Parrilla Corrientes",
       address: "Av. Libertad 456",
+      phone: "123456789",
+      description:
+        "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
       city: City.corrientes,
       slug: "parrilla-corrientes",
       status: Status.ACTIVE,
@@ -331,6 +342,9 @@ async function main() {
     {
       name: "Empanadas Corrientes",
       address: "Calle Belgrano 789",
+      phone: "123456789",
+      description:
+        "Las mejores empanadas de Corrientes, hechas con los mejores ingredientes. ¡No te las pierdas!",
       city: City.corrientes,
       slug: "empanadas-corrientes",
       status: Status.ACTIVE,
@@ -415,6 +429,9 @@ async function main() {
     {
       name: "Heladeria Corrientes",
       address: "Calle Rivadavia 123",
+      phone: "123456789",
+      description:
+        "Helados artesanales de Corrientes. Los mejores sabores y la mejor calidad.",
       city: City.corrientes,
       slug: "heladeria-corrientes",
       status: Status.ACTIVE,
@@ -482,6 +499,9 @@ async function main() {
     {
       name: "Parrilla Posadas",
       address: "Av. Mitre 456",
+      phone: "123456789",
+      description:
+        "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
       city: City.posadas,
       slug: "parrilla-posadas",
       status: Status.ACTIVE,
@@ -572,6 +592,9 @@ async function main() {
     {
       name: "Empanadas Posadas",
       address: "Calle Belgrano 456",
+      phone: "123456789",
+      description:
+        "Las mejores empanadas de Posadas, hechas con los mejores ingredientes. ¡No te las pierdas!",
       city: City.posadas,
       slug: "empanadas-posadas",
       status: Status.ACTIVE,
@@ -656,6 +679,9 @@ async function main() {
     {
       name: "Panaderia Posadas",
       address: "Calle San Martin 789",
+      phone: "123456789",
+      description:
+        "Panadería tradicional de Posadas, con los mejores panes y facturas de la región.",
       city: City.posadas,
       slug: "panaderia-posadas",
       status: Status.ACTIVE,
