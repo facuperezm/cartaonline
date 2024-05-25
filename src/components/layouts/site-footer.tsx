@@ -13,7 +13,7 @@ export function SiteFooter() {
         <section
           id="footer-content"
           aria-labelledby="footer-content-heading"
-          className="flex justify-between gap-4 lg:flex-row lg:gap-10"
+          className="flex justify-between gap-4 px-4 md:px-0 lg:flex-row lg:gap-10"
         >
           <article
             id="footer-branding"
