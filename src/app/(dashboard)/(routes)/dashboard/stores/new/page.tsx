@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs";
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "page-header";
 
 import {
   Card,
@@ -10,11 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AddStoreForm } from "@/components/forms/add-store-form";
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header";
 import { Shell } from "@/components/shell";
 
 export const metadata: Metadata = {

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
+} from "page-header";
+
 import { Shell } from "@/components/shell";
 import { UserProfile } from "@/app/(auth)/_components/user-profile";
 

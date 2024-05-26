@@ -1,36 +1,43 @@
-import { NextResponse } from "next/server";
-import { authMiddleware, clerkClient } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default authMiddleware({
-  publicRoutes: [
-    "/",
-    "/share/(.*)",
-    "/stores",
-    "/stores/(.*)",
-    "/pricing",
-    "sign-up",
-    "signup",
-    "/sso-callback(.*)",
-    "/api/uploadthing",
-  ],
-  async afterAuth(auth, req) {
-    if (auth.isPublicRoute) {
-      return NextResponse.next();
-    }
+// export default authMiddleware({
+//   publicRoutes: ,
+//   async afterAuth(auth, req) {
+//     if (auth.isPublicRoute) {
+//       return NextResponse.next();
+//     }
 
-    const url = new URL(req.nextUrl.origin);
+//     const url = new URL(req.nextUrl.origin);
 
-    if (!auth.userId) {
-      url.pathname = "/sign-in";
-      return NextResponse.redirect(url);
-    }
+//     if (!auth.userId) {
+//       url.pathname = "/sign-in";
+//       return NextResponse.redirect(url);
+//     }
 
-    const user = await clerkClient.users.getUser(auth.userId);
+//     const user = await clerkClient.users.getUser(auth.userId);
 
-    if (!user) {
-      throw new Error("User not found.");
-    }
-  },
+//     if (!user) {
+//       throw new Error("User not found.");
+//     }
+//   },
+// });
+
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/share/(.*)",
+  "/stores",
+  "/stores/(.*)",
+  "/pricing",
+  "sign-up",
+  "signup",
+  "/sso-callback(.*)",
+  "/api/uploadthing",
+]);
+
+export default clerkMiddleware((auth, request) => {
+  if (!isPublicRoute(request)) {
+    auth().protect();
+  }
 });
 
 export const config = {

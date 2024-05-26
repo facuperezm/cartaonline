@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { isClerkAPIResponseError, useSignIn } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs";
 import { type OAuthStrategy } from "@clerk/types";
 import { toast } from "sonner";
 
@@ -34,7 +34,7 @@ export function OAuthSignIn() {
 
       const unknownError = "Algo salió mal, porfavor probá denuevo.";
 
-      if (isClerkAPIResponseError(error)) {
+      if (error instanceof Error && error.message === "User not found.") {
         toast.error(unknownError);
       } else {
         toast.error(String(error));
