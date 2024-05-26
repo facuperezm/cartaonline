@@ -54,8 +54,8 @@ export function SignUpForm() {
         });
 
         router.push("/sign-up/verify-email");
-        toast.message("Check your email", {
-          description: "We sent you a 6-digit verification code.",
+        toast.message("Mirá tu casilla de entrada", {
+          description: "Te mandamos un código de 6 dígitos.",
         });
       } catch (err) {
         catchClerkError(err);
