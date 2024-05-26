@@ -21,13 +21,13 @@ type Product = {
 };
 
 type Props = {
-  params: { id: string };
+  params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const store = await db.store.findFirst({
-    where: { id: Number(params.id) },
+    where: { slug: params.slug },
   });
   return {
     title: store?.name,
@@ -38,13 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function StorePage({
+export default async function SlugStorePage({
   params,
 }: {
-  params: { id: string };
+  params: { slug: string };
 }) {
   const store = await db.store.findFirst({
-    where: { id: Number(params.id) },
+    where: { slug: params.slug },
     include: { products: true },
   });
 
