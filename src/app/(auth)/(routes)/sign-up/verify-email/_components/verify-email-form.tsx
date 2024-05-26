@@ -71,7 +71,7 @@ export function VerifyEmailForm() {
           name="code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Verification Code</FormLabel>
+              <FormLabel>Código de verificación</FormLabel>
               <FormControl>
                 <Input
                   placeholder="169420"
@@ -93,8 +93,8 @@ export function VerifyEmailForm() {
               aria-hidden="true"
             />
           )}
-          Create account
-          <span className="sr-only">Create account</span>
+          Crear cuenta
+          <span className="sr-only">Crear cuenta</span>
         </Button>
       </form>
     </Form>

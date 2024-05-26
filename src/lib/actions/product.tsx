@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, unstable_noStore } from "next/cache";
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { updateProductSchema } from "@/lib/validations/product";
@@ -8,6 +8,8 @@ import { updateProductSchema } from "@/lib/validations/product";
 import { db } from "../db";
 
 export async function deleteProduct({ productId }: { productId: number }) {
+  noStore();
+
   try {
     const product = await db.product.findFirst({
       where: {
@@ -18,9 +20,9 @@ export async function deleteProduct({ productId }: { productId: number }) {
     if (product) {
       await db.product.delete({ where: { id: productId } });
     }
-    const path = "/dashboard/stores";
-    revalidatePath(path);
-    redirect(path);
+
+    revalidatePath("/dashboard/stores");
+    redirect("/dashboard/stores");
   } catch (err) {
     throw err instanceof Error
       ? err
@@ -29,12 +31,13 @@ export async function deleteProduct({ productId }: { productId: number }) {
 }
 
 export async function updateProduct(state: any, formData: FormData) {
-  unstable_noStore();
+  noStore();
 
   const input = updateProductSchema.safeParse({
     name: formData.get("name"),
     price: formData.get("price"),
     category: formData.get("category"),
+    description: formData.get("description"),
     id: formData.get("id"),
   });
 
@@ -52,6 +55,7 @@ export async function updateProduct(state: any, formData: FormData) {
       name: input.data.name,
       price: Number(input.data.price),
       category: input.data.category,
+      description: input.data.description,
     },
   });
 

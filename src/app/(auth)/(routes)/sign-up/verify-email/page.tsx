@@ -7,12 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { VerifyEmailForm } from "@/components/forms/verify-email-form";
 import { Shell } from "@/components/shell";
+import { VerifyEmailForm } from "@/app/(auth)/(routes)/sign-up/verify-email/_components/verify-email-form";
 
 export const metadata: Metadata = {
-  title: "Verify Email",
-  description: "Verify your email address to continue with your sign up",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  title: "Verificá tu mail",
+  description: "Verificá tu casilla de entrada",
 };
 
 export default function VerifyEmailPage() {
@@ -20,9 +21,11 @@ export default function VerifyEmailPage() {
     <Shell className="max-w-lg">
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Verify email</CardTitle>
+          <CardTitle className="text-2xl">
+            Verifica tu cuenta de email
+          </CardTitle>
           <CardDescription>
-            Verify your email address to complete your account creation
+            Te enviamos un email con un link para verificar tu cuenta.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">

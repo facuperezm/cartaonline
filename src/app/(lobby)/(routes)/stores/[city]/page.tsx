@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import { type City } from "@/types";
 
 import { db } from "@/lib/db";
@@ -6,8 +7,25 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
-import { ProductCard } from "@/components/product-card";
 import { Shell } from "@/components/shell";
+import { StoreLobbyCard } from "@/app/(lobby)/_components/store-lobby-card";
+
+type Props = {
+  params: { city: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // remove spaces and capitalize city name
+  const city = params.city
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+
+  return {
+    title: `${city}`,
+    description: `Los mejores restaurantes de ${city} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
+  };
+}
 
 export default async function CityPage({
   params,
@@ -36,7 +54,7 @@ export default async function CityPage({
       </PageHeader>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {stores.map((company) => (
-          <ProductCard
+          <StoreLobbyCard
             banner={company.bannerUrl}
             city={company.city}
             logoUrl={company.logoUrl}

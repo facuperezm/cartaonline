@@ -1,13 +1,19 @@
 import { z } from "zod";
 
-export const productsSchema = z.object({
-  id: z.string(),
+export const AddProductsSchema = z.object({
+  // id: z.string(),
   name: z.string(),
   price: z.string(),
+  description: z.string(),
   category: z.enum(["Comida", "Bebida", "Postre"]),
 });
 
+export type Inputs = z.infer<typeof AddProductsSchema>;
+
 export const updateProductSchema = z.object({
+  id: z.string({
+    invalid_type_error: "El id debe ser un texto",
+  }),
   name: z
     .string({
       invalid_type_error: "El nombre debe ser un texto",
@@ -18,10 +24,8 @@ export const updateProductSchema = z.object({
   price: z.string({
     invalid_type_error: "El precio debe ser un número",
   }),
-  category: z.enum(["Comida", "Bebida", "Postre"]),
-  id: z.string({
-    invalid_type_error: "El id debe ser un texto",
+  description: z.string({
+    invalid_type_error: "La descripción debe ser un texto",
   }),
+  category: z.enum(["Comida", "Bebida", "Postre"]),
 });
-
-export type Products = z.infer<typeof productsSchema>;

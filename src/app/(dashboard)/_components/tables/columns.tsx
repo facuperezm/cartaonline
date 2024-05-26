@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DeleteProduct from "@/components/delete-product";
-import EditProduct from "@/components/forms/edit-product";
+import DeleteProduct from "@/components/forms/delete-product";
+import EditProduct from "@/components/forms/edit-product-form";
 
 import { statuses } from "./data";
 import { DataTableColumnHeader } from "./data-table-column-header";
@@ -73,7 +73,7 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: () => <div className="text-right">Precio</div>,
+    header: () => <div className="text-center">Precio</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -81,7 +81,18 @@ export const columns: ColumnDef<Product>[] = [
         currency: "USD",
       }).format(price);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-center font-medium">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "description",
+    header: () => <div className="text-center">Descripción</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto max-w-24 truncate text-center sm:max-w-[40ch]">
+          {row.getValue("description")}
+        </div>
+      );
     },
   },
   {
@@ -96,7 +107,7 @@ export const columns: ColumnDef<Product>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="space-y-1">
             <DropdownMenuLabel>Configuraciones</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <EditProduct id={info.id} />

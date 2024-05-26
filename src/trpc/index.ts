@@ -1,4 +1,5 @@
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
+// import { redirect } from "next/navigation";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -51,8 +52,7 @@ export const appRouter = router({
           city: input.city,
         },
       });
-
-      revalidatePath("/dashboard/stores");
+      // revalidatePath("/dashboard/stores");
       return { success: true };
     }),
   createProduct: privateProcedure
@@ -90,7 +90,7 @@ export const appRouter = router({
           storeId: Number(input.storeId),
         },
       });
-      revalidatePath(`/dashboard/stores/${store.id}`);
+      // revalidatePath(`/dashboard/stores/${store.id}`);
       return { success: true };
     }),
   deleteProduct: privateProcedure
@@ -120,7 +120,7 @@ export const appRouter = router({
           id: Number(input.id),
         },
       });
-      revalidatePath(`/dashboard/stores/${store.id}`);
+      // revalidatePath(`/dashboard/stores/${store.id}`);
       return { success: true };
     }),
   createBannerImage: privateProcedure
@@ -153,7 +153,7 @@ export const appRouter = router({
           bannerUrl: input.url,
         },
       });
-      revalidatePath(`/dashboard/stores/${input.storeId}`);
+      // revalidatePath(`/dashboard/stores/${input.storeId}`);
       return { success: true };
     }),
   createStoreImage: privateProcedure
@@ -186,7 +186,7 @@ export const appRouter = router({
           logoUrl: input.url,
         },
       });
-      revalidatePath(`/dashboard/stores/${input.storeId}`);
+      // revalidatePath(`/dashboard/stores/${input.storeId}`);
       return { success: true };
     }),
   getProduct: privateProcedure

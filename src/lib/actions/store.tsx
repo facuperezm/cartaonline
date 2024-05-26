@@ -16,18 +16,16 @@ export async function deleteStore(storeId: number) {
     });
 
     if (store) {
-      await db.store.delete({ where: { id: storeId } });
-      // delete all products from store
       await db.product.deleteMany({
         where: {
           storeId,
         },
       });
+      await db.store.delete({ where: { id: storeId } });
     }
 
-    const path = "/dashboard/stores";
-    revalidatePath(path);
-    redirect(path);
+    revalidatePath("/dashboard/stores");
+    redirect("/dashboard/stores");
   } catch (err) {
     throw err instanceof Error
       ? err

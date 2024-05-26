@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -7,9 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignInForm } from "@/components/auth/auth-sign-in";
-import { OAuthSignIn } from "@/components/auth/oauth-signin";
 import { Shell } from "@/components/shell";
+import { SignInForm } from "@/app/(auth)/_components/auth-sign-in";
+import { OAuthSignIn } from "@/app/(auth)/_components/oauth-signin";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  title: "Iniciar sesión",
+  description: "Inicia sesión a tu cuenta en Carta Online",
+};
 
 export default function SignIn() {
   return (

@@ -1,6 +1,14 @@
+import { type Metadata } from "next";
+
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { LogOutButtons } from "@/components/auth/log-out-buttons";
 import { Shell } from "@/components/shell";
+import { LogOutButtons } from "@/app/(auth)/_components/log-out-buttons";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  title: "Cerrar sesión",
+  description: "Cerrá sesión en tu cuenta de Carta Online",
+};
 
 export default function Signout() {
   return (

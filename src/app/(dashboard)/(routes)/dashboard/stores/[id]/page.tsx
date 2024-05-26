@@ -26,12 +26,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import CliboardShare from "@/components/cards/clipboard-share";
 import { LoadingButton } from "@/components/loading-button";
-import { columns } from "@/components/tables/columns";
-import { DataTable } from "@/components/tables/data-table";
 import BannerBtn from "@/components/upload-btn-banner";
 import UploadBtn from "@/components/upload-btn-logo";
+import CliboardShare from "@/app/(dashboard)/_components/clipboard-share";
+import { columns } from "@/app/(dashboard)/_components/tables/columns";
+import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
 
 export const metadata: Metadata = {
   title: "Administrá tu tienda",
@@ -121,7 +121,6 @@ export default async function UpdateStorePage({
                 id="update-store-slug"
                 aria-describedby="update-store-slug"
                 name="slug"
-                required
                 minLength={3}
                 maxLength={20}
                 placeholder="Acá va el url de tu tienda."

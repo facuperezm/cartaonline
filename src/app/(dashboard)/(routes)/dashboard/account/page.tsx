@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
-import { UserProfile } from "@/components/auth/user-profile";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
 import { Shell } from "@/components/shell";
+import { UserProfile } from "@/app/(auth)/_components/user-profile";
 
 export const metadata: Metadata = {
   title: "Account",

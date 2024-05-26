@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function StoreLoading() {
+export default function NewStoreLoading() {
   return (
     <div className="space-y-10">
       <Card className="mt-10">
@@ -27,7 +27,6 @@ export default function StoreLoading() {
           <div className="grid w-full max-w-xl gap-4">
             <div className="space-y-2.5">
               <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-6" />
             </div>
             <div className="space-y-2.5">
               <Skeleton className="h-4 w-32" />

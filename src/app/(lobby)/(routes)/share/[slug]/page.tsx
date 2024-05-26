@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { type Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: store?.name,
     description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
     openGraph: {
-      description: store?.description,
+      description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
     },
   };
 }
@@ -115,6 +115,7 @@ export default async function StorePage({
               </div>
             ))
           ) : (
+            // eslint-disable-next-line tailwindcss/no-custom-classname
             <div className="border-foreground-muted space-y-2 rounded-lg border px-14 py-32 text-center">
               <p className="mb-1 text-xl font-medium tracking-tight">
                 No hay productos

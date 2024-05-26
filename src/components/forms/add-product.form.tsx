@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import { catchError } from "@/lib/utils";
+import { AddProductsSchema, type Inputs } from "@/lib/validations/product";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,15 +29,6 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const productSchema = z.object({
-  name: z.string(),
-  price: z.string(),
-  category: z.enum(["Comida", "Bebida", "Postre"]),
-  description: z.string(),
-});
-
-type Inputs = z.infer<typeof productSchema>;
-
 export function AddProductForm({
   setOpen,
   storeId,
@@ -50,7 +41,7 @@ export function AddProductForm({
   const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<Inputs>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(AddProductsSchema),
   });
 
   const { mutate: addProduct, isLoading } = trpc.createProduct.useMutation({

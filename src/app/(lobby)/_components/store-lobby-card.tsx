@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface StoreLobbyCardProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   address: string;
   id: string;
@@ -23,7 +23,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   banner?: string | null | undefined;
 }
 
-export function ProductCard({
+export function StoreLobbyCard({
   className,
   name,
   id,
@@ -32,7 +32,7 @@ export function ProductCard({
   logoUrl,
   banner,
   ...props
-}: ProductCardProps) {
+}: StoreLobbyCardProps) {
   return (
     <Card
       className={cn("h-full overflow-hidden rounded-sm", className)}

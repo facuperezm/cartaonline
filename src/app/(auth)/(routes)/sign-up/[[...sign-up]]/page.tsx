@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs";
@@ -9,9 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignUpForm } from "@/components/auth/auth-sign-up";
-import { OAuthSignIn } from "@/components/auth/oauth-signin";
 import { Shell } from "@/components/shell";
+import { SignUpForm } from "@/app/(auth)/_components/auth-sign-up";
+import { OAuthSignIn } from "@/app/(auth)/_components/oauth-signin";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  title: "Registrate",
+  description: "Registrá tu cuenta en Carta Online",
+};
 
 export default async function SignUp() {
   const user = await currentUser();

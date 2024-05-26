@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import { catchError } from "@/lib/utils";
+import { storeSchema, type Inputs } from "@/lib/validations/store";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -32,24 +32,6 @@ import { trpc } from "@/app/_trpc/client";
 
 import { Textarea } from "../ui/textarea";
 
-//store schema
-const storeSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters long."),
-  address: z.string().min(3, "Address must be at least 3 characters long."),
-  phone: z.string().min(8, "Phone must be at least 8 characters long."),
-  description: z.string(),
-  city: z.enum([
-    "buenos_aires",
-    "puerto_iguazu",
-    "corrientes",
-    "posadas",
-    "ushuaia",
-    "cordoba",
-  ]),
-});
-
-type Inputs = z.infer<typeof storeSchema>;
-
 export function AddStoreForm() {
   const router = useRouter();
   const [isPending, startTransition] = React.useTransition();
@@ -61,6 +43,7 @@ export function AddStoreForm() {
       address: "",
       description: "",
       phone: "",
+      slug: "",
       city: "puerto_iguazu",
     },
   });
@@ -151,6 +134,19 @@ export function AddStoreForm() {
                   placeholder="El mejor restaurant de taquitos del planeta tierra"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>URL de su local</FormLabel>
+              <FormControl>
+                <Input placeholder="empanadas-argentinas" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

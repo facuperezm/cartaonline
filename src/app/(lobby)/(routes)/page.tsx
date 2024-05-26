@@ -1,8 +1,15 @@
+import { type Metadata } from "next";
 import { Balancer } from "react-wrap-balancer";
 
 import { cities } from "@/config/site";
-import { CityCard } from "@/components/city-card";
 import { Shell } from "@/components/shell";
+import { CityCard } from "@/app/(lobby)/_components/city-card";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  title: "Bienvenidos",
+  description: "La manera mas facil de publicar tu carta online.",
+};
 
 export default async function Home() {
   return (

@@ -49,7 +49,7 @@ const initialState = {
   status: "",
 };
 
-export default function EditProduct({ id }: { id: number }) {
+export default function EditProductForm({ id }: { id: number }) {
   const { data: product } = trpc.getProduct.useQuery({ id });
   const [openEdit, setOpenEdit] = React.useState(false);
 
@@ -110,6 +110,18 @@ export default function EditProduct({ id }: { id: number }) {
               maxLength={50}
               placeholder="1230"
               defaultValue={product?.price ?? ""}
+            />
+          </Label>
+          <Label htmlFor="description">
+            Descripción
+            <Input
+              name="description"
+              required
+              minLength={3}
+              className="mt-2"
+              maxLength={350}
+              placeholder="1230"
+              defaultValue={product?.description ?? ""}
             />
           </Label>
           <Label htmlFor="category">
