@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import Provider from "@/components/providers";
+import Provider from "@/components/Providers";
 
 const roboto = Roboto({
   subsets: ["latin"],
