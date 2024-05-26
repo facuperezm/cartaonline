@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -26,7 +26,7 @@ export default async function NewStorePage() {
   const user = await currentUser();
 
   if (!user) {
-    redirect("/signin");
+    redirect("/sign-in");
   }
 
   return (

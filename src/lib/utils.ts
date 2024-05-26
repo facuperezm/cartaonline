@@ -1,3 +1,4 @@
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import type { User } from "@clerk/nextjs/server";
 import { clsx, type ClassValue } from "clsx";
 import * as imageConversion from "image-conversion";
@@ -9,13 +10,29 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function catchClerkError(err: z.ZodError) {
-  const unknownErr = "Something went wrong, please try again later.";
+export function getErrorMessage(err: unknown) {
+  if (err instanceof z.ZodError) {
+    return (
+      err.errors[0]?.message ??
+      "Hubo un error, porfavor probá denuevo más tarde"
+    );
+  } else if (isClerkAPIResponseError(err)) {
+    return (
+      err.errors[0]?.longMessage ??
+      "Hubo un error, porfavor probá denuevo más tarde"
+    );
+  } else if (err instanceof Error) {
+    return err.message;
+  } else {
+    return "Hubo un error, porfavor probá denuevo más tarde";
+  }
+}
 
-  const errors = err.issues.map((issue) => {
-    return issue.message;
-  });
-  return toast.error(errors.join("\n") || unknownErr);
+export function showErrorToast(err: unknown) {
+  const errorMessage = getErrorMessage(err);
+  console.log({ errorMessage });
+
+  return toast.error(errorMessage);
 }
 
 export function getUserEmail(user: User | null) {

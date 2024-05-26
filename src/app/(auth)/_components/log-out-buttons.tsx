@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useRouter } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
 
@@ -8,33 +7,29 @@ import { cn } from "@/lib/utils";
 import { useMounted } from "@/hooks/use-mounted";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Icons } from "@/components/icons";
 
 export function LogOutButtons() {
   const router = useRouter();
   const mounted = useMounted();
-  const [isPending, startTransition] = React.useTransition();
 
   return (
-    <div className="flex w-full items-center space-x-2">
+    <div className="flex w-full flex-col-reverse items-center gap-2 sm:flex-row">
+      <Button
+        variant="secondary"
+        size="sm"
+        className="w-full"
+        onClick={() => router.back()}
+      >
+        Volver
+        <span className="sr-only">Página previa</span>
+      </Button>
       {mounted ? (
         <SignOutButton
-          signOutCallback={() =>
-            startTransition(() => {
-              router.push(`${window.location.origin}/?redirect=false`);
-            })
-          }
+          redirectUrl={`${window.location.origin}/?redirect=false`}
         >
-          <Button
-            aria-label="Cerrar sesion"
-            size="sm"
-            className="w-full"
-            disabled={isPending}
-          >
-            {isPending && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Desloguear
+          <Button size="sm" className="w-full">
+            Cerrar sesión
+            <span className="sr-only">Cerrar sesión</span>
           </Button>
         </SignOutButton>
       ) : (
@@ -44,19 +39,9 @@ export function LogOutButtons() {
             "w-full bg-muted text-muted-foreground",
           )}
         >
-          Desloguear
+          Cerrar sesión
         </Skeleton>
       )}
-      <Button
-        aria-label="Volver a la pagina previa"
-        variant="outline"
-        size="sm"
-        className="w-full"
-        onClick={() => router.back()}
-        disabled={isPending}
-      >
-        Volver
-      </Button>
     </div>
   );
 }

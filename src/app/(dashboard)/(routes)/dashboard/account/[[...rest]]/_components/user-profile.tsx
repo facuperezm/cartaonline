@@ -1,23 +1,15 @@
 "use client";
 
 import { UserProfile as ClerkUserProfile } from "@clerk/nextjs";
-import { type Theme } from "@clerk/types";
+import type { Theme, UserProfileProps } from "@clerk/types";
 
 const appearance: Theme = {
-  baseTheme: undefined,
   variables: {
-    borderRadius: "0.25rem",
-  },
-  elements: {
-    card: "shadow-none",
-    navbar: "hidden",
-    navbarMobileMenuButton: "hidden",
-    headerTitle: "hidden",
-    headerSubtitle: "hidden",
+    borderRadius: "0.2rem",
   },
 };
 
-export function UserProfile() {
+export function UserProfile({ ...props }: UserProfileProps) {
   return (
     <ClerkUserProfile
       appearance={{
@@ -25,9 +17,9 @@ export function UserProfile() {
         baseTheme: appearance.baseTheme,
         variables: {
           ...appearance.variables,
-          colorBackground: "#fafafa",
         },
       }}
+      {...props}
     />
   );
 }

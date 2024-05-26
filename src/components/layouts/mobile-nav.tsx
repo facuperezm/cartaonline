@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+import { Icons } from "../icons";
 import { Separator } from "../ui/separator";
-import SideBarLoggedIn from "./sidebar-loggedin";
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -37,30 +37,41 @@ export function MobileNav() {
           >
             <span className="flex items-center gap-2 font-bold">
               <ArrowLeft className="size-4" aria-hidden="true" />
-              Volver al menú
+              Volver al inicio
             </span>
             <span className="sr-only">Home</span>
           </Link>
         </div>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+          <div className="mb-2 pl-1 pr-7 text-sm leading-none">
+            <h4 className="text-center ">Ver tiendas en:</h4>
+          </div>
           <div className="pl-1 pr-7">
             <Button variant="link" className="w-full space-x-1">
-              <Link href="/stores/puerto_iguazu">
-                Ver tiendas en Puerto Iguazú
-              </Link>
+              <Link href="/stores/puerto_iguazu">Puerto Iguazú</Link>
             </Button>
             <Button variant="link" className="w-full space-x-1">
-              <Link href="/stores/posadas">Ver tiendas en Posadas</Link>
+              <Link href="/stores/posadas">Posadas</Link>
             </Button>
             <Button variant="link" className="w-full space-x-1">
-              <Link href="/stores/corrientes">Ver tiendas en Corrientes</Link>
+              <Link href="/stores/corrientes">Corrientes</Link>
             </Button>
             <Separator className="my-2" />
             <Protect
-              permission="org:team_settings:manage"
-              fallback={<p>You are not allowed to see this section.</p>}
+              fallback={
+                <Button variant="ghost" className="w-full">
+                  <Link href="/auth/signin">Iniciar sesión</Link>
+                </Button>
+              }
             >
-              protected
+              <Button variant="ghost" className="w-full space-x-2">
+                <Icons.avatar className="size-4" />
+                <Link href="/dashboard/account">Mi cuenta</Link>
+              </Button>
+              <Button variant="ghost" className="w-full space-x-2">
+                <Icons.store className="size-4" />
+                <Link href="/dashboard/stores">Mis tiendas</Link>
+              </Button>
             </Protect>
           </div>
         </ScrollArea>

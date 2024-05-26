@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-import { catchClerkError } from "@/lib/utils";
+import { showErrorToast } from "@/lib/utils";
 import { authSchema } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,7 +58,7 @@ export function SignUpForm() {
           description: "Te mandamos un código de 6 dígitos.",
         });
       } catch (err) {
-        catchClerkError(err);
+        showErrorToast(err);
       }
     });
   }

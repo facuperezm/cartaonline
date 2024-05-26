@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { AlertOctagon } from "lucide-react";
 import {
   PageHeader,
@@ -29,7 +29,7 @@ export default async function StoresPage() {
   const user = await currentUser();
 
   if (!user) {
-    redirect("/signin");
+    redirect("/sign-in");
   }
 
   const allStores = await db.store.findMany({

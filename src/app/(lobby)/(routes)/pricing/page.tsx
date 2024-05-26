@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { ArrowRight, Check, Minus } from "lucide-react";
 
 import { PLANS } from "@/config/mercadopago";
@@ -12,7 +12,7 @@ export default async function PricingPage() {
   const user = await currentUser();
 
   if (user) {
-    redirect("/signin");
+    redirect("/sign-in");
   }
 
   const pricingItems = [

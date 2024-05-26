@@ -1,4 +1,4 @@
-import { currentUser, redirectToSignIn } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 import { db } from "@/lib/db";
 
@@ -6,7 +6,7 @@ export async function InitialUser() {
   const user = await currentUser();
 
   if (!user) {
-    return redirectToSignIn();
+    throw new Error("Tenes que estar loggeado para ver esta pagina");
   }
   // check if the user is in the database
   const profile = await db.user.findUnique({

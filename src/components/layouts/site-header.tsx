@@ -85,7 +85,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
               </DropdownMenu>
             ) : (
               <Link
-                href="/signin"
+                href="/sign-in"
                 className={buttonVariants({
                   size: "sm",
                   variant: "ghost",

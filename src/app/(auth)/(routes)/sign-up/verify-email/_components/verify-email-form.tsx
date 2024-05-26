@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
-import { catchClerkError } from "@/lib/utils";
+import { showErrorToast } from "@/lib/utils";
 import { verifyEmailSchema } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,7 +55,7 @@ export function VerifyEmailForm() {
           router.push(`${window.location.origin}/`);
         }
       } catch (err) {
-        catchClerkError(err);
+        showErrorToast(err);
       }
     });
   }

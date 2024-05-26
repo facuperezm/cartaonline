@@ -2,11 +2,15 @@
 
 import * as React from "react";
 import { useClerk } from "@clerk/nextjs";
+import { type HandleOAuthCallbackParams } from "@clerk/types";
 
 import { Icons } from "@/components/icons";
-import { type SSOCallbackPageProps } from "@/app/(auth)/(routes)/sso-callback/page";
 
-export function SSOCallback({ searchParams }: SSOCallbackPageProps) {
+interface SSOCallbackProps {
+  searchParams: HandleOAuthCallbackParams;
+}
+
+export function SSOCallback({ searchParams }: SSOCallbackProps) {
   const { handleRedirectCallback } = useClerk();
 
   React.useEffect(() => {
@@ -20,7 +24,7 @@ export function SSOCallback({ searchParams }: SSOCallbackPageProps) {
       aria-describedby="loading-description"
       className="flex items-center justify-center"
     >
-      <Icons.spinner className="h-16 w-16 animate-spin" aria-hidden="true" />
+      <Icons.spinner className="size-16 animate-spin" aria-hidden="true" />
     </div>
   );
 }

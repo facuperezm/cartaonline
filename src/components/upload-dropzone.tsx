@@ -4,12 +4,12 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Cloud, File as FileSVG } from "lucide-react";
 import Dropzone from "react-dropzone";
+import { toast } from "sonner";
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { compressImage } from "@/lib/utils";
 
 import { Progress } from "./ui/progress";
-import { useToast } from "./ui/use-toast";
 
 export default function UploadDropzone({
   storeId,
@@ -37,8 +37,6 @@ export default function UploadDropzone({
       }
     },
   });
-
-  const { toast } = useToast();
 
   const startSimulatedProgress = () => {
     setUploadProgress(0);
@@ -72,11 +70,8 @@ export default function UploadDropzone({
 
         const res = await startUpload([compressed]);
         if (!res) {
-          return toast({
-            title: "Something went wrong",
-            description: "Please try again later",
-            variant: "destructive",
-          });
+          toast.error("Algo salió mal, por favor intenta de nuevo más tarde");
+          return;
         }
 
         const [fileResponse] = res;
@@ -84,11 +79,7 @@ export default function UploadDropzone({
         const url = fileResponse?.url;
 
         if (!url) {
-          return toast({
-            title: "Something went wrong",
-            description: "Please try again later",
-            variant: "destructive",
-          });
+          toast.error("Algo salió mal, por favor intenta de nuevo más tarde");
         }
 
         clearInterval(progressInterval);

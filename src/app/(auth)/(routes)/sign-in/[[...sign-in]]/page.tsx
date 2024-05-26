@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs/server";
 
 import {
   Card,
@@ -18,7 +20,10 @@ export const metadata: Metadata = {
   description: "Inicia sesión a tu cuenta en Carta Online",
 };
 
-export default function SignIn() {
+export default async function SignIn() {
+  const user = await currentUser();
+  if (user) redirect("/");
+
   return (
     <Shell className="h-screen max-w-lg">
       <Card>
@@ -33,7 +38,7 @@ export default function SignIn() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                o podes registrarte con
+                o podes iniciar sesión con
               </span>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 import {
   Card,
@@ -49,7 +49,7 @@ export default async function SignUp() {
             Ya tenes una cuenta?{" "}
             <Link
               aria-label="Sign in"
-              href="/signin"
+              href="/sign-in"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
               Inicia sesion
