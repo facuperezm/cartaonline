@@ -51,7 +51,7 @@ export function AddStoreForm() {
   const { mutate: addStore, isLoading } = trpc.createStore.useMutation({
     onSuccess: () => {
       form.reset();
-      toast.success("Store added successfully.");
+      toast.success("Tienda creada con éxito.");
       router.push("/dashboard/stores");
     },
     onError: (err) => {
@@ -59,7 +59,7 @@ export function AddStoreForm() {
       if (errorMessage && errorMessage[0]) {
         toast.error(errorMessage);
       } else {
-        toast.error("Failed to post! Please try again later.");
+        toast.error("Falló la petición, porfavor intentá denuevo.");
       }
     },
   });
@@ -116,7 +116,10 @@ export function AddStoreForm() {
             <FormItem>
               <FormLabel>Teléfono</FormLabel>
               <FormControl>
-                <Input placeholder="543757123123" {...field} />
+                <Input
+                  placeholder="Tu número de WhatsApp con 54 y la característica (543757123456)"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -131,7 +134,7 @@ export function AddStoreForm() {
               <FormControl>
                 <Textarea
                   autoComplete="false"
-                  placeholder="El mejor restaurant de taquitos del planeta tierra"
+                  placeholder="El mejor restaurant de empanadas del planeta tierra"
                   {...field}
                 />
               </FormControl>
@@ -146,7 +149,10 @@ export function AddStoreForm() {
             <FormItem>
               <FormLabel>URL de su local</FormLabel>
               <FormControl>
-                <Input placeholder="empanadas-argentinas" {...field} />
+                <Input
+                  placeholder="empanadas-argentinas (sin espacios ni caracteres especiales)"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
