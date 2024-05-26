@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "page-header";
-
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+} from "@/components/page-header";
 import { Shell } from "@/components/shell";
 
 import { UserProfile } from "./_components/user-profile";

@@ -4,16 +4,16 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import { AlertOctagon } from "lucide-react";
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "page-header";
 
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/components/page-header";
 import { Shell } from "@/components/shell";
 import { StoreCard } from "@/app/(dashboard)/_components/store-card";
 import { StoreCardSkeleton } from "@/app/(dashboard)/_components/store-card-skeleton";

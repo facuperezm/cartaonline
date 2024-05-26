@@ -1,12 +1,12 @@
 import { type Metadata } from "next";
 import { type City } from "@/types";
+
+import { db } from "@/lib/db";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "page-header";
-
-import { db } from "@/lib/db";
+} from "@/components/page-header";
 import { Shell } from "@/components/shell";
 import { StoreLobbyCard } from "@/app/(lobby)/_components/store-lobby-card";
 

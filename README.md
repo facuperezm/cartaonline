@@ -25,8 +25,6 @@
 - [**Clerk Authentication**](https://clerk.com/) - The most comprehensive User Management Platform.
 - [**Uploadthing**](https://uploadthing.com/) File Uploads For Next.js Developers
 
-**Deploy:** Vercel
-
 ## 🚀 Features
 
 - **User Authentication:** Users can log in and create an account using Clerk Authentication.
