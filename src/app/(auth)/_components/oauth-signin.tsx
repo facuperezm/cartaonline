@@ -32,7 +32,7 @@ export function OAuthSignIn() {
     } catch (error) {
       setIsLoading(null);
 
-      const unknownError = "Something went wrong, please try again.";
+      const unknownError = "Algo salió mal, porfavor probá denuevo.";
 
       if (isClerkAPIResponseError(error)) {
         toast.error(unknownError);
