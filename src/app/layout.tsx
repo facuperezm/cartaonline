@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import Providers from "@/components/providers";
+import Provider from "@/components/providers";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -77,10 +77,10 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <Providers>
+        <Provider>
           <body>{children}</body>
           <Toaster richColors closeButton />
-        </Providers>
+        </Provider>
       </html>
     </ClerkProvider>
   );

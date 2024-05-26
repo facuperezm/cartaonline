@@ -7,7 +7,7 @@ import { httpBatchLink } from "@trpc/client";
 import { absoluteUrl } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 
-const Providers = ({ children }: PropsWithChildren) => {
+const Provider = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -26,4 +26,4 @@ const Providers = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default Providers;
+export default Provider;
