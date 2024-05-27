@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: store?.name,
       description: `${store?.description}`,
-      type: "article",
+      type: "website",
       url: absoluteUrl(`/stores/${store?.city}/${store?.id}`),
     },
   };

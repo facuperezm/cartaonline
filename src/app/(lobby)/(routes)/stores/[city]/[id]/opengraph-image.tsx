@@ -6,7 +6,7 @@ import { absoluteUrl } from "@/lib/utils";
 
 export const size = {
   width: 1200,
-  height: 630,
+  height: 600,
 };
 
 export const contentType = "image/png";
