@@ -39,6 +39,10 @@ export default async function CityPage({
     },
   });
 
+  const city = params.city
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l: string) => l.toUpperCase());
+
   return stores.length > 0 ? (
     <Shell>
       <PageHeader
@@ -46,7 +50,7 @@ export default async function CityPage({
         aria-labelledby="subcategory-page-header-heading"
       >
         <PageHeaderHeading size="sm">
-          Estos son los mejores restaurants de la ciudad
+          Estos son los mejores restaurants de {city}
         </PageHeaderHeading>
         <PageHeaderDescription size="sm">
           Descubri todo lo que tienen para ofrecer ✨

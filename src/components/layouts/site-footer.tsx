@@ -8,7 +8,7 @@ import { Shell } from "@/components/shell";
 
 export function SiteFooter() {
   return (
-    <footer className="w-full border-t bg-background">
+    <footer className="w-full border-t bg-slate-100">
       <Shell className="py-6">
         <section
           id="footer-content"
