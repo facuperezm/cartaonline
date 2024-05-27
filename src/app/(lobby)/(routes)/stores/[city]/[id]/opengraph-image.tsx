@@ -4,7 +4,8 @@ import { ImageResponse } from "next/og";
 import { db } from "@/lib/db";
 import { absoluteUrl } from "@/lib/utils";
 
-export const alt = "Carta online";
+export const runtime = "nodejs";
+
 export const size = {
   width: 1200,
   height: 630,

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { db } from "@/lib/db";
+import { absoluteUrl } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Icons } from "@/components/icons";
 import { Shell } from "@/components/shell";
@@ -34,6 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
     openGraph: {
       description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
+      title: store?.name,
+      type: "website",
+      url: absoluteUrl(`/stores/${store?.city}/${store?.id}`),
     },
   };
 }
