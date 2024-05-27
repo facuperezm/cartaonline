@@ -23,21 +23,22 @@ type Product = {
 
 type Props = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const store = await db.store.findFirst({
     where: { id: Number(params.id) },
   });
+
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
     title: store?.name,
     description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
     openGraph: {
-      description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
       title: store?.name,
-      type: "website",
-      url: store?.id.toString(),
+      description: `${store?.description}`,
+      type: "article",
+      url: absoluteUrl(`/stores/${store?.city}/${store?.id}`),
     },
   };
 }
