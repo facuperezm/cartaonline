@@ -50,7 +50,7 @@ export default async function CityPage({
         aria-labelledby="subcategory-page-header-heading"
       >
         <PageHeaderHeading size="sm">
-          Estos son los mejores restaurants de {city}
+          Estos son las mejores tiendas de {city}
         </PageHeaderHeading>
         <PageHeaderDescription size="sm">
           Descubri todo lo que tienen para ofrecer ✨
