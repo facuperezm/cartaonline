@@ -22,14 +22,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "TRPC",
-    "T3-App",
-    "Carta",
-    "Menu",
+    "Carta Online",
+    "Menu digital",
+    "Restaurantes",
+    "Bares",
+    "Cafeterias",
   ],
   authors: [
     {
@@ -45,7 +42,6 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [],
   },
   icons: {
     icon: "/favicon.ico",

@@ -4,8 +4,6 @@ import { ImageResponse } from "next/og";
 import { db } from "@/lib/db";
 import { absoluteUrl } from "@/lib/utils";
 
-export const runtime = "nodejs";
-
 export const size = {
   width: 1200,
   height: 630,
@@ -15,7 +13,7 @@ export const contentType = "image/png";
 
 export default async function Image({ params }: { params: { id: number } }) {
   const store = await db.store.findFirst({
-    where: { id: params.id },
+    where: { id: Number(params.id) },
   });
 
   return new ImageResponse(
