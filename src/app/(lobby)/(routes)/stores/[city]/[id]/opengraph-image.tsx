@@ -15,7 +15,7 @@ export const contentType = "image/png";
 
 export default async function Image({ params }: { params: { id: number } }) {
   const store = await db.store.findFirst({
-    where: { id: Number(params.id) },
+    where: { id: params.id },
   });
 
   return new ImageResponse(

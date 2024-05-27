@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `${store?.description} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
       title: store?.name,
       type: "website",
-      url: absoluteUrl(`/stores/${store?.city}/${store?.id}`),
+      url: store?.id.toString(),
     },
   };
 }
