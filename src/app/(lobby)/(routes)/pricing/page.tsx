@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
+import { loadMercadoPago } from "@mercadopago/sdk-js";
+import { initMercadoPago } from "@mercadopago/sdk-react";
 import { ArrowRight, Check, Minus } from "lucide-react";
+import MercadoPagoConfig from "mercadopago";
 
 import { PLANS } from "@/config/mercadopago";
 import { cn } from "@/lib/utils";
@@ -9,12 +12,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 
 export default async function PricingPage() {
-  const user = await currentUser();
-
-  if (user) {
-    redirect("/sign-in");
-  }
-
   const pricingItems = [
     {
       plan: "Gratis",
@@ -45,7 +42,7 @@ export default async function PricingPage() {
         <p>Elegí qué plan se adapta mejor a las necesidades de tu negocio</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-2">
+      {/* <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-2">
         {pricingItems.map(({ plan, tagline, quota, features }) => {
           const price =
             PLANS.find((p) => p.slug === plan.toLowerCase())!.price.amount || 0;
@@ -155,7 +152,7 @@ export default async function PricingPage() {
             </div>
           );
         })}
-      </div>
+      </div> */}
     </Shell>
   );
 }
