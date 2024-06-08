@@ -1,37 +1,41 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
-import { loadMercadoPago } from "@mercadopago/sdk-js";
-import { initMercadoPago } from "@mercadopago/sdk-react";
 import { ArrowRight, Check, Minus } from "lucide-react";
-import MercadoPagoConfig from "mercadopago";
 
 import { PLANS } from "@/config/mercadopago";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 
-export default async function PricingPage() {
-  const pricingItems = [
-    {
-      plan: "Gratis",
-      tagline: "Para empezar a vender",
-      quota: 10,
-      features: [
-        {
-          text: "Hasta 10 productos",
-          footnote: "Todas las funcionalidades de la plataforma",
-          negative: false,
-        },
-      ],
-    },
-    {
-      plan: "Pro",
-      tagline: "Para negocios grandes",
-      quota: PLANS.find((p) => p.slug === "pro")!.quota,
-      features: [],
-    },
-  ];
+const FormDynamic = dynamic(() => import("./form-payment"), {
+  ssr: false,
+});
+
+export default function PricingPage() {
+  // const pricingItems = [
+  //   {
+  //     plan: "Gratis",
+  //     tagline: "Para empezar a vender",
+  //     quota: 10,
+  //     features: [
+  //       {
+  //         text: "Hasta 10 productos",
+  //         footnote: "Todas las funcionalidades de la plataforma",
+  //         negative: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     plan: "Pro",
+  //     tagline: "Para negocios grandes",
+  //     quota: PLANS.find((p) => p.slug === "pro")!.quota,
+  //     features: [],
+  //   },
+  // ];
 
   return (
     <Shell>
@@ -41,6 +45,8 @@ export default async function PricingPage() {
         </h2>
         <p>Elegí qué plan se adapta mejor a las necesidades de tu negocio</p>
       </div>
+
+      <FormDynamic />
 
       {/* <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-2">
         {pricingItems.map(({ plan, tagline, quota, features }) => {
