@@ -1,19 +1,80 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 declare global {
   interface Window {
     MercadoPago: any;
   }
 }
-await loadMercadoPago(process.env.MP_PUBLIC_KEY);
+
+const formSchema = z.object({
+  card_number: z
+    .number()
+    .min(15, {
+      message: "Card number must be at least 15 characters.",
+    })
+    .max(16),
+  expiration_date: z.number(),
+  security_code: z.number(),
+  card_holder_name: z.string().max(32),
+  issuer: z.string(),
+  installments: z.number(),
+  identification_type: z.string(),
+  identification_number: z.number(),
+  email: z.string(),
+  token: z.number(),
+  payment_method_id: z.number(),
+  transaction_amount: z.number(),
+  description: z.string(),
+});
+
+await loadMercadoPago();
 
 export default function FormPayment() {
-  const mp = new window.MercadoPago(
-    "TEST-97620bea-6554-4656-b732-7ef5598bfa67",
-  );
+  const mp = new window.MercadoPago(process.env.NEXT_PUBLIC_MP_PUBLIC_KEY!);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      card_number: 0,
+      expiration_date: 0,
+      security_code: 0,
+      card_holder_name: "",
+      issuer: "",
+      installments: 0,
+      identification_type: "",
+      identification_number: 0,
+      email: "",
+      token: 0,
+      payment_method_id: 0,
+      transaction_amount: 0,
+      description: "",
+    },
+  });
+
+  // initialize card fields
   const cardNumberElement = mp.fields
     .create("cardNumber", {
       placeholder: "Número de la tarjeta",
@@ -30,6 +91,7 @@ export default function FormPayment() {
     })
     .mount("form-checkout__securityCode");
 
+  // get documents type
   (async function getIdentificationTypes() {
     try {
       const identificationTypes = await mp.getIdentificationTypes();
@@ -68,6 +130,7 @@ export default function FormPayment() {
     elem.appendChild(tempOptions);
   }
 
+  // get payment methods for cards
   const paymentMethodElement = document.getElementById("paymentMethodId");
   const issuerElement = document.getElementById("form-checkout__issuer");
   const installmentsElement = document.getElementById(
@@ -142,6 +205,7 @@ export default function FormPayment() {
     });
   }
 
+  // get bank issuer
   async function updateIssuer(paymentMethod, bin) {
     const { additional_info_needed, issuer } = paymentMethod;
     let issuerOptions = [issuer];
@@ -161,7 +225,7 @@ export default function FormPayment() {
       console.error("error getting issuers: ", e);
     }
   }
-
+  // get installments
   async function updateInstallments(paymentMethod, bin) {
     try {
       const installments = await mp.getInstallments({
@@ -184,8 +248,7 @@ export default function FormPayment() {
     }
   }
 
-  // CARD TOKEN
-
+  // create card token
   async function handleCardToken(event: any) {
     try {
       const tokenElement = document.getElementById("token");
@@ -211,68 +274,271 @@ export default function FormPayment() {
   }
 
   return (
-    <>
-      <div>
-        <form id="form-checkout" onSubmit={handleCardToken}>
-          <div id="form-checkout__cardNumber" className="container"></div>
-          <div id="form-checkout__expirationDate" className="container"></div>
-          <div id="form-checkout__securityCode" className="container"></div>
-          <input
-            type="text"
-            id="form-checkout__cardholderName"
-            placeholder="Titular de la tarjeta"
-          />
-          <select id="form-checkout__issuer" name="issuer">
-            <option value="" disabled selected>
-              Banco emisor
-            </option>
-          </select>
-          <select id="form-checkout__installments" name="installments">
-            <option value="" disabled selected>
-              Cuotas
-            </option>
-          </select>
-          <select
-            id="form-checkout__identificationType"
-            name="identificationType"
+    <div>
+      {/* <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleCardToken)}
+            className="space-y-8"
           >
-            <option value="" disabled selected>
-              Tipo de documento
-            </option>
-          </select>
-          <input
-            type="text"
-            id="form-checkout__identificationNumber"
-            name="identificationNumber"
-            placeholder="Número do documento"
-          />
-          <input
-            type="email"
-            id="form-checkout__email"
-            name="email"
-            placeholder="E-mail"
-          />
+            <FormField
+              control={form.control}
+              name="card_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número de la tarjeta</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="form-checkout__cardNumber"
+                      placeholder="shadcn"
+                      {...field}
+                    />
+                  </FormControl>
 
-          <input id="token" name="token" type="hidden" />
-          <input id="paymentMethodId" name="paymentMethodId" type="hidden" />
-          <input
-            id="transactionAmount"
-            name="transactionAmount"
-            type="hidden"
-            value="100"
-          />
-          <input
-            id="description"
-            name="description"
-            type="hidden"
-            value="Nome do Produto"
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="expiration_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vencimiento de la tarjeta</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="form-checkout__expirationDate"
+                      placeholder="shadcn"
+                      {...field}
+                    />
+                  </FormControl>
 
-          <button type="submit" id="form-checkout__submit">
-            Pagar
-          </button>
-        </form>
-      </div>
-    </>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="security_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número de seguridad</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="form-checkout__securityCode"
+                      placeholder="123"
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="card_holder_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Titular de la tarjeta</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      id="form-checkout__cardholderName"
+                      placeholder="Titular de la tarjeta"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="issuer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Banco emisor</FormLabel>
+                  <FormControl>
+                    <div id="form-checkout__issuer">
+                      <Select name="issuer">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Banco emisor" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem {...field} value="banco">
+                            Banco emisor
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="installments"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuotas</FormLabel>
+                  <FormControl>
+                    <div id="form-checkout__installments">
+                      <Select name="installments">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="cuotas" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem {...field} value="asd">
+                            Banco emisor
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="identification_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de documento</FormLabel>
+                  <FormControl>
+                    <div id="form-checkout__identificationType">
+                      <Select name="identificationType">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem {...field} value="asd"></SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="identification_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número de documento</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      id="form-checkout__identificationNumber"
+                      placeholder="Número do documento"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      id="form-checkout__email"
+                      placeholder="E-mail"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <input id="token" name="token" type="hidden" />
+            <input id="paymentMethodId" name="paymentMethodId" type="hidden" />
+            <input
+              id="transactionAmount"
+              name="transactionAmount"
+              type="hidden"
+              value="100"
+            />
+            <input
+              id="description"
+              name="description"
+              type="hidden"
+              value="Nome do Produto"
+            />
+            <Button id="form-checkout__submit" type="submit">
+              Submit
+            </Button>
+          </form>
+        </Form> */}
+      <form id="form-checkout" action="/process_payment" method="POST">
+        <div id="form-checkout__cardNumber" className="container"></div>
+        <div id="form-checkout__expirationDate" className="container"></div>
+        <div id="form-checkout__securityCode" className="container"></div>
+        <input
+          type="text"
+          id="form-checkout__cardholderName"
+          placeholder="Titular de la tarjeta"
+        />
+        <select id="form-checkout__issuer" name="issuer">
+          <option value="" disabled selected>
+            Banco emisor
+          </option>
+        </select>
+        <select id="form-checkout__installments" name="installments">
+          <option value="" disabled selected>
+            Cuotas
+          </option>
+        </select>
+        <select
+          id="form-checkout__identificationType"
+          name="identificationType"
+        >
+          <option value="" disabled selected>
+            Tipo de documento
+          </option>
+        </select>
+        <input
+          type="text"
+          id="form-checkout__identificationNumber"
+          name="identificationNumber"
+          placeholder="Número do documento"
+        />
+        <input
+          type="email"
+          id="form-checkout__email"
+          name="email"
+          placeholder="E-mail"
+        />
+        <input id="token" name="token" type="hidden" />
+        <input id="paymentMethodId" name="paymentMethodId" type="hidden" />
+        <input
+          id="transactionAmount"
+          name="transactionAmount"
+          type="hidden"
+          value="100"
+        />
+        <input
+          id="description"
+          name="description"
+          type="hidden"
+          value="Nome do Produto"
+        />
+        <button type="submit" id="form-checkout__submit">
+          Pagar
+        </button>
+      </form>
+    </div>
   );
 }

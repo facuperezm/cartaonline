@@ -15,6 +15,10 @@ const FormDynamic = dynamic(() => import("./form-payment"), {
   ssr: false,
 });
 
+const SecondForm = dynamic(() => import("./form-pay"), {
+  ssr: false,
+});
+
 export default function PricingPage() {
   // const pricingItems = [
   //   {
@@ -46,7 +50,8 @@ export default function PricingPage() {
         <p>Elegí qué plan se adapta mejor a las necesidades de tu negocio</p>
       </div>
 
-      <FormDynamic />
+      {/* <FormDynamic /> */}
+      <SecondForm />
 
       {/* <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-2">
         {pricingItems.map(({ plan, tagline, quota, features }) => {
