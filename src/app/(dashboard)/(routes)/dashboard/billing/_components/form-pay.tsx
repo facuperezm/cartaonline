@@ -2,7 +2,7 @@
 
 import { CardPayment, initMercadoPago } from "@mercadopago/sdk-react";
 
-import { PaymentAction } from "./action";
+import { PaymentAction } from "../action";
 
 //test credential not real
 initMercadoPago("APP_USR-7d7351b9-dac9-4398-817f-7f2395838d62");

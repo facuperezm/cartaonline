@@ -18,5 +18,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "store",
       items: [],
     },
+    {
+      title: "Pagos",
+      href: "/dashboard/billing",
+      icon: "credit",
+      items: [],
+    },
   ],
 };
