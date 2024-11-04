@@ -11,11 +11,12 @@ import { Shell } from "@/components/shell";
 import { StoreLobbyCard } from "@/app/(lobby)/_components/store-lobby-card";
 
 type Props = {
-  params: { city: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ city: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   // remove spaces and capitalize city name
   const city = params.city
     .replace(/_/g, " ")
@@ -27,11 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CityPage({
-  params,
-}: {
-  params: { city: string | City | any };
-}) {
+export default async function CityPage(
+  props: {
+    params: Promise<{ city: string | City | any }>;
+  }
+) {
+  const params = await props.params;
   const stores = await db.store.findMany({
     where: {
       city: params.city,

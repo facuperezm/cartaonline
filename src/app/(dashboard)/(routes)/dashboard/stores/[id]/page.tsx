@@ -38,11 +38,12 @@ export const metadata: Metadata = {
   description: "Modifica toda la información de tu tienda",
 };
 
-export default async function UpdateStorePage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function UpdateStorePage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const storeId = Number(params.id);
 
   const storeWithProducts = await db.store.findFirst({
@@ -181,6 +182,7 @@ export default async function UpdateStorePage({
           </form>
         </CardContent>
       </Card>
+      <h1>hola</h1>
       {storeWithProducts.slug && (
         <CliboardShare slug={storeWithProducts.slug} />
       )}

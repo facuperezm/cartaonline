@@ -7,7 +7,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
@@ -55,10 +55,10 @@
     "image-conversion": "^2.1.1",
     "lucide-react": "0.294.0",
     "mercadopago": "^2.0.9",
-    "next": "~14.2.4",
+    "next": "15.0.2",
     "postcss": "8.4.32",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "7.48.2",
     "react-wrap-balancer": "1.1.0",
@@ -74,14 +74,14 @@
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/node": "20.10.4",
-    "@types/react": "18.2.42",
-    "@types/react-dom": "18.2.17",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "@types/react-syntax-highlighter": "15.5.11",
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "@typescript-eslint/parser": "6.13.2",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "8.55.0",
-    "eslint-config-next": "14.0.3",
+    "eslint-config-next": "15.0.2",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-tailwindcss": "3.13.0",
     "jsdom": "^24.1.0",
@@ -92,5 +92,11 @@
     "tailwindcss-animate": "1.0.7",
     "typescript": "5.3.3",
     "vitest": "^1.6.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "npm:types-react@19.0.0-rc.1",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    }
   }
 }
