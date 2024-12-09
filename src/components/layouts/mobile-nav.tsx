@@ -60,7 +60,7 @@ export function MobileNav() {
             <Protect
               fallback={
                 <Button variant="ghost" className="w-full">
-                  <Link href="/auth/signin">Iniciar sesión</Link>
+                  <Link href="/auth/sign-in">Iniciar sesión</Link>
                 </Button>
               }
             >

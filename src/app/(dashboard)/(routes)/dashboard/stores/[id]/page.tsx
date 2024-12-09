@@ -29,7 +29,7 @@ import {
 import { LoadingButton } from "@/components/loading-button";
 import BannerBtn from "@/components/upload-btn-banner";
 import UploadBtn from "@/components/upload-btn-logo";
-import CliboardShare from "@/app/(dashboard)/_components/clipboard-share";
+import ClipboardShare from "@/app/(dashboard)/_components/clipboard-share";
 import { columns } from "@/app/(dashboard)/_components/tables/columns";
 import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
 
@@ -38,11 +38,9 @@ export const metadata: Metadata = {
   description: "Modifica toda la información de tu tienda",
 };
 
-export default async function UpdateStorePage(
-  props: {
-    params: Promise<{ id: string }>;
-  }
-) {
+export default async function UpdateStorePage(props: {
+  params: Promise<{ id: string }>;
+}) {
   const params = await props.params;
   const storeId = Number(params.id);
 
@@ -182,9 +180,11 @@ export default async function UpdateStorePage(
           </form>
         </CardContent>
       </Card>
-      <h1>hola</h1>
       {storeWithProducts.slug && (
-        <CliboardShare slug={storeWithProducts.slug} />
+        <ClipboardShare
+          slug={storeWithProducts.slug}
+          storeId={storeWithProducts.id}
+        />
       )}
       <div className="mx-auto mb-6 pt-10">
         <h2 className="mb-2 text-2xl font-semibold leading-none tracking-tight">

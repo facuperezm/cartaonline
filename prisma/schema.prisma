@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -40,41 +40,73 @@ model Logo {
 }
 
 model Store {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   description String
-  address   String    @db.Text
-  phone    String
-  slug     String?    @unique
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  deletedAt DateTime?
+  address     String    @db.Text
+  phone       String
+  slug        String?   @unique
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  deletedAt   DateTime?
 
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
-
-  products Product[]
-  status   Status    @default(ACTIVE)
-  city     City      @default(corrientes)
-  logoUrl  String?   @db.Text
-  bannerUrl String? @db.Text
+  userId       String
+  user         User          @relation(fields: [userId], references: [userId])
+  products     Product[]
+  payments     Payment[]
+  subscription Subscription?
+  status       Status        @default(ACTIVE)
+  city         City          @default(corrientes)
+  logoUrl      String?       @db.Text
+  bannerUrl    String?       @db.Text
 
   @@index([userId])
 }
 
 model Product {
-  id        Int       @id @default(autoincrement())
-  name      String
-  price     Int
+  id          Int       @id @default(autoincrement())
+  name        String
+  price       Int
   description String
-  category  Category  @default(Comida)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  storeId   Int
-  store     Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category    Category  @default(Comida)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  storeId     Int
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@index([storeId], name: "storeId")
+}
+
+model Payment {
+  id              Int      @id @default(autoincrement())
+  paymentId       String   @unique
+  storeId         Int
+  store           Store    @relation(fields: [storeId], references: [id])
+  status          String
+  merchantOrderId String
+  amount          Float
+  paymentMethod   String
+  metadata        Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([paymentId])
+}
+
+model Subscription {
+  id        Int                @id @default(autoincrement())
+  storeId   Int                @unique
+  store     Store              @relation(fields: [storeId], references: [id])
+  planType  PlanType
+  status    SubscriptionStatus @default(INACTIVE)
+  startDate DateTime           @default(now())
+  expiresAt DateTime
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@index([storeId])
 }
 
 enum Status {
@@ -102,4 +134,18 @@ enum UploadStatus {
   PROCESSING
   FAILED
   SUCCESS
+}
+
+enum PlanType {
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  EXPIRED
+  PENDING
 }

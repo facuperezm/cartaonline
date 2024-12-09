@@ -97,3 +97,53 @@ export async function updateStoreStatus(storeId: number, fd: FormData) {
       : new Error("Something went wrong, please try again.");
   }
 }
+
+export async function updateStoreSlug(storeId: number, newSlug: string) {
+  try {
+    if (!newSlug.trim()) {
+      throw new Error("El slug no puede estar vacío");
+    }
+
+    // Validar formato del slug
+    const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+    if (!slugRegex.test(newSlug)) {
+      throw new Error(
+        "El slug solo puede contener letras minúsculas, números y guiones",
+      );
+    }
+
+    // Verificar si el slug ya existe
+    const existingStore = await db.store.findFirst({
+      where: {
+        slug: newSlug,
+        id: {
+          not: storeId,
+        },
+      },
+    });
+
+    if (existingStore) {
+      throw new Error("Este slug ya está en uso");
+    }
+
+    // Actualizar el slug
+    await db.store.update({
+      where: {
+        id: storeId,
+      },
+      data: {
+        slug: newSlug,
+      },
+    });
+
+    revalidatePath(`/dashboard/stores/${storeId}`);
+    revalidatePath(`/share/${newSlug}`);
+
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Error al actualizar el slug",
+    };
+  }
+}

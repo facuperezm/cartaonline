@@ -12,10 +12,63 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { SubscriptionButton } from "@/components/subscription-button";
 
 import { UsageCard } from "./usage";
 
-export async function Billing() {
+const plans = [
+  {
+    name: "Gratis",
+    description: "Podes crear una tienda",
+    price: 0,
+    features: ["Crear una tienda", "Hasta 15 productos"],
+    planType: "BASIC" as const,
+  },
+  {
+    name: "Pro",
+    description: "Para negocios en crecimiento",
+    price: 2999,
+    features: [
+      "Hasta 3 tiendas",
+      "Productos ilimitados",
+      "Estadísticas avanzadas",
+      "Soporte prioritario",
+    ],
+    planType: "PRO" as const,
+  },
+  {
+    name: "Enterprise",
+    description: "Para grandes empresas",
+    price: 5999,
+    features: [
+      "Tiendas ilimitadas",
+      "Productos ilimitados",
+      "Estadísticas avanzadas",
+      "Soporte 24/7",
+      "API personalizada",
+      "Panel de administración",
+    ],
+    planType: "ENTERPRISE" as const,
+  },
+];
+
+interface BillingProps {
+  storeId: number;
+  currentPlan?: "BASIC" | "PRO" | "ENTERPRISE";
+  storeCount: number;
+}
+
+export function Billing({
+  storeId,
+  currentPlan = "BASIC",
+  storeCount,
+}: BillingProps) {
+  const storeLimits = {
+    BASIC: 1,
+    PRO: 3,
+    ENTERPRISE: Infinity,
+  };
+
   return (
     <>
       <Card>
@@ -27,64 +80,69 @@ export async function Billing() {
               variant="secondary"
               className="pointer-events-none text-foreground/90"
             >
-              Gratis
+              {plans.find((p) => p.planType === currentPlan)?.name}
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="grid gap-6 sm:grid-cols-2">
+        <CardContent className="grid gap-6">
           <UsageCard
             title="Tiendas disponibles"
-            count={1}
-            limit={1}
+            count={storeCount}
+            limit={storeLimits[currentPlan]}
             moreInfo="The number of stores you can create on the current plan."
           />
         </CardContent>
       </Card>
       <section className="grid gap-6 lg:grid-cols-3">
-        <Card
-          className={cn("flex flex-col", {
-            "sm:col-span-2 lg:col-span-1": 1 === 3 - 1,
-          })}
-        >
-          <CardHeader className="flex-1">
-            <CardTitle className="text-lg">Gratis</CardTitle>
-            <CardDescription>Podes crear una tienda</CardDescription>
-          </CardHeader>
-          <CardContent className="grid flex-1 place-items-start gap-6">
-            <div className="text-3xl font-bold">
-              $0
-              <span className="text-sm font-normal text-muted-foreground">
-                /mes
-              </span>
-            </div>
-            <div className="w-full space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="aspect-square shrink-0 rounded-full bg-foreground p-px text-background">
-                  <CheckIcon className="size-3.5" aria-hidden="true" />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Crear una tienda
+        {plans.map((plan) => (
+          <Card key={plan.name} className={cn("flex flex-col")}>
+            <CardHeader className="flex-1">
+              <CardTitle className="text-lg">{plan.name}</CardTitle>
+              <CardDescription>{plan.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="grid flex-1 place-items-start gap-6">
+              <div className="text-3xl font-bold">
+                ${plan.price}
+                <span className="text-sm font-normal text-muted-foreground">
+                  /mes
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="aspect-square shrink-0 rounded-full bg-foreground p-px text-background">
-                  <CheckIcon className="size-3.5" aria-hidden="true" />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Hasta 15 productos
-                </span>
+              <div className="w-full space-y-2">
+                {plan.features.map((feature) => (
+                  <div key={feature} className="flex items-center gap-2">
+                    <div className="aspect-square shrink-0 rounded-full bg-foreground p-px text-background">
+                      <CheckIcon className="size-3.5" aria-hidden="true" />
+                    </div>
+                    <span className="text-sm text-muted-foreground">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
               </div>
-            </div>
-          </CardContent>
-          <CardFooter className="pt-4">
-            <Button className="w-full" asChild>
-              <Link href="/dashboard/stores">
-                Crear tienda
-                <span className="sr-only">Ir a tiendas</span>
-              </Link>
-            </Button>
-          </CardFooter>
-        </Card>
+            </CardContent>
+            <CardFooter className="pt-4">
+              {plan.planType === currentPlan ? (
+                <Button className="w-full" disabled>
+                  Plan actual
+                </Button>
+              ) : plan.planType === "BASIC" ? (
+                <Button className="w-full" asChild>
+                  <Link href="/dashboard/stores">
+                    Crear tienda
+                    <span className="sr-only">Ir a tiendas</span>
+                  </Link>
+                </Button>
+              ) : (
+                <SubscriptionButton
+                  storeId={storeId}
+                  planType={plan.planType}
+                  price={plan.price}
+                  className="w-full"
+                />
+              )}
+            </CardFooter>
+          </Card>
+        ))}
       </section>
     </>
   );
