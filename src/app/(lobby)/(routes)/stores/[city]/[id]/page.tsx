@@ -1,21 +1,26 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import { City } from "@prisma/client";
+import { type City } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import { ProductList } from "@/app/(lobby)/_components/product-list";
 import { ReserveButton } from "@/app/(lobby)/_components/reserve-button";
 import { StoreHeader } from "@/app/(lobby)/_components/store-header";
 
-interface Props {
-  params: { city: string; id: string };
-}
+type PageProps = {
+  params: Promise<{
+    city: string;
+    id: string;
+  }>;
+};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
   const store = await db.store.findFirst({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
-
   if (!store) {
     return {
       title: "Tienda no encontrada",
@@ -41,17 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function StorePage({ params }: Props) {
-  // Validar que la ciudad sea válida
-  const cityUpper = params.city.toUpperCase() as City;
-  if (!Object.values(City).includes(cityUpper)) {
-    notFound();
-  }
+export default async function StorePage({ params }: PageProps) {
+  const { city, id } = await params;
 
   const store = await db.store.findFirst({
     where: {
-      id: parseInt(params.id),
-      city: cityUpper,
+      id: parseInt(id),
+      city: city as City,
     },
     include: {
       products: {

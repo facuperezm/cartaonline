@@ -5,7 +5,6 @@ import {
   Clock,
   CreditCard,
   Globe,
-  Phone,
   ShieldCheck,
   Sparkles,
   Star,
@@ -21,12 +20,14 @@ import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { CityCard } from "@/app/(lobby)/_components/city-card";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
-  title: "Carta Online - Tu Menú Digital",
-  description:
-    "La manera más fácil de publicar y gestionar tu carta online. Digitaliza tu menú y llega a más clientes.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+    title: "Carta Online - Tu Menú Digital",
+    description:
+      "La manera más fácil de publicar y gestionar tu carta online. Digitaliza tu menú y llega a más clientes.",
+  };
+}
 
 export default async function Home() {
   return (
@@ -77,9 +78,9 @@ export default async function Home() {
       {/* Problem Section */}
       <section className="flex w-full justify-center bg-muted/50 py-20">
         <Shell>
-          <div className="mx-auto max-w-6xl space-y-4">
+          <div className="mx-auto max-w-6xl space-y-8">
             <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="inline-flex items-center rounded-lg bg-destructive/10 px-3 py-1 text-sm text-destructive">
                   <X className="mr-2 h-4 w-4" />
                   El problema
@@ -87,26 +88,26 @@ export default async function Home() {
                 <h2 className="text-3xl font-bold">
                   Los menús tradicionales son costosos e ineficientes
                 </h2>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-3 text-muted-foreground">
                   <li className="flex items-center gap-2">
-                    <X className="h-5 w-5 text-destructive" />
+                    <X className="h-5 w-5 shrink-0 text-destructive" />
                     Costos de impresión recurrentes
                   </li>
                   <li className="flex items-center gap-2">
-                    <X className="h-5 w-5 text-destructive" />
+                    <X className="h-5 w-5 shrink-0 text-destructive" />
                     Imposible actualizar precios rápidamente
                   </li>
                   <li className="flex items-center gap-2">
-                    <X className="h-5 w-5 text-destructive" />
+                    <X className="h-5 w-5 shrink-0 text-destructive" />
                     Sin fotos ni descripciones detalladas
                   </li>
                   <li className="flex items-center gap-2">
-                    <X className="h-5 w-5 text-destructive" />
+                    <X className="h-5 w-5 shrink-0 text-destructive" />
                     Deterioro físico constante
                   </li>
                 </ul>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="inline-flex items-center rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
                   <Check className="mr-2 h-4 w-4" />
                   La solución
@@ -114,21 +115,21 @@ export default async function Home() {
                 <h2 className="text-3xl font-bold">
                   Carta Online: Tu menú digital inteligente
                 </h2>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-3 text-muted-foreground">
                   <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-primary" />
+                    <Check className="h-5 w-5 shrink-0 text-primary" />
                     Sin costos de impresión
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-primary" />
+                    <Check className="h-5 w-5 shrink-0 text-primary" />
                     Actualización instantánea de precios
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-primary" />
+                    <Check className="h-5 w-5 shrink-0 text-primary" />
                     Fotos y descripciones detalladas
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-primary" />
+                    <Check className="h-5 w-5 shrink-0 text-primary" />
                     Siempre como nuevo
                   </li>
                 </ul>
@@ -142,8 +143,8 @@ export default async function Home() {
       <section className="flex w-full justify-center py-20">
         <Shell>
           <div className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="row-span-2 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 p-6 dark:from-pink-950 dark:to-pink-900">
-              <Utensils className="h-12 w-12 text-pink-600 dark:text-pink-400" />
+            <div className="group row-span-2 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg dark:from-pink-950 dark:to-pink-900">
+              <Utensils className="h-12 w-12 text-pink-600 transition-transform duration-300 group-hover:-rotate-12 dark:text-pink-400" />
               <h3 className="mt-4 text-xl font-semibold">Menú Digital</h3>
               <p className="mt-2 text-muted-foreground">
                 Carta digital interactiva con fotos y descripciones detalladas
@@ -151,16 +152,16 @@ export default async function Home() {
                 personalizables.
               </p>
             </div>
-            <div className="rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 p-6 dark:from-blue-950 dark:to-blue-900">
-              <Globe className="h-12 w-12 text-blue-600 dark:text-blue-400" />
+            <div className="group rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg dark:from-blue-950 dark:to-blue-900">
+              <Globe className="h-12 w-12 text-blue-600 transition-transform duration-300 group-hover:rotate-12 dark:text-blue-400" />
               <h3 className="mt-4 text-xl font-semibold">Acceso Universal</h3>
               <p className="mt-2 text-muted-foreground">
                 Disponible en cualquier dispositivo mediante código QR.
                 Multilenguaje y adaptable a cualquier pantalla.
               </p>
             </div>
-            <div className="rounded-3xl bg-gradient-to-br from-green-100 to-green-200 p-6 dark:from-green-950 dark:to-green-900">
-              <Clock className="h-12 w-12 text-green-600 dark:text-green-400" />
+            <div className="group rounded-3xl bg-gradient-to-br from-green-100 to-green-200 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg dark:from-green-950 dark:to-green-900">
+              <Clock className="h-12 w-12 text-green-600 transition-transform duration-300 group-hover:rotate-12 dark:text-green-400" />
               <h3 className="mt-4 text-xl font-semibold">
                 Actualización Instantánea
               </h3>
@@ -169,8 +170,8 @@ export default async function Home() {
                 retrasos en los cambios.
               </p>
             </div>
-            <div className="rounded-3xl bg-gradient-to-br from-purple-100 to-purple-200 p-6 dark:from-purple-950 dark:to-purple-900">
-              <Sparkles className="h-12 w-12 text-purple-600 dark:text-purple-400" />
+            <div className="group rounded-3xl bg-gradient-to-br from-purple-100 to-purple-200 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg dark:from-purple-950 dark:to-purple-900">
+              <Sparkles className="h-12 w-12 text-purple-600 transition-transform duration-300 group-hover:-rotate-12 dark:text-purple-400" />
               <h3 className="mt-4 text-xl font-semibold">
                 Diseño Personalizado
               </h3>
@@ -179,8 +180,8 @@ export default async function Home() {
                 colores corporativos.
               </p>
             </div>
-            <div className="rounded-3xl bg-gradient-to-br from-orange-100 to-orange-200 p-6 dark:from-orange-950 dark:to-orange-900">
-              <CreditCard className="h-12 w-12 text-orange-600 dark:text-orange-400" />
+            <div className="group rounded-3xl bg-gradient-to-br from-orange-100 to-orange-200 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg dark:from-orange-950 dark:to-orange-900">
+              <CreditCard className="h-12 w-12 text-orange-600 transition-transform duration-300 group-hover:rotate-12 dark:text-orange-400" />
               <h3 className="mt-4 text-xl font-semibold">Planes Flexibles</h3>
               <p className="mt-2 text-muted-foreground">
                 Opciones de suscripción para cada necesidad, desde pequeños
@@ -289,9 +290,9 @@ export default async function Home() {
                   <Star className="h-5 w-5 fill-current" />
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  "Increíble herramienta que ha revolucionado la forma en que
-                  presentamos nuestro menú. Los clientes adoran la experiencia
-                  digital."
+                  &quot;Increíble herramienta que ha revolucionado la forma en
+                  que presentamos nuestro menú. Los clientes adoran la
+                  experiencia digital.&quot;
                 </p>
                 <div className="mt-4">
                   <p className="font-semibold">María García</p>
@@ -309,9 +310,9 @@ export default async function Home() {
                   <Star className="h-5 w-5 fill-current" />
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  "La facilidad de actualización y el soporte al cliente son
-                  excepcionales. Ha mejorado significativamente nuestra
-                  eficiencia."
+                  &quot;La facilidad de actualización y el soporte al cliente
+                  son excepcionales. Ha mejorado significativamente nuestra
+                  eficiencia.&quot;
                 </p>
                 <div className="mt-4">
                   <p className="font-semibold">Carlos Rodríguez</p>
@@ -327,8 +328,8 @@ export default async function Home() {
                   <Star className="h-5 w-5 fill-current" />
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  "Una inversión que vale la pena. Hemos reducido costos y
-                  mejorado la experiencia de nuestros clientes."
+                  &quot;Una inversión que vale la pena. Hemos reducido costos y
+                  mejorado la experiencia de nuestros clientes.&quot;
                 </p>
                 <div className="mt-4">
                   <p className="font-semibold">Ana Martínez</p>
@@ -344,24 +345,133 @@ export default async function Home() {
 
       {/* Cities Section */}
       <section className="flex w-full justify-center bg-gradient-to-b from-muted/30 to-background py-20">
-        <Shell>
-          <div className="mx-auto max-w-6xl space-y-8">
+        <div className="w-full px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold">Disponible en tu ciudad</h2>
               <p className="mt-2 text-muted-foreground">
                 Únete a los restaurantes que ya confían en nosotros
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {cities.map((city) => (
                 <CityCard
                   key={city.name}
                   src={city.src}
                   city={city.name}
-                  disabled={city.disabled}
+                  disabled={city.disabled ?? false}
                   href={city.href}
                 />
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="flex w-full justify-center bg-muted/30 py-20">
+        <Shell>
+          <div className="mx-auto max-w-4xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">
+                Planes simples y transparentes
+              </h2>
+              <p className="mt-2 text-muted-foreground">
+                Elige el plan que mejor se adapte a tu negocio
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2">
+              {/* Basic Plan */}
+              <div className="relative flex rounded-2xl border bg-card p-6 shadow-sm">
+                <div className="flex h-full flex-col">
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold">Básico</h3>
+                    <div className="text-3xl font-bold">
+                      $19
+                      <span className="text-base font-normal text-muted-foreground">
+                        /mes
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Perfecto para pequeños restaurantes que están comenzando
+                    </p>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between">
+                    <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        Menú digital ilimitado
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        Código QR personalizado
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        Actualizaciones en tiempo real
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        Soporte por email
+                      </li>
+                    </ul>
+                    <Button className="mt-6 w-full" variant="outline">
+                      Comenzar gratis
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pro Plan */}
+              <div className="relative rounded-2xl border bg-card p-6 shadow-sm">
+                <div className="absolute inset-x-0 -top-4 mx-auto w-fit rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+                  Popular
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold">Pro</h3>
+                  <div className="text-3xl font-bold">
+                    $49
+                    <span className="text-base font-normal text-muted-foreground">
+                      /mes
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Para restaurantes que buscan más funcionalidades
+                  </p>
+                </div>
+                <div className="mt-6 space-y-4">
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      Todo lo del plan Básico
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      Múltiples idiomas
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      Análisis de visitas
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      Soporte prioritario 24/7
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      Personalización avanzada
+                    </li>
+                  </ul>
+                  <Button className="w-full">Comenzar prueba gratuita</Button>
+                </div>
+              </div>
+            </div>
+            <div className="mx-auto mt-8 max-w-xl text-center text-sm text-muted-foreground">
+              <p>
+                Todos los planes incluyen actualizaciones gratuitas y acceso a
+                nuevas funcionalidades. ¿Necesitas algo específico?{" "}
+                <span className="font-medium text-primary">Contáctanos</span>
+              </p>
             </div>
           </div>
         </Shell>

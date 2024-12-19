@@ -135,8 +135,7 @@ export function Billing({
               ) : (
                 <SubscriptionButton
                   storeId={storeId}
-                  planType={plan.planType}
-                  price={plan.price}
+                  planType={plan.planType as "BASIC" | "PRO"}
                   className="w-full"
                 />
               )}

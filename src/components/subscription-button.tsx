@@ -9,15 +9,14 @@ import { Button } from "@/components/ui/button";
 
 interface SubscriptionButtonProps {
   storeId: number;
-  planType: "BASIC" | "PRO" | "ENTERPRISE";
+  planType: "BASIC" | "PRO";
   className?: string;
 }
 
 const PLAN_TITLES = {
   BASIC: "Plan Básico",
   PRO: "Plan Pro",
-  ENTERPRISE: "Plan Enterprise",
-};
+} as const;
 
 export function SubscriptionButton({
   storeId,
@@ -52,8 +51,6 @@ export function SubscriptionButton({
       }
 
       const { initPoint } = await response.json();
-
-      // Redirigir al usuario al checkout de MercadoPago
       window.location.href = initPoint;
     } catch (error) {
       console.error("[SUBSCRIPTION_ERROR]", error);
