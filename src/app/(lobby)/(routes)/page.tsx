@@ -44,11 +44,9 @@ export default async function Home() {
           >
             <Balancer>Moderniza tu carta con un click</Balancer>
           </h1>
-          <p className="max-w-[46rem] text-lg text-muted-foreground md:text-xl">
-            <Balancer>
-              Transforma tu menú en una experiencia digital interactiva.
-              Actualiza precios, platos y promociones en tiempo real.
-            </Balancer>
+          <p className="mx-auto max-w-[46rem] text-balance text-center text-lg text-muted-foreground md:text-xl">
+            Transforma tu menú en una experiencia digital interactiva. Actualiza
+            precios, platos y promociones en tiempo real.
           </p>
           <div className="flex gap-4">
             <Button size="lg" className="gap-2">
