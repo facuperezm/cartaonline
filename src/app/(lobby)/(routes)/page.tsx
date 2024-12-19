@@ -1,13 +1,18 @@
 import { type Metadata } from "next";
 import {
   ArrowRight,
+  Check,
   Clock,
   CreditCard,
   Globe,
   Phone,
+  ShieldCheck,
   Sparkles,
+  Star,
   Users,
   Utensils,
+  X,
+  Zap,
 } from "lucide-react";
 import { Balancer } from "react-wrap-balancer";
 
@@ -25,113 +30,414 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   return (
-    <Shell className="gap-10 md:gap-14">
+    <div className="flex flex-col items-center justify-center">
       {/* Hero Section */}
-      <section
-        id="hero"
-        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pt-8 text-center md:pt-12 lg:py-14"
-      >
-        <div className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
-          ✨ Tu restaurante en la era digital
-        </div>
-        <h1
-          className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
-          style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
-        >
-          <Balancer>Moderniza tu carta con un click</Balancer>
-        </h1>
-        <p className="max-w-[46rem] text-lg text-muted-foreground md:text-xl">
-          <Balancer>
-            Transforma tu menú en una experiencia digital interactiva. Actualiza
-            precios, platos y promociones en tiempo real.
-          </Balancer>
-        </p>
-        <div className="flex gap-4">
-          <Button size="lg" className="gap-2">
-            Comenzar ahora <ArrowRight className="h-4 w-4" />
-          </Button>
-          <Button size="lg" variant="outline">
-            Ver demo
-          </Button>
-        </div>
+      <section className="flex w-full justify-center py-20">
+        <Shell className="flex flex-col items-center justify-center gap-4">
+          <div className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
+            ✨ Tu restaurante en la era digital
+          </div>
+          <h1
+            className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
+            style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
+          >
+            <Balancer>Moderniza tu carta con un click</Balancer>
+          </h1>
+          <p className="max-w-[46rem] text-lg text-muted-foreground md:text-xl">
+            <Balancer>
+              Transforma tu menú en una experiencia digital interactiva.
+              Actualiza precios, platos y promociones en tiempo real.
+            </Balancer>
+          </p>
+          <div className="flex gap-4">
+            <Button size="lg" className="gap-2">
+              Comenzar ahora <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button size="lg" variant="outline">
+              Ver demo
+            </Button>
+          </div>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-muted-foreground sm:gap-8">
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              <span>1000+ Restaurantes</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5" />
+              <span>4.9/5 Valoración</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5" />
+              <span>Soporte 24/7</span>
+            </div>
+          </div>
+        </Shell>
+      </section>
+
+      {/* Problem Section */}
+      <section className="flex w-full justify-center bg-muted/50 py-20">
+        <Shell>
+          <div className="mx-auto max-w-6xl space-y-4">
+            <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+              <div className="space-y-4">
+                <div className="inline-flex items-center rounded-lg bg-destructive/10 px-3 py-1 text-sm text-destructive">
+                  <X className="mr-2 h-4 w-4" />
+                  El problema
+                </div>
+                <h2 className="text-3xl font-bold">
+                  Los menús tradicionales son costosos e ineficientes
+                </h2>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <X className="h-5 w-5 text-destructive" />
+                    Costos de impresión recurrentes
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <X className="h-5 w-5 text-destructive" />
+                    Imposible actualizar precios rápidamente
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <X className="h-5 w-5 text-destructive" />
+                    Sin fotos ni descripciones detalladas
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <X className="h-5 w-5 text-destructive" />
+                    Deterioro físico constante
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <div className="inline-flex items-center rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  <Check className="mr-2 h-4 w-4" />
+                  La solución
+                </div>
+                <h2 className="text-3xl font-bold">
+                  Carta Online: Tu menú digital inteligente
+                </h2>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-primary" />
+                    Sin costos de impresión
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-primary" />
+                    Actualización instantánea de precios
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-primary" />
+                    Fotos y descripciones detalladas
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-primary" />
+                    Siempre como nuevo
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Shell>
       </section>
 
       {/* Bento Grid Features */}
-      <section className="mx-auto grid w-full max-w-5xl gap-4 px-4 md:grid-cols-2 lg:grid-cols-3">
-        <div className="row-span-2 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 p-6 dark:from-pink-950 dark:to-pink-900">
-          <Utensils className="h-12 w-12 text-pink-600 dark:text-pink-400" />
-          <h3 className="mt-4 text-xl font-semibold">Menú Digital</h3>
-          <p className="mt-2 text-muted-foreground">
-            Carta digital interactiva con fotos y descripciones detalladas de
-            tus platos
-          </p>
-        </div>
-        <div className="rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 p-6 dark:from-blue-950 dark:to-blue-900">
-          <Globe className="h-12 w-12 text-blue-600 dark:text-blue-400" />
-          <h3 className="mt-4 text-xl font-semibold">Acceso Universal</h3>
-          <p className="mt-2 text-muted-foreground">
-            Disponible en cualquier dispositivo mediante código QR
-          </p>
-        </div>
-        <div className="rounded-3xl bg-gradient-to-br from-green-100 to-green-200 p-6 dark:from-green-950 dark:to-green-900">
-          <Clock className="h-12 w-12 text-green-600 dark:text-green-400" />
-          <h3 className="mt-4 text-xl font-semibold">
-            Actualización Instantánea
-          </h3>
-          <p className="mt-2 text-muted-foreground">
-            Modifica precios y platos en tiempo real
-          </p>
-        </div>
-        <div className="rounded-3xl bg-gradient-to-br from-purple-100 to-purple-200 p-6 dark:from-purple-950 dark:to-purple-900">
-          <Sparkles className="h-12 w-12 text-purple-600 dark:text-purple-400" />
-          <h3 className="mt-4 text-xl font-semibold">Diseño Personalizado</h3>
-          <p className="mt-2 text-muted-foreground">
-            Adapta el diseño a tu marca
-          </p>
-        </div>
-        <div className="rounded-3xl bg-gradient-to-br from-orange-100 to-orange-200 p-6 dark:from-orange-950 dark:to-orange-900">
-          <CreditCard className="h-12 w-12 text-orange-600 dark:text-orange-400" />
-          <h3 className="mt-4 text-xl font-semibold">Planes Flexibles</h3>
-          <p className="mt-2 text-muted-foreground">
-            Opciones de suscripción para cada necesidad
-          </p>
-        </div>
+      <section className="flex w-full justify-center py-20">
+        <Shell>
+          <div className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="row-span-2 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 p-6 dark:from-pink-950 dark:to-pink-900">
+              <Utensils className="h-12 w-12 text-pink-600 dark:text-pink-400" />
+              <h3 className="mt-4 text-xl font-semibold">Menú Digital</h3>
+              <p className="mt-2 text-muted-foreground">
+                Carta digital interactiva con fotos y descripciones detalladas
+                de tus platos. Incluye categorías, alérgenos y opciones
+                personalizables.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 p-6 dark:from-blue-950 dark:to-blue-900">
+              <Globe className="h-12 w-12 text-blue-600 dark:text-blue-400" />
+              <h3 className="mt-4 text-xl font-semibold">Acceso Universal</h3>
+              <p className="mt-2 text-muted-foreground">
+                Disponible en cualquier dispositivo mediante código QR.
+                Multilenguaje y adaptable a cualquier pantalla.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-gradient-to-br from-green-100 to-green-200 p-6 dark:from-green-950 dark:to-green-900">
+              <Clock className="h-12 w-12 text-green-600 dark:text-green-400" />
+              <h3 className="mt-4 text-xl font-semibold">
+                Actualización Instantánea
+              </h3>
+              <p className="mt-2 text-muted-foreground">
+                Modifica precios y platos en tiempo real. Sin esperas ni
+                retrasos en los cambios.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-gradient-to-br from-purple-100 to-purple-200 p-6 dark:from-purple-950 dark:to-purple-900">
+              <Sparkles className="h-12 w-12 text-purple-600 dark:text-purple-400" />
+              <h3 className="mt-4 text-xl font-semibold">
+                Diseño Personalizado
+              </h3>
+              <p className="mt-2 text-muted-foreground">
+                Adapta el diseño a tu marca con temas personalizados, logos y
+                colores corporativos.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-gradient-to-br from-orange-100 to-orange-200 p-6 dark:from-orange-950 dark:to-orange-900">
+              <CreditCard className="h-12 w-12 text-orange-600 dark:text-orange-400" />
+              <h3 className="mt-4 text-xl font-semibold">Planes Flexibles</h3>
+              <p className="mt-2 text-muted-foreground">
+                Opciones de suscripción para cada necesidad, desde pequeños
+                locales hasta grandes cadenas.
+              </p>
+            </div>
+          </div>
+        </Shell>
+      </section>
+
+      {/* Stats Section */}
+      <section className="flex w-full justify-center bg-gradient-to-b from-muted/50 to-background py-20">
+        <Shell>
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="rounded-3xl bg-card px-6 py-12 shadow-sm md:px-12 md:py-24">
+              <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-3">
+                <div className="text-center">
+                  <div className="text-4xl font-bold md:text-5xl">1M+</div>
+                  <div className="mt-2 text-sm text-muted-foreground">
+                    Menús servidos
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold md:text-5xl">30%</div>
+                  <div className="mt-2 text-sm text-muted-foreground">
+                    Aumento en ventas
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold md:text-5xl">15min</div>
+                  <div className="mt-2 text-sm text-muted-foreground">
+                    Tiempo de configuración
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Shell>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="flex w-full justify-center bg-muted/30 py-20">
+        <Shell>
+          <div className="mx-auto max-w-6xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">¿Por qué elegirnos?</h2>
+              <p className="mt-2 text-muted-foreground">
+                Beneficios que marcan la diferencia
+              </p>
+            </div>
+            <div className="mt-8 grid gap-8 md:grid-cols-3">
+              <div className="flex flex-col items-center text-center">
+                <div className="rounded-full bg-primary/10 p-3">
+                  <Zap className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mt-4 font-semibold">Rápido y Eficiente</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Implementación en menos de 24 horas. Comienza a usar tu menú
+                  digital de inmediato.
+                </p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="rounded-full bg-primary/10 p-3">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mt-4 font-semibold">Soporte Dedicado</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Equipo de soporte local disponible 24/7 para ayudarte en todo
+                  momento.
+                </p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="rounded-full bg-primary/10 p-3">
+                  <ShieldCheck className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mt-4 font-semibold">Seguro y Confiable</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Plataforma segura con respaldos automáticos y alta
+                  disponibilidad.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Shell>
+      </section>
+
+      {/* Testimonials */}
+      <section className="flex w-full justify-center py-20">
+        <Shell>
+          <div className="mx-auto max-w-6xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">
+                Lo que dicen nuestros clientes
+              </h2>
+              <p className="mt-2 text-muted-foreground">
+                Historias de éxito de restaurantes que confían en nosotros
+              </p>
+            </div>
+            <div className="mt-8 grid gap-8 md:grid-cols-3">
+              <div className="rounded-lg border bg-card p-6">
+                <div className="flex gap-1 text-yellow-400">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  "Increíble herramienta que ha revolucionado la forma en que
+                  presentamos nuestro menú. Los clientes adoran la experiencia
+                  digital."
+                </p>
+                <div className="mt-4">
+                  <p className="font-semibold">María García</p>
+                  <p className="text-sm text-muted-foreground">
+                    Restaurante El Rincón
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-lg border bg-card p-6">
+                <div className="flex gap-1 text-yellow-400">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  "La facilidad de actualización y el soporte al cliente son
+                  excepcionales. Ha mejorado significativamente nuestra
+                  eficiencia."
+                </p>
+                <div className="mt-4">
+                  <p className="font-semibold">Carlos Rodríguez</p>
+                  <p className="text-sm text-muted-foreground">Café Central</p>
+                </div>
+              </div>
+              <div className="rounded-lg border bg-card p-6">
+                <div className="flex gap-1 text-yellow-400">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  "Una inversión que vale la pena. Hemos reducido costos y
+                  mejorado la experiencia de nuestros clientes."
+                </p>
+                <div className="mt-4">
+                  <p className="font-semibold">Ana Martínez</p>
+                  <p className="text-sm text-muted-foreground">
+                    La Terraza Restaurant
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Shell>
       </section>
 
       {/* Cities Section */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold">Disponible en tu ciudad</h2>
-          <p className="mt-2 text-muted-foreground">
-            Únete a los restaurantes que ya confían en nosotros
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city) => (
-            <CityCard
-              key={city.name}
-              src={city.src}
-              city={city.name}
-              disabled={city.disabled}
-              href={city.href}
-            />
-          ))}
-        </div>
+      <section className="flex w-full justify-center bg-gradient-to-b from-muted/30 to-background py-20">
+        <Shell>
+          <div className="mx-auto max-w-6xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">Disponible en tu ciudad</h2>
+              <p className="mt-2 text-muted-foreground">
+                Únete a los restaurantes que ya confían en nosotros
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {cities.map((city) => (
+                <CityCard
+                  key={city.name}
+                  src={city.src}
+                  city={city.name}
+                  disabled={city.disabled}
+                  href={city.href}
+                />
+              ))}
+            </div>
+          </div>
+        </Shell>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="flex w-full justify-center py-20">
+        <Shell>
+          <div className="mx-auto max-w-4xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">Preguntas frecuentes</h2>
+              <p className="mt-2 text-muted-foreground">
+                Todo lo que necesitas saber sobre Carta Online
+              </p>
+            </div>
+            <div className="mt-8 grid gap-4">
+              <div className="rounded-lg border bg-card p-6">
+                <h3 className="font-semibold">
+                  ¿Cuánto tiempo toma implementar Carta Online?
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  La implementación básica toma menos de 24 horas. Nuestro
+                  equipo te ayuda en todo el proceso, desde la configuración
+                  inicial hasta la personalización completa de tu menú.
+                </p>
+              </div>
+              <div className="rounded-lg border bg-card p-6">
+                <h3 className="font-semibold">
+                  ¿Necesito conocimientos técnicos?
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  No, nuestra plataforma está diseñada para ser fácil de usar.
+                  Además, ofrecemos capacitación gratuita y soporte continuo
+                  para asegurar tu éxito.
+                </p>
+              </div>
+              <div className="rounded-lg border bg-card p-6">
+                <h3 className="font-semibold">
+                  ¿Puedo personalizar el diseño?
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Sí, puedes personalizar colores, logos, fuentes y más para que
+                  coincida con tu marca. También ofrecemos plantillas
+                  prediseñadas profesionales.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Shell>
       </section>
 
       {/* CTA Section */}
-      <section className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-br from-background to-muted p-8 text-center shadow-lg">
-        <h2 className="text-3xl font-bold">
-          ¿Listo para modernizar tu restaurante?
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Únete a la revolución digital de los restaurantes. Comienza hoy mismo
-          con nuestra prueba gratuita.
-        </p>
-        <Button size="lg" className="mt-6 gap-2">
-          Comenzar prueba gratuita <ArrowRight className="h-4 w-4" />
-        </Button>
+      <section className="flex w-full justify-center bg-muted/30 py-20">
+        <Shell>
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-3xl bg-gradient-to-br from-background to-muted p-8 text-center shadow-lg md:p-12">
+              <h2 className="text-3xl font-bold md:text-4xl">
+                ¿Listo para modernizar tu restaurante?
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Únete a la revolución digital de los restaurantes. Comienza hoy
+                mismo con nuestra prueba gratuita de 14 días, sin compromiso.
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-4">
+                <Button size="lg" className="gap-2">
+                  Comenzar prueba gratuita <ArrowRight className="h-4 w-4" />
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  No se requiere tarjeta de crédito • Configuración en 24 horas
+                  • Soporte incluido
+                </p>
+              </div>
+            </div>
+          </div>
+        </Shell>
       </section>
-    </Shell>
+    </div>
   );
 }
