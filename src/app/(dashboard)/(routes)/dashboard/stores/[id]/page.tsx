@@ -1,245 +1,101 @@
 import { type Metadata } from "next";
-import { AlertCircleIcon } from "lucide-react";
+import { notFound } from "next/navigation";
 
-import {
-  deleteStore,
-  updateStore,
-  updateStoreStatus,
-} from "@/lib/actions/store";
 import { db } from "@/lib/db";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { LoadingButton } from "@/components/loading-button";
-import BannerBtn from "@/components/upload-btn-banner";
-import UploadBtn from "@/components/upload-btn-logo";
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/components/page-header";
+import { Shell } from "@/components/shell";
 import ClipboardShare from "@/app/(dashboard)/_components/clipboard-share";
+import {
+  CardDescription,
+  CardTitle,
+  QRCodeCustomizer,
+} from "@/app/(dashboard)/_components/qr-code-customizer";
+import StoreSettings from "@/app/(dashboard)/_components/store-settings";
 import { columns } from "@/app/(dashboard)/_components/tables/columns";
 import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
+import BannerBtn from "@/app/(dashboard)/_components/upload-btn-banner";
+import UploadBtn from "@/app/(dashboard)/_components/upload-btn-logo";
 
-export const metadata: Metadata = {
-  title: "Administrá tu tienda",
-  description: "Modifica toda la información de tu tienda",
-};
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-export default async function UpdateStorePage(props: {
-  params: Promise<{ id: string }>;
-}) {
-  const params = await props.params;
-  const storeId = Number(params.id);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const store = await db.store.findFirst({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!store) {
+    return {
+      title: "Store not found",
+      description: "The store you are looking for does not exist.",
+    };
+  }
+
+  return {
+    title: `${store.name} - Settings`,
+    description: `Manage ${store.name} settings`,
+  };
+}
+
+export default async function StorePage({ params }: PageProps) {
+  const { id } = await params;
+  const store = await db.store.findFirst({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!store) {
+    notFound();
+  }
 
   const storeWithProducts = await db.store.findFirst({
     where: {
-      id: storeId,
+      id: parseInt(id),
     },
     include: {
       products: true,
     },
   });
 
-  if (!storeWithProducts) {
-    return (
-      <div className="mx-auto flex h-dvh items-center font-bold">
-        Store not found
-      </div>
-    );
-  }
+  const storeUrl = `${
+    process.env.NEXT_PUBLIC_APP_URL
+  }/stores/${store.city.toLowerCase()}/${store.id}`;
 
   return (
-    <div className="pt-6">
-      {storeWithProducts?.status === "ACTIVE" ? null : (
-        <Alert variant="destructive" className="mb-5">
-          <AlertCircleIcon className="size-4" />
-          <AlertTitle>Aviso importante</AlertTitle>
-          <AlertDescription>
-            Tu tienda está inactiva, nadie puede verla. Activala para que todos
-            puedan verla.
-          </AlertDescription>
-        </Alert>
-      )}
-      <h2 className="mb-6 text-2xl font-bold leading-tight tracking-tighter">
-        Actualizar tienda
-      </h2>
-      <Card>
-        <CardHeader>
-          <CardTitle>Información de la tienda</CardTitle>
-          <CardDescription>
-            <p>Modifica la información de tu tienda.</p>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-4 grid grid-cols-4 gap-2">
-            <div className="col-span-1 place-items-end space-y-2">
-              <Label>Logo</Label>
-              <UploadBtn
-                storeId={storeId}
-                storeLogo={storeWithProducts.logoUrl ?? ""}
-              />
-            </div>
-            <div className="col-span-3 space-y-2">
-              <Label>Banner</Label>
-              <BannerBtn
-                storeId={storeId}
-                storeBanner={storeWithProducts.bannerUrl ?? ""}
-              />
-            </div>
-          </div>
-          <form action={updateStore.bind(null, storeId)} className="grid gap-6">
-            <div className="grid gap-3">
-              <Label htmlFor="update-store-name">Nombre</Label>
-              <Input
-                id="update-store-name"
-                aria-describedby="update-store-name"
-                name="name"
-                required
-                minLength={3}
-                maxLength={50}
-                placeholder="Acá va el nombre de tu tienda."
-                defaultValue={storeWithProducts.name ?? ""}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="update-store-slug">Url de la tienda</Label>
-              <Input
-                id="update-store-slug"
-                aria-describedby="update-store-slug"
-                name="slug"
-                minLength={3}
-                maxLength={20}
-                placeholder="Acá va el url de tu tienda."
-                defaultValue={storeWithProducts.slug ?? ""}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="update-store-address">Dirección</Label>
-              <Input
-                id="update-store-address"
-                aria-describedby="update-store-address"
-                name="address"
-                minLength={3}
-                maxLength={255}
-                placeholder="Acá va tu dirección."
-                defaultValue={storeWithProducts.address ?? ""}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="update-store-city">Ciudad</Label>
-              <Select name="city" defaultValue={storeWithProducts?.city}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Elegí tu ciudad" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Ciudad</SelectLabel>
-                    <SelectItem value="puerto_iguazu">Puerto Iguazú</SelectItem>
-                    <SelectItem value="posadas">Posadas</SelectItem>
-                    <SelectItem value="corrientes">Corrientes</SelectItem>
-                    <SelectItem disabled value="cordoba">
-                      Córdoba
-                    </SelectItem>
-                    <SelectItem disabled value="buenos_aires">
-                      Buenos Aires
-                    </SelectItem>
-                    <SelectItem disabled value="ushuaia">
-                      Ushuaia
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2 lg:flex-row">
-              <LoadingButton action="update">
-                Actualizar información
-                <span className="sr-only">Actualizar</span>
-              </LoadingButton>
-              <LoadingButton
-                formAction={deleteStore.bind(null, storeId)}
-                variant="destructive"
-                action="delete"
-              >
-                Borrar tienda
-                <span className="sr-only">Borrar tienda</span>
-              </LoadingButton>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-      {storeWithProducts.slug && (
-        <ClipboardShare
-          slug={storeWithProducts.slug}
-          storeId={storeWithProducts.id}
-        />
-      )}
-      <div className="mx-auto mb-6 pt-10">
-        <h2 className="mb-2 text-2xl font-semibold leading-none tracking-tight">
-          Lista de productos
-        </h2>
-        <DataTable
-          storeId={storeWithProducts.id}
-          columns={columns}
-          data={storeWithProducts.products}
-        />
-      </div>
-      <form className="mb-6">
-        <Card className="flex flex-row items-center justify-between">
-          <CardHeader>
-            <CardTitle>
-              Queres{" "}
-              {storeWithProducts.status === "ACTIVE" ? "desactivar" : "activar"}{" "}
-              tu tienda?
-            </CardTitle>
-            <CardDescription>
-              <p>
-                {storeWithProducts.status === "ACTIVE"
-                  ? "Tu tienda no estará disponible."
-                  : "Tu tienda estará disponible."}
-              </p>
-              <span>
-                <input
-                  type="hidden"
-                  name="status"
-                  value={storeWithProducts.status}
-                  aria-hidden
-                />
-              </span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <LoadingButton
-              variant={
-                storeWithProducts.status === "ACTIVE"
-                  ? "destructive"
-                  : "default"
-              }
-              action="update"
-              formAction={updateStoreStatus.bind(null, storeId)}
-            >
-              {storeWithProducts.status === "ACTIVE" ? "Desactivar" : "Activar"}
-              <span className="sr-only">
-                {storeWithProducts.status === "ACTIVE"
-                  ? "Desactivar"
-                  : "Activar"}
-              </span>
-            </LoadingButton>
-          </CardContent>
-        </Card>
-      </form>
-    </div>
+    <Shell variant="sidebar">
+      <PageHeader separated>
+        <PageHeaderHeading size="sm">{store.name}</PageHeaderHeading>
+        <PageHeaderDescription size="sm">
+          Administra la configuración de tu tienda
+        </PageHeaderDescription>
+      </PageHeader>
+      <Tabs defaultValue="qr" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="qr">Código QR</TabsTrigger>
+          <TabsTrigger value="settings">Configuración</TabsTrigger>
+        </TabsList>
+        <TabsContent value="qr" className="space-y-4">
+          <QRCodeCustomizer storeUrl={storeUrl} storeName={store.name} />
+        </TabsContent>
+        <TabsContent value="settings" className="space-y-4">
+          {/* Add your existing store settings content here */}
+          <StoreSettings store={store} storeWithProducts={storeWithProducts} />
+        </TabsContent>
+      </Tabs>
+    </Shell>
   );
 }

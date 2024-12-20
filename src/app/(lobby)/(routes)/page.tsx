@@ -32,36 +32,42 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   return (
     <div className="flex flex-col items-center justify-center">
-      {/* Hero Section */}
-      <section className="flex w-full justify-center py-20">
-        <Shell className="flex flex-col items-center justify-center gap-4">
-          <div className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
-            ✨ Tu restaurante en la era digital
-          </div>
-          <h1
-            className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
-            style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
-          >
+      {/* Hero Section - Direct Benefit */}
+      <section className="flex w-full justify-center py-24">
+        <Shell className="flex flex-col items-center justify-center gap-6">
+          <div className="flex flex-col items-center gap-6 text-center">
+            <div className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
+              ✨ La manera más fácil de digitalizar tu menú
+            </div>
+            <h1
+              className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
+              style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
+            >
               <Balancer>
                 Tu carta digital en minutos, sin complicaciones
               </Balancer>
-          </h1>
-          <p className="mx-auto max-w-[46rem] text-balance text-center text-lg text-muted-foreground md:text-xl">
-            Transforma tu menú en una experiencia digital interactiva. Actualiza
-            precios, platos y promociones en tiempo real.
-          </p>
+            </h1>
+            <p className="mx-auto max-w-[46rem] text-balance text-center text-lg text-muted-foreground md:text-xl">
+              Crea un menú digital profesional, actualizable en tiempo real y
+              accesible mediante código QR. Ideal para restaurantes que quieren
+              modernizarse.
+            </p>
+          </div>
+
           <div className="flex gap-4">
             <Button size="lg" className="gap-2">
-              Comenzar ahora <ArrowRight className="h-4 w-4" />
+              Crear mi carta digital <ArrowRight className="h-4 w-4" />
             </Button>
             <Button size="lg" variant="outline">
-              Ver demo
+              Ver ejemplo
             </Button>
           </div>
+
+          {/* Social Proof */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-muted-foreground sm:gap-8">
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              <span>1000+ Restaurantes</span>
+              <span>1000+ Restaurantes activos</span>
             </div>
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5" />
@@ -72,13 +78,45 @@ export default async function Home() {
               <span>Soporte 24/7</span>
             </div>
           </div>
+
+          {/* Product Preview */}
+          <div className="relative mt-8 w-full max-w-5xl overflow-hidden rounded-xl border bg-background shadow-2xl">
+            <div className="aspect-[16/9] w-full">
+              <img
+                src="/images/demo-menu.webp"
+                alt="Demo de carta digital"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Logos Section */}
+          {/* <div className="mt-16 w-full">
+            <p className="text-center text-sm text-muted-foreground">
+              Restaurantes que confían en nosotros
+            </p>
+            <div className="mt-8 grid grid-cols-2 gap-8 opacity-70 md:grid-cols-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex h-12 items-center justify-center grayscale transition hover:grayscale-0"
+                >
+                  <img
+                    src={`/images/logos/logo-${i + 1}.svg`}
+                    alt={`Logo cliente ${i + 1}`}
+                    className="max-h-8 w-auto"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>*/}
         </Shell>
       </section>
 
-      {/* Problem Section */}
-      <section className="flex w-full justify-center bg-muted/50 py-20">
+      {/* Problem/Solution Section */}
+      <section className="flex w-full justify-center bg-muted/50 py-24">
         <Shell>
-          <div className="mx-auto max-w-6xl space-y-8">
+          <div className="mx-auto max-w-6xl space-y-12">
             <div className="grid gap-12 md:grid-cols-2 md:gap-16">
               <div className="space-y-6">
                 <div className="inline-flex items-center rounded-lg bg-destructive/10 px-3 py-1 text-sm text-destructive">
@@ -118,19 +156,19 @@ export default async function Home() {
                 <ul className="space-y-3 text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 shrink-0 text-primary" />
-                    Sin costos de impresión
+                    Actualización instantánea de precios y platos
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 shrink-0 text-primary" />
-                    Actualización instantánea de precios
+                    Fotos profesionales y descripciones detalladas
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 shrink-0 text-primary" />
-                    Fotos y descripciones detalladas
+                    Acceso mediante código QR personalizado
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 shrink-0 text-primary" />
-                    Siempre como nuevo
+                    Análisis de platos más populares
                   </li>
                 </ul>
               </div>
@@ -527,19 +565,19 @@ export default async function Home() {
       <section className="flex w-full justify-center bg-muted/30 py-20">
         <Shell>
           <div className="mx-auto max-w-4xl">
-            <div className="rounded-3xl bg-gradient-to-br from-background to-muted p-8 text-center shadow-lg md:p-12">
-              <h2 className="text-3xl font-bold md:text-4xl">
+            <div className="rounded-3xl bg-gradient-to-br from-black to-muted-foreground p-8 text-center shadow-lg md:p-12">
+              <h2 className="text-3xl font-bold text-muted md:text-4xl">
                 ¿Listo para modernizar tu restaurante?
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
+              <p className="mt-4 text-muted">
                 Únete a la revolución digital de los restaurantes. Comienza hoy
                 mismo con nuestra prueba gratuita de 14 días, sin compromiso.
               </p>
-              <div className="mt-8 flex flex-col items-center gap-4">
+              <div className="mt-8 flex flex-col items-center gap-4 text-muted">
                 <Button size="lg" className="gap-2">
                   Comenzar prueba gratuita <ArrowRight className="h-4 w-4" />
                 </Button>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted">
                   No se requiere tarjeta de crédito • Configuración en 24 horas
                   • Soporte incluido
                 </p>

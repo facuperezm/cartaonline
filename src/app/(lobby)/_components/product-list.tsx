@@ -1,81 +1,90 @@
-import { Separator } from "@/components/ui/separator";
-import { Shell } from "@/components/shell";
+import { type Product } from "@prisma/client";
+import { Info } from "lucide-react";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  category: string;
-}
-
-interface GroupedProducts {
-  [category: string]: Product[];
-}
+import { cn } from "@/lib/utils";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface ProductListProps {
   products: Product[];
 }
 
 export function ProductList({ products }: ProductListProps) {
-  const groupedProducts: GroupedProducts = products.reduce<GroupedProducts>(
+  // Group products by category
+  const groupedProducts = products.reduce(
     (acc, product) => {
-      if (!acc[product.category]) {
-        acc[product.category] = [];
+      const category = product.category;
+      if (!acc[category]) {
+        acc[category] = [];
       }
-      acc[product.category].push(product);
+      acc[category].push(product);
       return acc;
     },
-    {},
+    {} as Record<string, Product[]>,
   );
 
-  if (products.length === 0) {
-    return (
-      <Shell className="py-4 md:max-w-3xl md:pb-14">
-        <div className="border-foreground-muted space-y-2 rounded-lg border px-14 py-32 text-center">
-          <p className="mb-1 text-xl font-medium tracking-tight">
-            No hay productos
-          </p>
-          <p className="text-sm [&_p]:leading-relaxed">
-            Pronto habrá productos disponibles.
-          </p>
-        </div>
-      </Shell>
-    );
-  }
-
   return (
-    <Shell className="py-4 md:max-w-3xl md:pb-14">
-      {Object.keys(groupedProducts).map((category) => (
-        <div key={category}>
-          <div className="mb-4">
-            <p className="text-2xl font-semibold">{category}</p>
-            <Separator />
-          </div>
-          <article className="space-y-2">
-            <ul className="space-y-3 text-base text-muted-foreground">
-              {groupedProducts[category].map((product) => (
-                <li key={product.id}>
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="line-clamp-2 text-balance text-xl font-medium capitalize text-foreground/80">
-                      {product.name}
-                    </span>
-                    <span className="font-medium">
-                      {product.price.toLocaleString("es-AR", {
-                        style: "currency",
-                        currency: "ARS",
-                      })}
-                    </span>
+    <div className="space-y-12">
+      {Object.entries(groupedProducts).map(([category, products]) => (
+        <div key={category} className="space-y-6">
+          <h3 className="text-xl font-semibold capitalize">{category}</h3>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="group relative overflow-hidden rounded-2xl border bg-card transition-all hover:shadow-md"
+              >
+                {product.imageUrl && (
+                  <div className="aspect-[16/10] w-full overflow-hidden">
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                   </div>
-                  <p className="line-clamp-6 text-pretty font-light">
-                    {product.description}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </article>
+                )}
+                <div className="p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium">{product.name}</h4>
+                      {product.description && (
+                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                          {product.description}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <p className="font-semibold">
+                        ${product.price.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                  {product.ingredients && (
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {product.ingredients}
+                    </p>
+                  )}
+                  {product.allergens && (
+                    <div className="mt-3 flex flex-wrap gap-1">
+                      {product.allergens.split(",").map((allergen) => (
+                        <span
+                          key={allergen}
+                          className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                        >
+                          {allergen.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
-    </Shell>
+    </div>
   );
 }
