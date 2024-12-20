@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Download, Upload } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -38,7 +37,7 @@ export function QRCodeCustomizer({
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [size, setSize] = useState(256);
   const [logo, setLogo] = useState<string | null>(null);
-  const [includeMargin, setIncludeMargin] = useState(true);
+  const [includeMargin] = useState(true);
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

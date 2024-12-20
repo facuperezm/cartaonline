@@ -9,14 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { ProductList } from "@/app/(lobby)/_components/product-list";
 import { ReserveButton } from "@/app/(lobby)/_components/reserve-button";
-import { StoreHeader } from "@/app/(lobby)/_components/store-header";
 
 type PageProps = {
   params: Promise<{
     city: string;
     id: string;
   }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({
@@ -126,6 +124,7 @@ export default async function StorePage({ params }: PageProps) {
         </div>
       </div>
       {/* <StoreHeader store={store} /> */}
+      {/* TODO: REMOVE THIS COMPONENT AND REFACTOR THE COMPONENT */}
 
       {/* Menu Section */}
       <Shell className="flex-1 py-6 md:py-8">

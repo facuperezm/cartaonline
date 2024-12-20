@@ -5,22 +5,16 @@ import { useRouter } from "next/navigation";
 import { Camera, ImageIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import UploadDropzone from "@/components/upload-dropzone";
-import { trpc } from "@/app/_trpc/client";
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../components/ui/avatar";
-import { Button } from "../../../components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "@/components/ui/dialog";
+import UploadDropzone from "@/components/upload-dropzone";
+import { trpc } from "@/app/_trpc/client";
 
 export default function UploadBtn({
   storeId,

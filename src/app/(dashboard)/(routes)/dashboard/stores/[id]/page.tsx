@@ -9,17 +9,8 @@ import {
   PageHeaderHeading,
 } from "@/components/page-header";
 import { Shell } from "@/components/shell";
-import ClipboardShare from "@/app/(dashboard)/_components/clipboard-share";
-import {
-  CardDescription,
-  CardTitle,
-  QRCodeCustomizer,
-} from "@/app/(dashboard)/_components/qr-code-customizer";
+import { QRCodeCustomizer } from "@/app/(dashboard)/_components/qr-code-customizer";
 import StoreSettings from "@/app/(dashboard)/_components/store-settings";
-import { columns } from "@/app/(dashboard)/_components/tables/columns";
-import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
-import BannerBtn from "@/app/(dashboard)/_components/upload-btn-banner";
-import UploadBtn from "@/app/(dashboard)/_components/upload-btn-logo";
 
 interface PageProps {
   params: Promise<{

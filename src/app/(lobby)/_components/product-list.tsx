@@ -1,12 +1,4 @@
 import { type Product } from "@prisma/client";
-import { Info } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 
 interface ProductListProps {
   products: Product[];
@@ -37,7 +29,7 @@ export function ProductList({ products }: ProductListProps) {
                 key={product.id}
                 className="group relative overflow-hidden rounded-2xl border bg-card transition-all hover:shadow-md"
               >
-                {product.imageUrl && (
+                {/* {product.imageUrl && (
                   <div className="aspect-[16/10] w-full overflow-hidden">
                     <img
                       src={product.imageUrl}
@@ -45,7 +37,7 @@ export function ProductList({ products }: ProductListProps) {
                       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
-                )}
+                )} */}
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-2">
@@ -62,12 +54,12 @@ export function ProductList({ products }: ProductListProps) {
                       </p>
                     </div>
                   </div>
-                  {product.ingredients && (
+                  {/* {product.ingredients && (
                     <p className="mt-2 text-sm text-muted-foreground">
                       {product.ingredients}
                     </p>
-                  )}
-                  {product.allergens && (
+                  )} */}
+                  {/* {product.allergens && (
                     <div className="mt-3 flex flex-wrap gap-1">
                       {product.allergens.split(",").map((allergen) => (
                         <span
@@ -78,7 +70,7 @@ export function ProductList({ products }: ProductListProps) {
                         </span>
                       ))}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))}
