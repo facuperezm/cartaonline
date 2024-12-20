@@ -42,7 +42,9 @@ export default async function Home() {
             className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
             style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
           >
-            <Balancer>Moderniza tu carta con un click</Balancer>
+              <Balancer>
+                Tu carta digital en minutos, sin complicaciones
+              </Balancer>
           </h1>
           <p className="mx-auto max-w-[46rem] text-balance text-center text-lg text-muted-foreground md:text-xl">
             Transforma tu menú en una experiencia digital interactiva. Actualiza
