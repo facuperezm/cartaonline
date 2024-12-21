@@ -1,30 +1,64 @@
 import Image from "next/image";
+import { type Store } from "@prisma/client";
+import { Clock, MapPin, Phone, Share2, Star } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Shell } from "@/components/shell";
 
 interface StoreHeaderProps {
-  bannerUrl: string | null;
-  name: string;
-  address: string;
+  store: Pick<Store, "name" | "bannerUrl" | "address" | "phone">;
 }
 
-export function StoreHeader({ bannerUrl, name, address }: StoreHeaderProps) {
+export function StoreHeader({ store }: StoreHeaderProps) {
   return (
-    <header className="relative rounded-md">
-      <div className="absolute z-10 size-full bg-gradient-to-t from-stone-900 from-5% to-transparent to-90%" />
-      <Image
-        className="h-40 w-full object-cover md:h-72"
-        src={bannerUrl ?? "/images/restaurant.webp"}
-        alt={`Banner de ${name}`}
-        width={800}
-        height={1000}
-      />
-      <div className="absolute bottom-0 z-20 w-full">
-        <h1 className="line-clamp-2 rounded-b-md px-4 text-2xl font-bold text-background md:mx-auto md:max-w-3xl md:pl-8">
-          {name ?? "Tienda"}
-        </h1>
-        <p className="px-4 pb-3 text-base text-muted md:mx-auto md:max-w-3xl md:pl-8">
-          {address ?? "Dirección"}
-        </p>
+    <div className="relative h-[40vh] min-h-[300px] w-full">
+      <div className="absolute inset-0">
+        <Image
+          src={store.bannerUrl ?? "/images/restaurant.webp"}
+          alt={store.name}
+          className="h-full w-full object-cover"
+          fill
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/40" />
       </div>
-    </header>
+      <div className="absolute inset-x-0 bottom-0">
+        <Shell>
+          <div className="space-y-4 text-black">
+            <div className="flex flex-wrap items-center gap-2 text-primary-foreground">
+              <div className="rounded-full bg-primary px-3 py-1 text-sm font-medium">
+                Abierto
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                <span className="text-sm">11:00 - 23:00</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Star className="h-4 w-4 text-yellow-400" />
+                <span className="text-sm">4.8 (200+ reseñas)</span>
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-white md:text-5xl">
+              {store.name}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 text-primary-foreground">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                <span>{store.address}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4" />
+                <span>{store.phone}</span>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="secondary" size="lg">
+                <Share2 className="mr-2 h-4 w-4" />
+                Compartir
+              </Button>
+            </div>
+          </div>
+        </Shell>
+      </div>
+    </div>
   );
 }

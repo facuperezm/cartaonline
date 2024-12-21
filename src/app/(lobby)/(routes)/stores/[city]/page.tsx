@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { type City } from "@/types";
+import { type City } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import {
@@ -10,38 +10,34 @@ import {
 import { Shell } from "@/components/shell";
 import { StoreLobbyCard } from "@/app/(lobby)/_components/store-lobby-card";
 
-type Props = {
+interface CityPageProps {
   params: Promise<{ city: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
+}
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params;
-  // remove spaces and capitalize city name
-  const city = params.city
+export async function generateMetadata({
+  params,
+}: CityPageProps): Promise<Metadata> {
+  const { city } = await params;
+  const cityName = city
     .replace(/_/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+    .replace(/\b\w/g, (l: string) => l.toUpperCase());
 
   return {
-    title: `${city}`,
-    description: `Los mejores restaurantes de ${city} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
+    title: `${cityName}`,
+    description: `Los mejores restaurantes de ${cityName} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
   };
 }
 
-export default async function CityPage(
-  props: {
-    params: Promise<{ city: string | City | any }>;
-  }
-) {
-  const params = await props.params;
+export default async function CityPage({ params }: CityPageProps) {
+  const { city } = await params;
   const stores = await db.store.findMany({
     where: {
-      city: params.city,
+      city: city as City,
       status: "ACTIVE",
     },
   });
 
-  const city = params.city
+  const cityName = city
     .replace(/_/g, " ")
     .replace(/\b\w/g, (l: string) => l.toUpperCase());
 
@@ -52,7 +48,7 @@ export default async function CityPage(
         aria-labelledby="subcategory-page-header-heading"
       >
         <PageHeaderHeading size="sm">
-          Estos son las mejores tiendas de {city}
+          Estos son las mejores tiendas de {cityName}
         </PageHeaderHeading>
         <PageHeaderDescription size="sm">
           Descubri todo lo que tienen para ofrecer ✨
