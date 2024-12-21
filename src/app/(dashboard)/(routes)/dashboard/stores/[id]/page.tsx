@@ -83,7 +83,6 @@ export default async function StorePage({ params }: PageProps) {
           <QRCodeCustomizer storeUrl={storeUrl} storeName={store.name} />
         </TabsContent>
         <TabsContent value="settings" className="space-y-4">
-          {/* Add your existing store settings content here */}
           <StoreSettings store={store} storeWithProducts={storeWithProducts} />
         </TabsContent>
       </Tabs>
