@@ -16,7 +16,7 @@
 ## 🛠️ Stack
 
 - [**React**](https://reactjs.org/) - A JavaScript library for building user interfaces.
-- [**Next.js 14**](https://nextjs.org/) - The React framework for building production-ready websites.
+- [**Next.js 15**](https://nextjs.org/) - The React framework for building production-ready websites.
 - [**Tailwind CSS**](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
 - [**React-hook-form**](https://react-hook-form.com/) - Performant, flexible, and extensible forms with easy-to-use React hooks.
 - [**Zod**](https://github.com/colinhacks/zod) - A TypeScript-first schema declaration and validation library.
