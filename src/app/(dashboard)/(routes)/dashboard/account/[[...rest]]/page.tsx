@@ -19,8 +19,8 @@ export default function AccountPage() {
   return (
     <Shell variant="sidebar" className="overflow-hidden">
       <PageHeader>
-        <PageHeaderHeading size="sm">Cuenta</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
+        <PageHeaderHeading>Cuenta</PageHeaderHeading>
+        <PageHeaderDescription>
           Administra tu configuración de cuenta
         </PageHeaderDescription>
       </PageHeader>

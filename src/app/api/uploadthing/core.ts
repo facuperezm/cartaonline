@@ -1,16 +1,16 @@
-import { auth } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 import { db } from "@/lib/db";
 
 const f = createUploadthing();
 
-function handleAuth() {
-  const { userId } = auth();
-  if (!userId) {
+async function handleAuth() {
+  const user = await currentUser();
+  if (!user) {
     throw new Error("No autorizado");
   }
-  return { userId: userId };
+  return { userId: user.id };
 }
 
 export const ourFileRouter = {

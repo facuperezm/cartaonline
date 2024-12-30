@@ -10,7 +10,9 @@ import { SiteHeader } from "@/components/layouts/site-header";
 
 export default async function DashboardLayout({
   children,
-}: React.PropsWithChildren) {
+}: {
+  children: React.ReactNode;
+}) {
   const clerkUser = await currentUser();
 
   if (!clerkUser) {

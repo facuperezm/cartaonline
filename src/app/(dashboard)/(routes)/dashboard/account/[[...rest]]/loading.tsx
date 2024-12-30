@@ -9,9 +9,9 @@ import { Shell } from "@/components/shell";
 export default function AccountLoading() {
   return (
     <Shell variant="sidebar">
-      <PageHeader separated>
-        <PageHeaderHeading size="sm">Account</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
+      <PageHeader>
+        <PageHeaderHeading>Account</PageHeaderHeading>
+        <PageHeaderDescription>
           Manage your account settings
         </PageHeaderDescription>
       </PageHeader>

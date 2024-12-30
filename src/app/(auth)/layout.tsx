@@ -5,7 +5,11 @@ import { BookOpenCheck } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
-export default function AuthLayout({ children }: React.PropsWithChildren) {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen overflow-hidden">
       <AspectRatio ratio={18 / 6}>

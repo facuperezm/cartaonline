@@ -47,10 +47,10 @@ export default async function CityPage({ params }: CityPageProps) {
         id="subcategory-page-header"
         aria-labelledby="subcategory-page-header-heading"
       >
-        <PageHeaderHeading size="sm">
+        <PageHeaderHeading>
           Estos son las mejores tiendas de {cityName}
         </PageHeaderHeading>
-        <PageHeaderDescription size="sm">
+        <PageHeaderDescription>
           Descubri todo lo que tienen para ofrecer ✨
         </PageHeaderDescription>
       </PageHeader>

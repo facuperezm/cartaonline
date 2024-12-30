@@ -18,11 +18,9 @@ export const metadata: Metadata = {
 };
 
 export default async function BillingPage() {
-  const { userId } = auth();
+  const { userId, redirectToSignIn } = await auth();
 
-  if (!userId) {
-    redirect("/sign-in");
-  }
+  if (!userId) return redirectToSignIn();
 
   const stores = await db.store.findMany({
     where: {
@@ -45,10 +43,8 @@ export default async function BillingPage() {
   return (
     <Shell variant="sidebar" className="overflow-hidden">
       <PageHeader>
-        <PageHeaderHeading size="sm">Pagos</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
-          Administra tu suscripción
-        </PageHeaderDescription>
+        <PageHeaderHeading>Pagos</PageHeaderHeading>
+        <PageHeaderDescription>Administra tu suscripción</PageHeaderDescription>
       </PageHeader>
       <Billing
         storeId={mainStore.id}

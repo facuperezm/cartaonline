@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 import {
   Card,
@@ -23,11 +22,9 @@ export const metadata: Metadata = {
 };
 
 export default async function NewStorePage() {
-  const user = await currentUser();
+  const { userId, redirectToSignIn } = await auth();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
+  if (!userId) return redirectToSignIn();
 
   return (
     <Shell variant="sidebar">
@@ -35,8 +32,8 @@ export default async function NewStorePage() {
         id="new-store-page-header"
         aria-labelledby="new-store-page-header-heading"
       >
-        <PageHeaderHeading size="sm">Nueva tienda</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
+        <PageHeaderHeading>Nueva tienda</PageHeaderHeading>
+        <PageHeaderDescription>
           Agregá una nueva tienda a tu cuenta
         </PageHeaderDescription>
       </PageHeader>

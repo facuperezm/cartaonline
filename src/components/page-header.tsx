@@ -1,93 +1,62 @@
-// Modified from: https://github.com/shadcn-ui/ui/blob/main/apps/www/components/page-header.tsx
-
-import { cva, type VariantProps } from "class-variance-authority";
-import { Balancer } from "react-wrap-balancer";
-
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-
-interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType;
-  separated?: boolean;
-}
 
 function PageHeader({
   className,
   children,
-  as: Comp = "section",
-  separated = false,
   ...props
-}: PageHeaderProps) {
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <Comp className={cn("grid gap-1", className)} {...props}>
-      {children}
-      {separated ? <Separator className="mt-2.5" /> : null}
-    </Comp>
+    <section className={cn("border-grid border-b", className)} {...props}>
+      <div className="container flex flex-col items-start gap-1 px-0 py-2 md:py-4 lg:py-6">
+        {children}
+      </div>
+    </section>
   );
-}
-
-const headingVariants = cva(
-  "font-bold leading-tight tracking-tighter lg:leading-[1.1]",
-  {
-    variants: {
-      size: {
-        default: "text-3xl md:text-4xl",
-        sm: "text-2xl md:text-3xl",
-        lg: "text-4xl md:text-5xl",
-      },
-    },
-    defaultVariants: {
-      size: "default",
-    },
-  },
-);
-
-interface PageHeaderHeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>,
-    VariantProps<typeof headingVariants> {
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 function PageHeaderHeading({
   className,
-  size,
-  as: Comp = "h1",
   ...props
-}: PageHeaderHeadingProps) {
+}: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <Comp className={cn(headingVariants({ size, className }))} {...props} />
-  );
-}
-
-const descriptionVariants = cva("max-w-[750px] text-muted-foreground", {
-  variants: {
-    size: {
-      default: "text-base sm:text-lg",
-      sm: "text-sm sm:text-base",
-      lg: "text-lg sm:text-xl",
-    },
-  },
-  defaultVariants: {
-    size: "default",
-  },
-});
-
-interface PageHeaderDescriptionProps
-  extends React.ComponentProps<typeof Balancer>,
-    VariantProps<typeof descriptionVariants> {}
-
-function PageHeaderDescription({
-  className,
-  size,
-  ...props
-}: PageHeaderDescriptionProps) {
-  return (
-    <Balancer
-      as="p"
-      className={cn(descriptionVariants({ size, className }))}
+    <h1
+      className={cn(
+        "text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]",
+        className,
+      )}
       {...props}
     />
   );
 }
 
-export { PageHeader, PageHeaderDescription, PageHeaderHeading };
+function PageHeaderDescription({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p
+      className={cn(
+        "max-w-2xl text-balance text-lg font-light text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function PageActions({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "flex w-full items-center justify-start gap-2 pt-2",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading };

@@ -68,9 +68,9 @@ export default async function StorePage({ params }: PageProps) {
 
   return (
     <Shell variant="sidebar">
-      <PageHeader separated>
-        <PageHeaderHeading size="sm">{store.name}</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
+      <PageHeader>
+        <PageHeaderHeading>{store.name}</PageHeaderHeading>
+        <PageHeaderDescription>
           Administra la configuración de tu tienda
         </PageHeaderDescription>
       </PageHeader>

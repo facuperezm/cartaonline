@@ -42,9 +42,7 @@ export default async function StoresPage() {
     <Shell variant="sidebar">
       <PageHeader>
         <div className="flex space-x-4">
-          <PageHeaderHeading size="sm" className="flex-1">
-            Tiendas
-          </PageHeaderHeading>
+          <PageHeaderHeading className="flex-1">Tiendas</PageHeaderHeading>
           <Link
             aria-label="Create store"
             href="stores/new"
@@ -57,9 +55,7 @@ export default async function StoresPage() {
             Crear tienda
           </Link>
         </div>
-        <PageHeaderDescription size="sm">
-          Administra tus tiendas
-        </PageHeaderDescription>
+        <PageHeaderDescription>Administra tus tiendas</PageHeaderDescription>
       </PageHeader>
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <React.Suspense

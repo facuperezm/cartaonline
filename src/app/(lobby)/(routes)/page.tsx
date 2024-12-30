@@ -13,7 +13,6 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { Balancer } from "react-wrap-balancer";
 
 import { cities } from "@/config/site";
 import { Button } from "@/components/ui/button";
@@ -36,16 +35,14 @@ export default async function Home() {
       <section className="flex w-full justify-center py-24">
         <Shell className="flex flex-col items-center justify-center gap-6">
           <div className="flex flex-col items-center gap-6 text-center">
-            <div className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
+            <small className="rounded-full bg-muted px-4 py-1.5 text-sm font-medium">
               ✨ La manera más fácil de digitalizar tu menú
-            </div>
+            </small>
             <h1
               className="animate-fade-up bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent opacity-0 drop-shadow-sm md:text-7xl/[5rem]"
               style={{ animationDelay: "0.20s", animationFillMode: "forwards" }}
             >
-              <Balancer>
-                Tu carta digital en minutos, sin complicaciones
-              </Balancer>
+              Tu carta digital en minutos, sin complicaciones
             </h1>
             <p className="mx-auto max-w-[46rem] text-balance text-center text-lg text-muted-foreground md:text-xl">
               Crea un menú digital profesional, actualizable en tiempo real y
