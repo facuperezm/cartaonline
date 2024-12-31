@@ -31,8 +31,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AddProductForm } from "@/components/forms/add-product.form";
 
+import { AddProductForm } from "../../(routes)/dashboard/stores/[id]/_components/add-product";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 

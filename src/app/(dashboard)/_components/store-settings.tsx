@@ -1,3 +1,4 @@
+import { type Product, type Store } from "@prisma/client";
 import { AlertCircleIcon } from "lucide-react";
 
 import {
@@ -26,23 +27,22 @@ import {
 } from "@/components/ui/select";
 import { LoadingButton } from "@/components/loading-button";
 import ClipboardShare from "@/app/(dashboard)/_components/clipboard-share";
-import { columns } from "@/app/(dashboard)/_components/tables/columns";
 import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
 import BannerBtn from "@/app/(dashboard)/_components/upload-btn-banner";
 import UploadBtn from "@/app/(dashboard)/_components/upload-btn-logo";
 
+import { columns } from "./tables/columns";
+
 interface StoreSettingsProps {
-  store: any;
-  storeWithProducts: any;
+  store: Store & {
+    products: Product[];
+  };
 }
 
-export default function StoreSettings({
-  store,
-  storeWithProducts,
-}: StoreSettingsProps) {
+export default function StoreSettings({ store }: StoreSettingsProps) {
   return (
     <div className="space-y-6">
-      {storeWithProducts?.status === "ACTIVE" ? null : (
+      {store?.status === "ACTIVE" ? null : (
         <Alert variant="destructive">
           <AlertCircleIcon className="size-4" />
           <AlertTitle>Aviso importante</AlertTitle>
@@ -73,7 +73,7 @@ export default function StoreSettings({
               <div className="flex justify-center">
                 <UploadBtn
                   storeId={store.id}
-                  storeLogo={storeWithProducts?.logoUrl ?? ""}
+                  storeLogo={store?.logoUrl ?? ""}
                 />
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function StoreSettings({
               </div>
               <BannerBtn
                 storeId={store.id}
-                storeBanner={storeWithProducts?.bannerUrl ?? ""}
+                storeBanner={store?.bannerUrl ?? ""}
               />
             </div>
           </div>
@@ -114,19 +114,7 @@ export default function StoreSettings({
                   minLength={3}
                   maxLength={50}
                   placeholder="Acá va el nombre de tu tienda."
-                  defaultValue={storeWithProducts?.name ?? ""}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="update-store-slug">URL de la tienda</Label>
-                <Input
-                  id="update-store-slug"
-                  aria-describedby="update-store-slug"
-                  name="slug"
-                  minLength={3}
-                  maxLength={20}
-                  placeholder="Acá va el url de tu tienda."
-                  defaultValue={storeWithProducts?.slug ?? ""}
+                  defaultValue={store?.name ?? ""}
                 />
               </div>
               <div className="space-y-2">
@@ -138,12 +126,12 @@ export default function StoreSettings({
                   minLength={3}
                   maxLength={255}
                   placeholder="Acá va tu dirección."
-                  defaultValue={storeWithProducts?.address ?? ""}
+                  defaultValue={store?.address ?? ""}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="update-store-city">Ciudad</Label>
-                <Select name="city" defaultValue={storeWithProducts?.city}>
+                <Select name="city" defaultValue={store?.city}>
                   <SelectTrigger>
                     <SelectValue placeholder="Elegí tu ciudad" />
                   </SelectTrigger>
@@ -189,23 +177,14 @@ export default function StoreSettings({
       </Card>
 
       {/* Share Section */}
-      {storeWithProducts?.slug && (
-        <ClipboardShare
-          slug={storeWithProducts.slug}
-          storeId={storeWithProducts.id}
-        />
-      )}
+      <ClipboardShare storeId={store.id} />
 
       {/* Products Section */}
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
         </h2>
-        <DataTable
-          storeId={storeWithProducts.id}
-          columns={columns}
-          data={storeWithProducts.products}
-        />
+        <DataTable storeId={store.id} columns={columns} data={store.products} />
       </div>
 
       {/* Store Status */}
@@ -213,15 +192,12 @@ export default function StoreSettings({
         <Card className="flex flex-row items-center justify-between">
           <CardHeader>
             <CardTitle>
-              Queres{" "}
-              {storeWithProducts?.status === "ACTIVE"
-                ? "desactivar"
-                : "activar"}{" "}
-              tu tienda?
+              Queres {store?.status === "ACTIVE" ? "desactivar" : "activar"} tu
+              tienda?
             </CardTitle>
             <CardDescription>
               <p>
-                {storeWithProducts?.status === "ACTIVE"
+                {store?.status === "ACTIVE"
                   ? "Tu tienda no estará disponible."
                   : "Tu tienda estará disponible."}
               </p>
@@ -229,7 +205,7 @@ export default function StoreSettings({
                 <input
                   type="hidden"
                   name="status"
-                  value={storeWithProducts?.status}
+                  value={store?.status}
                   aria-hidden
                 />
               </span>
@@ -237,21 +213,13 @@ export default function StoreSettings({
           </CardHeader>
           <CardContent className="pt-6">
             <LoadingButton
-              variant={
-                storeWithProducts?.status === "ACTIVE"
-                  ? "destructive"
-                  : "default"
-              }
+              variant={store?.status === "ACTIVE" ? "destructive" : "default"}
               action="update"
               formAction={updateStoreStatus.bind(null, store.id)}
             >
-              {storeWithProducts?.status === "ACTIVE"
-                ? "Desactivar"
-                : "Activar"}
+              {store?.status === "ACTIVE" ? "Desactivar" : "Activar"}
               <span className="sr-only">
-                {storeWithProducts?.status === "ACTIVE"
-                  ? "Desactivar"
-                  : "Activar"}
+                {store?.status === "ACTIVE" ? "Desactivar" : "Activar"}
               </span>
             </LoadingButton>
           </CardContent>

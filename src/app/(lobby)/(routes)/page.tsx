@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import Image from "next/image";
 import {
   ArrowRight,
   Check,
@@ -79,10 +80,12 @@ export default async function Home() {
           {/* Product Preview */}
           <div className="relative mt-8 w-full max-w-5xl overflow-hidden rounded-xl border bg-background shadow-2xl">
             <div className="aspect-[16/9] w-full">
-              <img
+              <Image
                 src="/images/demo-menu.webp"
                 alt="Demo de carta digital"
                 className="h-full w-full object-cover"
+                width={1000}
+                height={2000}
               />
             </div>
           </div>

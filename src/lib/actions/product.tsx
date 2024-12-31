@@ -7,6 +7,10 @@ import { updateProductSchema } from "@/lib/validations/product";
 
 import { db } from "../db";
 
+export async function getProduct(id: number) {
+  return db.product.findFirst({ where: { id } });
+}
+
 export async function deleteProduct({ productId }: { productId: number }) {
   noStore();
 
@@ -65,4 +69,14 @@ export async function updateProduct(state: any, formData: FormData) {
     message: "El producto se editó correctamente",
     status: "success",
   };
+}
+
+export async function addProduct(data: any) {
+  const { name, price, category, description, storeId } = data;
+
+  await db.product.create({
+    data: { name, price: Number(price), category, description, storeId },
+  });
+
+  revalidatePath(`/dashboard/stores/${storeId}`);
 }

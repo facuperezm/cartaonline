@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
 import { updateProduct } from "@/lib/actions/product";
+import { useProduct } from "@/hooks/use-products";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,16 +17,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { trpc } from "@/app/_trpc/client";
 
-import { Icons } from "../icons";
+import { Icons } from "../../../../../../../components/icons";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../../../../../../components/ui/select";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -50,7 +50,7 @@ const initialState = {
 };
 
 export default function EditProductForm({ id }: { id: number }) {
-  const { data: product } = trpc.getProduct.useQuery({ id });
+  const { data: product } = useProduct(id.toString());
   const [openEdit, setOpenEdit] = React.useState(false);
 
   const [state, formAction] = useActionState(updateProduct, initialState);

@@ -1,20 +1,19 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Camera, ImageIcon } from "lucide-react";
 
+import { createBanner } from "@/lib/actions/store";
 import { cn } from "@/lib/utils";
-import UploadDropzone from "@/components/upload-dropzone";
-import { trpc } from "@/app/_trpc/client";
-
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "@/components/ui/dialog";
+import UploadDropzone from "@/components/upload-dropzone";
 
 export default function BannerBtn({
   storeId,
@@ -25,18 +24,6 @@ export default function BannerBtn({
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
-  const router = useRouter();
-
-  const { mutate: createBanner } = trpc.createBannerImage.useMutation();
-
-  const { mutate: startPolling } = trpc.getBannerFromUploadthing.useMutation({
-    onSuccess: async () => {
-      router.refresh();
-      setIsOpen(false);
-    },
-    retry: true,
-    retryDelay: 500,
-  });
 
   return (
     <Dialog
@@ -56,13 +43,14 @@ export default function BannerBtn({
         >
           <div className="relative aspect-[21/9] w-full overflow-hidden rounded-lg border-2 border-border shadow-sm transition-all duration-200 group-hover:border-primary">
             {storeBanner ? (
-              <img
+              <Image
                 src={storeBanner}
                 alt="Banner de la tienda"
                 className={cn(
                   "h-full w-full object-cover transition-opacity duration-200",
                   isHovered ? "opacity-50" : "opacity-100",
                 )}
+                fill
               />
             ) : (
               <div className="flex h-full items-center justify-center bg-muted">
@@ -91,7 +79,6 @@ export default function BannerBtn({
         </DialogHeader>
         <UploadDropzone
           createImage={createBanner}
-          polling={startPolling}
           setIsOpen={setIsOpen}
           storeId={storeId}
         />

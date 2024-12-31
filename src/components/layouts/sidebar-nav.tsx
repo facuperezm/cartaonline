@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import type { SidebarNavItem } from "@/types";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
+import type { SidebarNavItem } from "@/lib/validations/types";
 
 import { Icons } from "../icons";
 

@@ -18,8 +18,6 @@ import { Shell } from "@/components/shell";
 import { StoreCard } from "@/app/(dashboard)/_components/store-card";
 import { StoreCardSkeleton } from "@/app/(dashboard)/_components/store-card-skeleton";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Mis empresas",
   description: "Administra tus empresas en un solo lugar",

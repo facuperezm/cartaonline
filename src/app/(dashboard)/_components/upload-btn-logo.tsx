@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import { Camera, ImageIcon } from "lucide-react";
 
+import { createLogo } from "@/lib/actions/store";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -14,7 +14,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UploadDropzone from "@/components/upload-dropzone";
-import { trpc } from "@/app/_trpc/client";
 
 export default function UploadBtn({
   storeId,
@@ -25,18 +24,6 @@ export default function UploadBtn({
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
-  const router = useRouter();
-
-  const { mutate: createBanner } = trpc.createStoreImage.useMutation();
-
-  const { mutate: startPolling } = trpc.getLogoFromUploadthing.useMutation({
-    onSuccess: async () => {
-      router.refresh();
-      setIsOpen(false);
-    },
-    retry: true,
-    retryDelay: 500,
-  });
 
   return (
     <Dialog
@@ -86,8 +73,7 @@ export default function UploadBtn({
           <DialogTitle>Actualizar logo</DialogTitle>
         </DialogHeader>
         <UploadDropzone
-          createImage={createBanner}
-          polling={startPolling}
+          createImage={createLogo}
           setIsOpen={setIsOpen}
           storeId={storeId}
         />

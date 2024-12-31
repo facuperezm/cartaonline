@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import { type City } from "@prisma/client";
+import type { City } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";

@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DeleteProduct from "@/components/forms/delete-product";
-import EditProduct from "@/components/forms/edit-product-form";
+import DeleteProduct from "@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/delete-product";
+import EditProduct from "@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/edit-product";
 
 import { statuses } from "./data";
 import { DataTableColumnHeader } from "./data-table-column-header";

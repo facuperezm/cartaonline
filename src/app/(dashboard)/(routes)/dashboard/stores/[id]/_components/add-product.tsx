@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { addProduct } from "@/lib/actions/product";
 import { catchError } from "@/lib/utils";
 import { AddProductsSchema, type Inputs } from "@/lib/validations/product";
 import { Button } from "@/components/ui/button";
@@ -18,16 +18,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Icons } from "@/components/icons";
-import { trpc } from "@/app/_trpc/client";
-
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import { Icons } from "@/components/icons";
 
 export function AddProductForm({
   setOpen,
@@ -36,35 +34,18 @@ export function AddProductForm({
   setOpen: (value: boolean) => void;
   storeId: number;
 }) {
-  const router = useRouter();
-
   const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<Inputs>({
     resolver: zodResolver(AddProductsSchema),
   });
 
-  const { mutate: addProduct, isLoading } = trpc.createProduct.useMutation({
-    onSuccess: () => {
-      form.reset();
-      toast.success("El producto se agregó correctamente.");
-      setOpen(false);
-      router.refresh();
-    },
-    onError: (err) => {
-      const errorMessage = JSON.parse(err.message);
-      if (errorMessage && errorMessage[0]) {
-        toast.error(errorMessage[0].message);
-      } else {
-        toast.error("Ocurrió un error, porfavor probá denuevo.");
-      }
-    },
-  });
-
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        addProduct({ ...data, storeId });
+        await addProduct({ ...data, storeId });
+        toast.success("Producto agregado correctamente");
+        setOpen(false);
       } catch (err) {
         catchError(err);
       }
@@ -147,18 +128,14 @@ export function AddProductForm({
             );
           }}
         />
-        <Button
-          className="mt-2 w-full transition-all"
-          disabled={isPending || isLoading}
-        >
-          {isPending ||
-            (isLoading && (
-              <Icons.spinner
-                className="mr-2 h-4 w-4 animate-spin"
-                aria-hidden="true"
-              />
-            ))}
-          {isPending || isLoading ? "Agregando producto" : "Agregar producto"}
+        <Button className="mt-2 w-full transition-all" disabled={isPending}>
+          {isPending && (
+            <Icons.spinner
+              className="mr-2 h-4 w-4 animate-spin"
+              aria-hidden="true"
+            />
+          )}
+          {isPending ? "Agregando producto" : "Agregar producto"}
           <span className="sr-only">Agregar producto</span>
         </Button>
       </form>

@@ -14,7 +14,6 @@ export const updateStoreSchema = z.object({
       "buenos_aires",
     ])
     .optional(),
-  slug: z.string().min(3).max(20),
 });
 
 export const storeSchema = z.object({
@@ -30,7 +29,6 @@ export const storeSchema = z.object({
     "ushuaia",
     "cordoba",
   ]),
-  slug: z.string().min(3, "Slug must be at least 3 characters long."),
 });
 
 export type Inputs = z.infer<typeof storeSchema>;

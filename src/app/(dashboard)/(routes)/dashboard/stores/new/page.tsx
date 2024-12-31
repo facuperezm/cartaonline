@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { AddStoreForm } from "@/components/forms/add-store-form";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
 import { Shell } from "@/components/shell";
+import { AddStoreForm } from "@/app/(dashboard)/(routes)/dashboard/stores/new/_components/add-store";
 
 export const metadata: Metadata = {
   title: "Nueva empresa",
@@ -42,13 +36,7 @@ export default async function NewStorePage() {
         id="new-store-page-form-container"
         aria-labelledby="new-store-page-form-heading"
       >
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">
-            Información de la nueva tienda
-          </CardTitle>
-          <CardDescription>Datos importantes</CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="mt-6">
           <AddStoreForm />
         </CardContent>
       </Card>

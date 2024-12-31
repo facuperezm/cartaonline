@@ -33,17 +33,17 @@ export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
 
-export interface Store {
-  id: number;
-  name: string;
-  address: string;
-  createdAt?: Date | null;
-  updatedAt?: Date | null;
-  deletedAt?: Date | null;
-  userId: string;
-  products?: Product[];
-  status: "ACTIVE" | "INACTIVE";
-}
+// export interface Store {
+//   id: number;
+//   name: string;
+//   address: string;
+//   createdAt?: Date | null;
+//   updatedAt?: Date | null;
+//   deletedAt?: Date | null;
+//   userId: string;
+//   products?: Product[];
+//   status: "ACTIVE" | "INACTIVE";
+// }
 
 export interface Logo {
   id: number;
@@ -80,3 +80,20 @@ export type EnumCityFilter = {
   cordoba: "Córdoba";
   ushuaia: "Ushuaia";
 };
+
+export interface Store {
+  id: number;
+  name: string;
+  description: string;
+  address: string;
+  phone: string;
+  slug: string | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  deletedAt: Date | null;
+  userId: string;
+  status: "ACTIVE" | "INACTIVE";
+  city: City;
+  logoUrl: string | null;
+  bannerUrl: string | null;
+}
