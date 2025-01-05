@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import Image from "next/image";
+import { type City } from "@prisma/client";
 import {
   ArrowRight,
   Check,
@@ -15,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 
-import { cachedCities } from "@/lib/actions/cached";
+import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { CityCard } from "@/app/(lobby)/_components/city-card";
@@ -30,9 +31,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const cities = await cachedCities();
+  const cities = await db.city.findMany();
   const sortedByStatus = cities.sort(
-    (a, b) => Number(b.active) - Number(a.active),
+    (a: City, b: City) => Number(b.active) - Number(a.active),
   );
 
   return (
