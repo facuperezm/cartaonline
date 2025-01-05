@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -7,6 +8,7 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 import Providers from "@/components/Providers";
 
 const inter = Inter({
@@ -56,27 +58,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        layout: {
-          socialButtonsPlacement: "bottom",
-          socialButtonsVariant: "iconButton",
-          termsPageUrl: "https://clerk.com/terms",
-        },
-      }}
-    >
-      <html
-        lang="en"
-        className={cn(
-          "min-h-screen scroll-smooth antialiased",
-          inter.className,
-        )}
+    <Suspense fallback={<Skeleton className="h-screen w-screen" />}>
+      <ClerkProvider
+        appearance={{
+          layout: {
+            socialButtonsPlacement: "bottom",
+            socialButtonsVariant: "iconButton",
+            termsPageUrl: "https://clerk.com/terms",
+          },
+        }}
       >
-        <Providers>
-          <body>{children}</body>
-          <Toaster richColors closeButton />
-        </Providers>
-      </html>
-    </ClerkProvider>
+        <html
+          lang="en"
+          className={cn(
+            "min-h-screen scroll-smooth antialiased",
+            inter.className,
+          )}
+        >
+          <Providers>
+            <body>{children}</body>
+            <Toaster richColors closeButton />
+          </Providers>
+        </html>
+      </ClerkProvider>
+    </Suspense>
   );
 }

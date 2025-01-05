@@ -1,8 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { AlertOctagon } from "lucide-react";
 
 import { db } from "@/lib/db";
@@ -24,15 +23,13 @@ export const metadata: Metadata = {
 };
 
 export default async function StoresPage() {
-  const user = await currentUser();
+  const { userId, redirectToSignIn } = await auth();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
+  if (!userId) return redirectToSignIn();
 
   const allStores = await db.store.findMany({
     where: {
-      userId: user.id,
+      userId: userId,
     },
   });
 

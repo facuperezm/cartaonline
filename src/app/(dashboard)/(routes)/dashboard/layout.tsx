@@ -1,7 +1,4 @@
-import { redirect } from "next/navigation";
-
 import { dashboardConfig } from "@/config/dashboard";
-import { InitialUser } from "@/lib/initial-user";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarNav } from "@/components/layouts/sidebar-nav";
 import { SiteFooter } from "@/components/layouts/site-footer";
@@ -12,12 +9,6 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await InitialUser();
-
-  if (!user) {
-    redirect("/sso-callback?origin=dashboard");
-  }
-
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
