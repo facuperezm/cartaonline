@@ -19,7 +19,7 @@ export default function UploadBtn({
   storeId,
   storeLogo,
 }: {
-  storeId: number;
+  storeId: string;
   storeLogo: string;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);

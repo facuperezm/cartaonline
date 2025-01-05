@@ -25,19 +25,17 @@ export default async function BillingPage() {
   const stores = await db.store.findMany({
     where: {
       userId,
-      deletedAt: null,
     },
     include: {
       subscription: true,
     },
   });
 
-  const mainStore = stores[0];
-  if (!mainStore) {
+  if (!stores) {
     redirect("/dashboard/stores");
   }
 
-  const currentPlan = mainStore.subscription?.planType ?? "BASIC";
+  const currentPlan = stores[0].subscription?.planType ?? "BASIC";
   const storeCount = stores.length;
 
   return (
@@ -47,7 +45,7 @@ export default async function BillingPage() {
         <PageHeaderDescription>Administra tu suscripción</PageHeaderDescription>
       </PageHeader>
       <Billing
-        storeId={mainStore.id}
+        storeId={stores[0].id}
         currentPlan={currentPlan}
         storeCount={storeCount}
       />

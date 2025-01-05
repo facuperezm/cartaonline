@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { City } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,10 @@ export async function generateMetadata({
 }: StorePageProps): Promise<Metadata> {
   const { id } = await params;
   const store = await db.store.findFirst({
-    where: { id: parseInt(id) },
+    where: { id: id },
+    include: {
+      banner: true,
+    },
   });
 
   if (!store) {
@@ -39,7 +41,7 @@ export async function generateMetadata({
       description: store.description,
       images: [
         {
-          url: store.bannerUrl ?? "/images/restaurant.webp",
+          url: store.banner?.url ?? "/images/restaurant.webp",
           width: 800,
           height: 600,
           alt: store.name,
@@ -54,10 +56,13 @@ export default async function StorePage({ params }: StorePageProps) {
 
   const store = await db.store.findFirst({
     where: {
-      id: parseInt(id),
-      city: city as City,
+      id,
+      city: {
+        name: city,
+      },
     },
     include: {
+      banner: true,
       products: {
         orderBy: {
           category: "asc",

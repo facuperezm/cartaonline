@@ -1,4 +1,4 @@
-import { type Product, type Store } from "@prisma/client";
+import type { Banner, City, Logo, Product, Store } from "@prisma/client";
 import { AlertCircleIcon } from "lucide-react";
 
 import {
@@ -36,10 +36,14 @@ import { columns } from "./tables/columns";
 interface StoreSettingsProps {
   store: Store & {
     products: Product[];
+    logo: Logo | null;
+    banner: Banner | null;
+    city: City;
   };
+  cities: City[];
 }
 
-export default function StoreSettings({ store }: StoreSettingsProps) {
+export default function StoreSettings({ store, cities }: StoreSettingsProps) {
   return (
     <div className="space-y-6">
       {store?.status === "ACTIVE" ? null : (
@@ -73,7 +77,7 @@ export default function StoreSettings({ store }: StoreSettingsProps) {
               <div className="flex justify-center">
                 <UploadBtn
                   storeId={store.id}
-                  storeLogo={store?.logoUrl ?? ""}
+                  storeLogo={store.logo?.url ?? ""}
                 />
               </div>
             </div>
@@ -86,7 +90,7 @@ export default function StoreSettings({ store }: StoreSettingsProps) {
               </div>
               <BannerBtn
                 storeId={store.id}
-                storeBanner={store?.bannerUrl ?? ""}
+                storeBanner={store.banner?.url ?? ""}
               />
             </div>
           </div>
@@ -131,27 +135,22 @@ export default function StoreSettings({ store }: StoreSettingsProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="update-store-city">Ciudad</Label>
-                <Select name="city" defaultValue={store?.city}>
+                <Select name="city" defaultValue={store?.city.name}>
                   <SelectTrigger>
                     <SelectValue placeholder="Elegí tu ciudad" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Ciudad</SelectLabel>
-                      <SelectItem value="puerto_iguazu">
-                        Puerto Iguazú
-                      </SelectItem>
-                      <SelectItem value="posadas">Posadas</SelectItem>
-                      <SelectItem value="corrientes">Corrientes</SelectItem>
-                      <SelectItem disabled value="cordoba">
-                        Córdoba
-                      </SelectItem>
-                      <SelectItem disabled value="buenos_aires">
-                        Buenos Aires
-                      </SelectItem>
-                      <SelectItem disabled value="ushuaia">
-                        Ushuaia
-                      </SelectItem>
+                      {cities.map((city) => (
+                        <SelectItem
+                          key={city.id}
+                          value={city.name}
+                          disabled={!city.active}
+                        >
+                          {city.displayName}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -184,7 +183,11 @@ export default function StoreSettings({ store }: StoreSettingsProps) {
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           Lista de productos
         </h2>
-        <DataTable storeId={store.id} columns={columns} data={store.products} />
+        <DataTable
+          storeId={store.id}
+          columns={columns}
+          data={store.products as Product[]}
+        />
       </div>
 
       {/* Store Status */}

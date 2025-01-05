@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 interface SubscriptionButtonProps {
-  storeId: number;
+  storeId: string;
   planType: "BASIC" | "PRO";
   className?: string;
 }

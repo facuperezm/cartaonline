@@ -1,9 +1,8 @@
 import { deleteProduct } from "@/lib/actions/product";
+import { Button } from "@/components/ui/button";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-import { Button } from "../../../../../../../components/ui/button";
-import { DropdownMenuItem } from "../../../../../../../components/ui/dropdown-menu";
-
-export default function DeleteProduct({ id }: { id: number }) {
+export default function DeleteProduct({ id }: { id: string }) {
   return (
     <DropdownMenuItem asChild className="">
       <Button

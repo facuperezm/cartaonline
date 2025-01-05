@@ -12,9 +12,9 @@ import { cn, compressImage } from "@/lib/utils";
 import { Progress } from "./ui/progress";
 
 interface UploadDropzoneProps {
-  createImage: (data: { url: string; storeId: number }) => Promise<void>;
+  createImage: (data: { url: string; storeId: string }) => Promise<void>;
   setIsOpen: (open: boolean) => void;
-  storeId: number;
+  storeId: string;
 }
 
 export default function UploadDropzone({

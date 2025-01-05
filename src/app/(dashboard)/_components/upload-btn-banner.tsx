@@ -19,7 +19,7 @@ export default function BannerBtn({
   storeId,
   storeBanner,
 }: {
-  storeId: number;
+  storeId: string;
   storeBanner: string;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);

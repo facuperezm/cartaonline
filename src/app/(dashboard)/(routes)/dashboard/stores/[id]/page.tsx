@@ -24,7 +24,7 @@ export async function generateMetadata({
   const { id } = await params;
   const store = await db.store.findFirst({
     where: {
-      id: parseInt(id),
+      id,
     },
   });
 
@@ -45,10 +45,13 @@ export default async function StorePage({ params }: PageProps) {
   const { id } = await params;
   const store = await db.store.findFirst({
     where: {
-      id: parseInt(id),
+      id,
     },
     include: {
+      city: true,
       products: true,
+      logo: true,
+      banner: true,
     },
   });
 
@@ -56,9 +59,11 @@ export default async function StorePage({ params }: PageProps) {
     notFound();
   }
 
+  const cities = await db.city.findMany();
+
   const storeUrl = `${
     process.env.NEXT_PUBLIC_APP_URL
-  }/stores/${store.city.toLowerCase()}/${store.id}`;
+  }/stores/${store.city.name.toLowerCase()}/${store.id}`;
 
   return (
     <Shell variant="sidebar">
@@ -74,7 +79,7 @@ export default async function StorePage({ params }: PageProps) {
           <TabsTrigger value="qr">Código QR</TabsTrigger>
         </TabsList>
         <TabsContent value="settings" className="space-y-4">
-          <StoreSettings store={store} />
+          <StoreSettings store={store} cities={cities} />
         </TabsContent>
         <TabsContent value="qr" className="space-y-4">
           <QRCodeCustomizer storeUrl={storeUrl} storeName={store.name} />

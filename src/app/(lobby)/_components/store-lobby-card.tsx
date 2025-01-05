@@ -19,8 +19,8 @@ interface StoreLobbyCardProps extends React.HTMLAttributes<HTMLDivElement> {
   address: string;
   id: string;
   city: string;
-  logoUrl?: string | null | undefined;
-  banner?: string | null | undefined;
+  logoUrl?: string | null;
+  banner?: string | null;
 }
 
 export function StoreLobbyCard({
@@ -38,7 +38,7 @@ export function StoreLobbyCard({
       className={cn("h-full overflow-hidden rounded-sm", className)}
       {...props}
     >
-      <Link href={`/stores/${city}/${id}`}>
+      <Link href={`/stores/${city.toLowerCase()}/${id}`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={8 / 3}>
             <div

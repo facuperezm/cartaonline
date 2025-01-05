@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   Check,
@@ -15,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 
-import { cities } from "@/config/site";
+import { cachedCities } from "@/lib/actions/cached";
 import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { CityCard } from "@/app/(lobby)/_components/city-card";
@@ -30,6 +31,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
+  const cities = await cachedCities();
+  const sortedByStatus = cities.sort(
+    (a, b) => Number(b.active) - Number(a.active),
+  );
+
   return (
     <div className="flex flex-col items-center justify-center">
       {/* Hero Section - Direct Benefit */}
@@ -78,10 +84,10 @@ export default async function Home() {
           </div>
 
           {/* Product Preview */}
-          <div className="relative mt-8 w-full max-w-5xl overflow-hidden rounded-xl border bg-background shadow-2xl">
-            <div className="aspect-[16/9] w-full">
+          <div className="relative mt-8 w-full max-w-5xl rounded-xl border bg-background shadow-2xl">
+            <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border-2 border-gray-400/50">
               <Image
-                src="/images/demo-menu.webp"
+                src="/images/demo-web.webp"
                 alt="Demo de carta digital"
                 className="h-full w-full object-cover"
                 width={1000}
@@ -175,6 +181,31 @@ export default async function Home() {
             </div>
           </div>
         </Shell>
+      </section>
+
+      {/* Cities Section */}
+      <section className="flex w-full justify-center bg-gradient-to-b from-muted/30 to-background py-20">
+        <div className="w-full px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">Disponible en tu ciudad</h2>
+              <p className="mt-2 text-muted-foreground">
+                Únete a los restaurantes que ya confían en nosotros
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-8 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {sortedByStatus.map((city) => (
+                <CityCard
+                  key={city.name}
+                  src={city.imgUrl ?? ""}
+                  city={city.name}
+                  disabled={city.active === false}
+                  href={`/stores/${city.name}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Bento Grid Features */}
@@ -379,31 +410,6 @@ export default async function Home() {
             </div>
           </div>
         </Shell>
-      </section>
-
-      {/* Cities Section */}
-      <section className="flex w-full justify-center bg-gradient-to-b from-muted/30 to-background py-20">
-        <div className="w-full px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold">Disponible en tu ciudad</h2>
-              <p className="mt-2 text-muted-foreground">
-                Únete a los restaurantes que ya confían en nosotros
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-8 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {cities.map((city) => (
-                <CityCard
-                  key={city.name}
-                  src={city.src}
-                  city={city.name}
-                  disabled={city.disabled ?? false}
-                  href={city.href}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Pricing Section */}

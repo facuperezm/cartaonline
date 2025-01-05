@@ -32,7 +32,7 @@ export function AddProductForm({
   storeId,
 }: {
   setOpen: (value: boolean) => void;
-  storeId: number;
+  storeId: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
 

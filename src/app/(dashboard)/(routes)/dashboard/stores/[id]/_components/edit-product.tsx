@@ -49,8 +49,8 @@ const initialState = {
   status: "",
 };
 
-export default function EditProductForm({ id }: { id: number }) {
-  const { data: product } = useProduct(id.toString());
+export default function EditProductForm({ id }: { id: string }) {
+  const { data: product } = useProduct(id);
   const [openEdit, setOpenEdit] = React.useState(false);
 
   const [state, formAction] = useActionState(updateProduct, initialState);

@@ -39,7 +39,7 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  storeId: number;
+  storeId: string;
 }
 
 export function DataTable<TData, TValue>({

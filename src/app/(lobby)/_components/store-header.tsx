@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { type Store } from "@prisma/client";
+import { type Banner, type Store } from "@prisma/client";
 import { Clock, MapPin, Phone, Share2, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 
 interface StoreHeaderProps {
-  store: Pick<Store, "name" | "bannerUrl" | "address" | "phone">;
+  store: Store & { banner: Banner | null };
 }
 
 export function StoreHeader({ store }: StoreHeaderProps) {
@@ -14,7 +14,7 @@ export function StoreHeader({ store }: StoreHeaderProps) {
     <div className="relative h-[40vh] min-h-[300px] w-full">
       <div className="absolute inset-0">
         <Image
-          src={store.bannerUrl ?? "/images/restaurant.webp"}
+          src={store.banner?.url ?? "/images/restaurant.webp"}
           alt={store.name}
           className="h-full w-full object-cover"
           fill

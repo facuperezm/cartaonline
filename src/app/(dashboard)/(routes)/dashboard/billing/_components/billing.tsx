@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SubscriptionButton } from "@/components/subscription-button";
+import { SubscriptionButton } from "@/app/(dashboard)/(routes)/dashboard/billing/_components/subscription-button";
 
 import { UsageCard } from "./usage";
 
@@ -53,7 +53,7 @@ const plans = [
 ];
 
 interface BillingProps {
-  storeId: number;
+  storeId: string;
   currentPlan?: "BASIC" | "PRO" | "ENTERPRISE";
   storeCount: number;
 }

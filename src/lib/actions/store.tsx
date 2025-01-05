@@ -2,13 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
-import { type City } from "@prisma/client";
 
 import { db } from "@/lib/db";
 
 import { storeSchema, updateStoreSchema } from "../validations/store";
 
-export async function deleteStore(storeId: number) {
+export async function deleteStore(storeId: string) {
   try {
     const store = await db.store.findFirst({
       where: {
@@ -33,7 +32,7 @@ export async function deleteStore(storeId: number) {
   }
 }
 
-export async function updateStore(storeId: number, fd: FormData) {
+export async function updateStore(storeId: string, fd: FormData) {
   try {
     const input = updateStoreSchema.parse({
       name: fd.get("name"),
@@ -61,7 +60,11 @@ export async function updateStore(storeId: number, fd: FormData) {
       data: {
         name: input.name,
         address: input.address,
-        city: input.city,
+        city: {
+          connect: {
+            name: input.city,
+          },
+        },
       },
     });
 
@@ -73,7 +76,7 @@ export async function updateStore(storeId: number, fd: FormData) {
   }
 }
 
-export async function updateStoreStatus(storeId: number, fd: FormData) {
+export async function updateStoreStatus(storeId: string, fd: FormData) {
   try {
     const status = fd.get("status");
 
@@ -94,7 +97,7 @@ export async function updateStoreStatus(storeId: number, fd: FormData) {
   }
 }
 
-export async function updateStoreSlug(storeId: number, newSlug: string) {
+export async function updateStoreSlug(storeId: string, newSlug: string) {
   try {
     if (!newSlug.trim()) {
       throw new Error("El slug no puede estar vacío");
@@ -173,15 +176,23 @@ export async function createStore(prevState: any, formData: FormData) {
       address: validatedFields.data.address,
       description: validatedFields.data.description,
       phone: validatedFields.data.phone,
-      city: validatedFields.data.city as City,
-      userId: user.id,
+      city: {
+        connect: {
+          name: validatedFields.data.city,
+        },
+      },
+      user: {
+        connect: {
+          userId: user.id,
+        },
+      },
     },
   });
 
   redirect("/dashboard/stores");
 }
 
-export async function createBanner(data: { url: string; storeId: number }) {
+export async function createBanner(data: { url: string; storeId: string }) {
   const { url, storeId } = data;
   const user = await currentUser();
 
@@ -191,7 +202,7 @@ export async function createBanner(data: { url: string; storeId: number }) {
 
   const store = db.store.findFirst({
     where: {
-      id: Number(storeId),
+      id: storeId,
       userId: user.id,
     },
   });
@@ -200,19 +211,19 @@ export async function createBanner(data: { url: string; storeId: number }) {
     throw new Error("Store not found");
   }
 
-  await db.store.update({
+  await db.banner.update({
     where: {
-      id: Number(storeId),
+      storeId: storeId,
     },
     data: {
-      bannerUrl: url,
+      url,
     },
   });
 
   redirect(`/dashboard/stores/${storeId}`);
 }
 
-export async function createLogo(data: { url: string; storeId: number }) {
+export async function createLogo(data: { url: string; storeId: string }) {
   const { url, storeId } = data;
   const user = await currentUser();
 
@@ -222,7 +233,7 @@ export async function createLogo(data: { url: string; storeId: number }) {
 
   const store = db.store.findFirst({
     where: {
-      id: Number(storeId),
+      id: storeId,
       userId: user.id,
     },
   });
@@ -231,12 +242,12 @@ export async function createLogo(data: { url: string; storeId: number }) {
     throw new Error("Store not found");
   }
 
-  await db.store.update({
+  await db.logo.update({
     where: {
-      id: Number(storeId),
+      storeId,
     },
     data: {
-      logoUrl: url as string,
+      url,
     },
   });
 }

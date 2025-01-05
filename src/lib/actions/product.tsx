@@ -7,17 +7,17 @@ import { updateProductSchema } from "@/lib/validations/product";
 
 import { db } from "../db";
 
-export async function getProduct(id: number) {
+export async function getProduct(id: string) {
   return db.product.findFirst({ where: { id } });
 }
 
-export async function deleteProduct({ productId }: { productId: number }) {
+export async function deleteProduct({ productId }: { productId: string }) {
   noStore();
 
   try {
     const product = await db.product.findFirst({
       where: {
-        id: Number(productId),
+        id: productId,
       },
     });
 
@@ -54,7 +54,7 @@ export async function updateProduct(state: any, formData: FormData) {
   }
 
   await db.product.update({
-    where: { id: Number(input.data.id) },
+    where: { id: input.data.id },
     data: {
       name: input.data.name,
       price: Number(input.data.price),

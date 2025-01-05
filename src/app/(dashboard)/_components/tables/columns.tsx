@@ -1,5 +1,6 @@
 "use client";
 
+import { type Category } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
@@ -18,10 +19,10 @@ import { statuses } from "./data";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
 export type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
-  category: "Comida" | "Bebida" | "Postre";
+  category: Category;
 };
 
 export const columns: ColumnDef<Product>[] = [

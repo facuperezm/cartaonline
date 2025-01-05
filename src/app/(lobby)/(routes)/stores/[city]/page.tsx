@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
-import { type City } from "@prisma/client";
 
 import { db } from "@/lib/db";
+import { normalizeCityName } from "@/lib/utils";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -18,28 +18,32 @@ export async function generateMetadata({
   params,
 }: CityPageProps): Promise<Metadata> {
   const { city } = await params;
-  const cityName = city
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (l: string) => l.toUpperCase());
+  const cityName = normalizeCityName(city);
 
   return {
-    title: `${cityName}`,
+    title: `${cityName} | CartaOnline`,
     description: `Los mejores restaurantes de ${cityName} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
   };
 }
 
 export default async function CityPage({ params }: CityPageProps) {
   const { city } = await params;
+
   const stores = await db.store.findMany({
     where: {
-      city: city as City,
+      city: {
+        name: city,
+      },
       status: "ACTIVE",
+    },
+    include: {
+      city: true,
+      banner: true,
+      logo: true,
     },
   });
 
-  const cityName = city
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (l: string) => l.toUpperCase());
+  const cityName = normalizeCityName(city);
 
   return stores.length > 0 ? (
     <Shell>
@@ -55,15 +59,15 @@ export default async function CityPage({ params }: CityPageProps) {
         </PageHeaderDescription>
       </PageHeader>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {stores.map((company) => (
+        {stores.map((store) => (
           <StoreLobbyCard
-            banner={company.bannerUrl}
-            city={company.city}
-            logoUrl={company.logoUrl}
-            key={company.id}
-            id={company.id.toString()}
-            name={company.name}
-            address={company.address}
+            banner={store.banner?.url}
+            city={store.city.name}
+            logoUrl={store.logo?.url}
+            key={store.id}
+            id={store.id}
+            name={store.name}
+            address={store.address}
           />
         ))}
       </div>

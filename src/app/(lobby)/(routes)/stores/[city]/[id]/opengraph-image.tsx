@@ -10,9 +10,13 @@ export const size = {
 
 export const contentType = "image/png";
 
-export default async function Image({ params }: { params: { id: number } }) {
+export default async function Image({ params }: { params: { id: string } }) {
+  const { id } = await params;
   const store = await db.store.findFirst({
-    where: { id: Number(params.id) },
+    where: { id },
+    include: {
+      banner: true,
+    },
   });
 
   return new ImageResponse(
@@ -28,9 +32,9 @@ export default async function Image({ params }: { params: { id: number } }) {
           justifyContent: "center",
         }}
       >
-        {store?.bannerUrl && (
+        {store?.banner && (
           <img
-            src={store?.bannerUrl}
+            src={store?.banner.url}
             alt="background"
             style={{
               position: "absolute",

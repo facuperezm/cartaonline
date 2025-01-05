@@ -37,7 +37,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
           <nav className="flex items-center space-x-2">
             {user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>
                   <Button
                     variant="secondary"
                     className="relative h-8 w-8 rounded-full"
