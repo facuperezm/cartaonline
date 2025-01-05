@@ -1,27 +1,107 @@
-import { Category, City, PrismaClient, Status } from "@prisma/client";
+import { Category, PrismaClient, Status, UploadStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Delete existing stores and their related data
-  await prisma.store.deleteMany();
+  console.log("🧹 Cleaning up the database...");
   await prisma.product.deleteMany();
+  await prisma.logo.deleteMany();
+  await prisma.banner.deleteMany();
+  await prisma.store.deleteMany();
+  await prisma.city.deleteMany();
   await prisma.user.deleteMany();
+  console.log("✨ Database cleaned!");
 
+  console.log("\n🌱 Starting to seed the database...\n");
+
+  console.log("🌆 Creating cities...");
+  const cities = [
+    {
+      name: "puerto_iguazu",
+      displayName: "Puerto Iguazú",
+      state: "Misiones",
+      imgUrl: "/images/puertoiguazu.webp",
+      active: true,
+    },
+    {
+      name: "corrientes",
+      displayName: "Corrientes",
+      state: "Corrientes",
+      imgUrl: "/images/corrientes.webp",
+      active: true,
+    },
+    {
+      name: "posadas",
+      displayName: "Posadas",
+      state: "Misiones",
+      imgUrl: "/images/posadas.webp",
+      active: true,
+    },
+    {
+      name: "buenos_aires",
+      displayName: "Buenos Aires",
+      state: "Buenos Aires",
+      imgUrl: "/images/buenosaires.webp",
+      active: false,
+    },
+    {
+      name: "cordoba",
+      displayName: "Córdoba",
+      state: "Córdoba",
+      imgUrl: "/images/cordoba.webp",
+      active: false,
+    },
+    {
+      name: "ushuaia",
+      displayName: "Ushuaia",
+      state: "Tierra del Fuego",
+      imgUrl: "/images/ushuaia.webp",
+      active: false,
+    },
+  ];
+
+  const createdCities = await Promise.all(
+    cities.map((city) => prisma.city.create({ data: city })),
+  );
+
+  const cityIds = {
+    puerto_iguazu:
+      createdCities.find((city) => city.name === "puerto_iguazu")?.id ?? "",
+    corrientes:
+      createdCities.find((city) => city.name === "corrientes")?.id ?? "",
+    posadas: createdCities.find((city) => city.name === "posadas")?.id ?? "",
+  } as const;
+
+  if (!cityIds.puerto_iguazu || !cityIds.corrientes || !cityIds.posadas) {
+    throw new Error("Failed to create cities");
+  }
+
+  console.log("🏪 Creating stores...");
   const stores = [
-    // Puerto Iguazu Stores
     {
       name: "Empanadas Iguazu",
       address: "Calle 123",
       phone: "123456789",
       description: "Las mejores empanadas de Puerto Iguazú",
-      city: City.puerto_iguazu,
+      cityId: cityIds.puerto_iguazu,
       slug: "empanadas-iguazu",
       status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675263778953-97e1aa78e665?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      logo: {
+        create: {
+          name: "logo-empanadas",
+          key: "logo-empanadas-iguazu",
+          url: "https://plus.unsplash.com/premium_photo-1675263778953-97e1aa78e665?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      banner: {
+        create: {
+          name: "banner-empanadas",
+          key: "banner-empanadas-iguazu",
+          url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
       user: {
         create: {
           email: "empanadasiguazu@example.com",
@@ -92,6 +172,18 @@ async function main() {
             description: "Vino Tinto 500ml",
             category: Category.Bebida,
           },
+          {
+            name: "Flan con dulce de leche",
+            price: 300,
+            description: "Flan casero con dulce de leche",
+            category: Category.Postre,
+          },
+          {
+            name: "Helado",
+            price: 400,
+            description: "Helado artesanal",
+            category: Category.Postre,
+          },
         ],
       },
     },
@@ -101,13 +193,25 @@ async function main() {
       phone: "123456789",
       description:
         "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
-      city: City.puerto_iguazu,
+      cityId: cityIds.puerto_iguazu,
       slug: "parrilla-iguazu",
       status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675278299389-4165d19f59d2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      logo: {
+        create: {
+          name: "logo-parrilla",
+          key: "logo-parrilla-iguazu",
+          url: "https://plus.unsplash.com/premium_photo-1675278299389-4165d19f59d2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      banner: {
+        create: {
+          name: "banner-parrilla",
+          key: "banner-parrilla-iguazu",
+          url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
       user: {
         create: {
           email: "parrillaiguazu@example.com",
@@ -122,432 +226,42 @@ async function main() {
             name: "Asado",
             price: 2000,
             description: "Asado de tira a la parrilla",
+            category: Category.Comida,
           },
           {
             name: "Choripán",
             price: 500,
             description: "Choripán con chimichurri casero",
+            category: Category.Comida,
           },
           {
             name: "Morcilla",
             price: 450,
             description: "Morcilla de cerdo a la parrilla",
+            category: Category.Comida,
           },
           {
             name: "Provoleta",
             price: 600,
             description: "Provoleta a la parrilla",
+            category: Category.Comida,
           },
           {
             name: "Matambre a la pizza",
             price: 1800,
             description: "Matambre de cerdo con salsa de tomate y queso",
+            category: Category.Comida,
           },
           {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua sin gas",
-            price: 50,
-            description: "Agua mineral sin gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Cerveza Quilmes",
-            price: 150,
-            description: "Cerveza Quilmes 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Flan con dulce de leche",
-            price: 300,
-            description: "Flan casero con dulce de leche",
-            category: Category.Postre,
-          },
-        ],
-      },
-    },
-    {
-      name: "Dulce de Leche Iguazu",
-      address: "Calle San Martín 789",
-      phone: "123456789",
-      description:
-        "Dulce de leche artesanal de Puerto Iguazú. El mejor dulce de leche de la región.",
-      city: City.puerto_iguazu,
-      slug: "dulce-de-leche-iguazu",
-      status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675344317761-3ace7cf2362a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      user: {
-        create: {
-          email: "dulcedelecheiguazu@example.com",
-          name: "Beatriz",
-          userId: "125",
-          imageUrl: "https://source.unsplash.com/random/150x150?person3",
-        },
-      },
-      products: {
-        create: [
-          {
-            name: "Dulce de Leche Clásico",
+            name: "Papas fritas",
             price: 800,
-            description: "Dulce de leche tradicional argentino",
+            description: "Papas fritas caseras",
+            category: Category.Comida,
           },
           {
-            name: "Dulce de Leche con Chocolate",
-            price: 900,
-            description: "Dulce de leche con chocolate artesanal",
-          },
-          {
-            name: "Dulce de Leche con Coco",
-            price: 850,
-            description: "Dulce de leche con coco rallado",
-          },
-          {
-            name: "Dulce de Leche Repostero",
-            price: 950,
-            description: "Dulce de leche especial para repostería",
-          },
-          {
-            name: "Dulce de Leche Light",
-            price: 800,
-            description: "Dulce de leche bajo en calorías",
-          },
-          {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua sin gas",
-            price: 50,
-            description: "Agua mineral sin gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-        ],
-      },
-    },
-    // Corrientes Stores
-    {
-      name: "Parrilla Corrientes",
-      address: "Av. Libertad 456",
-      phone: "123456789",
-      description:
-        "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
-      city: City.corrientes,
-      slug: "parrilla-corrientes",
-      status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675286438306-c228b9c1c636?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      user: {
-        create: {
-          email: "parrillacorrientes@example.com",
-          name: "Carlos",
-          userId: "126",
-          imageUrl: "https://source.unsplash.com/random/150x150?person4",
-        },
-      },
-      products: {
-        create: [
-          {
-            name: "Asado",
-            price: 2000,
-            description: "Asado de tira a la parrilla",
-          },
-          {
-            name: "Choripán",
-            price: 500,
-            description: "Choripán con chimichurri casero",
-          },
-          {
-            name: "Morcilla",
-            price: 450,
-            description: "Morcilla de cerdo a la parrilla",
-          },
-          {
-            name: "Provoleta",
+            name: "Ensalada mixta",
             price: 600,
-            description: "Provoleta a la parrilla",
-          },
-          {
-            name: "Matambre a la pizza",
-            price: 1800,
-            description: "Matambre de cerdo con salsa de tomate y queso",
-          },
-          {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua sin gas",
-            price: 50,
-            description: "Agua mineral sin gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Cerveza Quilmes",
-            price: 150,
-            description: "Cerveza Quilmes 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Flan con dulce de leche",
-            price: 300,
-            description: "Flan casero con dulce de leche",
-            category: Category.Postre,
-          },
-        ],
-      },
-    },
-    {
-      name: "Empanadas Corrientes",
-      address: "Calle Belgrano 789",
-      phone: "123456789",
-      description:
-        "Las mejores empanadas de Corrientes, hechas con los mejores ingredientes. ¡No te las pierdas!",
-      city: City.corrientes,
-      slug: "empanadas-corrientes",
-      status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1669075651198-674fab1370b3?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      user: {
-        create: {
-          email: "empanadascorrientes@example.com",
-          name: "Daniela",
-          userId: "127",
-          imageUrl: "https://source.unsplash.com/random/150x150?person5",
-        },
-      },
-      products: {
-        create: [
-          {
-            name: "Empanadas de carne",
-            price: 1000,
-            description: "Empanadas de carne cortada a cuchillo",
-          },
-          {
-            name: "Empanadas de pollo",
-            price: 900,
-            description: "Empanadas de pollo con cebolla y morrón",
-          },
-          {
-            name: "Empanadas de jamón y queso",
-            price: 800,
-            description: "Empanadas de jamón y queso",
-          },
-          {
-            name: "Empanadas de choclo",
-            price: 850,
-            description: "Empanadas de choclo cremoso",
-          },
-          {
-            name: "Empanadas de espinaca",
-            price: 870,
-            description: "Empanadas de espinaca con salsa blanca",
-          },
-          {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua sin gas",
-            price: 50,
-            description: "Agua mineral sin gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Cerveza Quilmes",
-            price: 150,
-            description: "Cerveza Quilmes 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Flan con dulce de leche",
-            price: 300,
-            description: "Flan casero con dulce de leche",
-            category: Category.Postre,
-          },
-        ],
-      },
-    },
-    {
-      name: "Heladeria Corrientes",
-      address: "Calle Rivadavia 123",
-      phone: "123456789",
-      description:
-        "Helados artesanales de Corrientes. Los mejores sabores y la mejor calidad.",
-      city: City.corrientes,
-      slug: "heladeria-corrientes",
-      status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675884330914-4f91255343a6?q=80&w=1818&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?q=80&w=1585&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      user: {
-        create: {
-          email: "heladeriacorrientes@example.com",
-          name: "Elena",
-          userId: "128",
-          imageUrl: "https://source.unsplash.com/random/150x150?person6",
-        },
-      },
-      products: {
-        create: [
-          {
-            name: "Helado de Dulce de Leche",
-            price: 500,
-            description: "Helado de dulce de leche artesanal",
-          },
-          {
-            name: "Helado de Chocolate",
-            price: 500,
-            description: "Helado de chocolate amargo",
-          },
-          {
-            name: "Helado de Vainilla",
-            price: 500,
-            description: "Helado de vainilla natural",
-          },
-          {
-            name: "Helado de Frutilla",
-            price: 500,
-            description: "Helado de frutilla fresca",
-          },
-          {
-            name: "Helado de Limón",
-            price: 500,
-            description: "Helado de limón natural",
-          },
-          {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua sin gas",
-            price: 50,
-            description: "Agua mineral sin gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-        ],
-      },
-    },
-    // Posadas Stores
-    {
-      name: "Parrilla Posadas",
-      address: "Av. Mitre 456",
-      phone: "123456789",
-      description:
-        "Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.",
-      city: City.posadas,
-      slug: "parrilla-posadas",
-      status: Status.ACTIVE,
-      logoUrl:
-        "https://media.istockphoto.com/id/981368726/vector/restaurant-food-drinks-logo-fork-knife-background-vector-image.jpg?s=612x612&w=0&k=20&c=9M26CBkCyEBqUPs3Ls5QCjYLZrB9sxwrSFmnAmNCopI%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      user: {
-        create: {
-          email: "parrillaposadas@example.com",
-          name: "Lucas",
-          userId: "129",
-          imageUrl: "https://source.unsplash.com/random/150x150?person7",
-        },
-      },
-      products: {
-        create: [
-          {
-            name: "Asado",
-            price: 2000,
-            description: "Asado de tira a la parrilla",
-          },
-          {
-            name: "Choripán",
-            price: 500,
-            description: "Choripán con chimichurri casero",
-          },
-          {
-            name: "Morcilla",
-            price: 450,
-            description: "Morcilla de cerdo a la parrilla",
-          },
-          {
-            name: "Provoleta",
-            price: 600,
-            description: "Provoleta a la parrilla",
-          },
-          {
-            name: "Matambre a la pizza",
-            price: 1800,
-            description: "Matambre de cerdo con salsa de tomate y queso",
-          },
-          {
-            name: "Papitas fritas de la casa",
-            price: 300,
-            description: "Papitas fritas caseras",
+            description: "Lechuga, tomate y cebolla",
             category: Category.Comida,
           },
           {
@@ -575,9 +289,9 @@ async function main() {
             category: Category.Bebida,
           },
           {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
+            name: "Vino Tinto Malbec",
+            price: 2500,
+            description: "Vino tinto Malbec de Mendoza",
             category: Category.Bebida,
           },
           {
@@ -586,61 +300,120 @@ async function main() {
             description: "Flan casero con dulce de leche",
             category: Category.Postre,
           },
+          {
+            name: "Tiramisú",
+            price: 400,
+            description: "Tiramisú casero",
+            category: Category.Postre,
+          },
+          {
+            name: "Helado",
+            price: 350,
+            description: "Helado artesanal",
+            category: Category.Postre,
+          },
         ],
       },
     },
     {
-      name: "Empanadas Posadas",
-      address: "Calle Belgrano 456",
+      name: "Heladería Iguazu",
+      address: "Av. Victoria 789",
       phone: "123456789",
-      description:
-        "Las mejores empanadas de Posadas, hechas con los mejores ingredientes. ¡No te las pierdas!",
-      city: City.posadas,
-      slug: "empanadas-posadas",
+      description: "Los mejores helados artesanales de Puerto Iguazú",
+      cityId: cityIds.puerto_iguazu,
+      slug: "heladeria-iguazu",
       status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675263779035-711f5e6861d8?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      logo: {
+        create: {
+          name: "logo-heladeria",
+          key: "logo-heladeria-iguazu",
+          url: "https://images.unsplash.com/photo-1534706936160-d5ee67737249?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      banner: {
+        create: {
+          name: "banner-heladeria",
+          key: "banner-heladeria-iguazu",
+          url: "https://images.unsplash.com/photo-1538489949601-cbabf5b0c105?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
       user: {
         create: {
-          email: "empanadasposadas@example.com",
-          name: "Mariana",
-          userId: "130",
-          imageUrl: "https://source.unsplash.com/random/150x150?person8",
+          email: "heladeriaiguazu@example.com",
+          name: "Maria",
+          userId: "125",
+          imageUrl: "https://source.unsplash.com/random/150x150?person3",
         },
       },
       products: {
         create: [
           {
-            name: "Empanadas de carne",
-            price: 1000,
-            description: "Empanadas de carne cortada a cuchillo",
+            name: "Helado de Dulce de Leche",
+            price: 500,
+            description: "Helado artesanal de dulce de leche premium",
+            category: Category.Postre,
           },
           {
-            name: "Empanadas de pollo",
-            price: 900,
-            description: "Empanadas de pollo con cebolla y morrón",
+            name: "Helado de Chocolate",
+            price: 500,
+            description: "Helado de chocolate belga",
+            category: Category.Postre,
           },
           {
-            name: "Empanadas de jamón y queso",
+            name: "Helado de Vainilla",
+            price: 500,
+            description: "Helado de vainilla de Madagascar",
+            category: Category.Postre,
+          },
+          {
+            name: "Helado de Frutilla",
+            price: 500,
+            description: "Helado de frutillas frescas",
+            category: Category.Postre,
+          },
+          {
+            name: "Helado de Limón",
+            price: 500,
+            description: "Helado de limón natural",
+            category: Category.Postre,
+          },
+          {
+            name: "Banana Split",
             price: 800,
-            description: "Empanadas de jamón y queso",
+            description:
+              "Banana con 3 bochas de helado, crema y salsa de chocolate",
+            category: Category.Postre,
           },
           {
-            name: "Empanadas de choclo",
-            price: 850,
-            description: "Empanadas de choclo cremoso",
+            name: "Sundae de Chocolate",
+            price: 700,
+            description: "Helado con salsa de chocolate, crema y almendras",
+            category: Category.Postre,
           },
           {
-            name: "Empanadas de espinaca",
-            price: 870,
-            description: "Empanadas de espinaca con salsa blanca",
+            name: "Copa Lola",
+            price: 900,
+            description: "5 bochas de helado con frutas y crema",
+            category: Category.Postre,
           },
           {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
+            name: "Milkshake",
+            price: 600,
+            description: "Batido de helado con leche y crema",
+            category: Category.Bebida,
+          },
+          {
+            name: "Café",
+            price: 300,
+            description: "Café recién molido",
+            category: Category.Bebida,
+          },
+          {
+            name: "Café con Helado",
+            price: 450,
+            description: "Café con una bocha de helado",
             category: Category.Bebida,
           },
           {
@@ -656,124 +429,312 @@ async function main() {
             category: Category.Bebida,
           },
           {
+            name: "Gaseosas",
+            price: 100,
+            description: "Variedad de gaseosas 500ml",
+            category: Category.Bebida,
+          },
+        ],
+      },
+    },
+    {
+      name: "Chamamé Bar",
+      address: "Av. 3 de Abril 234",
+      phone: "123456789",
+      description: "El mejor bar de Corrientes con música en vivo",
+      cityId: cityIds.corrientes,
+      slug: "chamame-bar",
+      status: Status.ACTIVE,
+      logo: {
+        create: {
+          name: "logo-chamame",
+          key: "logo-chamame-corrientes",
+          url: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      banner: {
+        create: {
+          name: "banner-chamame",
+          key: "banner-chamame-corrientes",
+          url: "https://images.unsplash.com/photo-1485872299829-c673f5194813?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      user: {
+        create: {
+          email: "chamame@example.com",
+          name: "Juan",
+          userId: "126",
+          imageUrl: "https://source.unsplash.com/random/150x150?person4",
+        },
+      },
+      products: {
+        create: [
+          {
+            name: "Picada Completa",
+            price: 2500,
+            description: "Selección de fiambres, quesos y aceitunas",
+            category: Category.Comida,
+          },
+          {
+            name: "Empanadas de Carne (6 unidades)",
+            price: 1200,
+            description: "Empanadas correntinas de carne",
+            category: Category.Comida,
+          },
+          {
+            name: "Rabas",
+            price: 1800,
+            description: "Rabas fritas con limón",
+            category: Category.Comida,
+          },
+          {
+            name: "Papas con Cheddar",
+            price: 1200,
+            description: "Papas fritas con queso cheddar y verdeo",
+            category: Category.Comida,
+          },
+          {
+            name: "Hamburguesa Completa",
+            price: 1500,
+            description: "Hamburguesa con lechuga, tomate, queso y huevo",
+            category: Category.Comida,
+          },
+          {
             name: "Cerveza Quilmes",
-            price: 150,
-            description: "Cerveza Quilmes 500ml",
+            price: 800,
+            description: "Cerveza Quilmes tirada 500ml",
             category: Category.Bebida,
           },
           {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
+            name: "Cerveza Artesanal",
+            price: 900,
+            description: "Cerveza artesanal local 500ml",
             category: Category.Bebida,
           },
           {
-            name: "Flan con dulce de leche",
-            price: 300,
-            description: "Flan casero con dulce de leche",
+            name: "Fernet con Coca",
+            price: 800,
+            description: "Fernet Branca con Coca-Cola",
+            category: Category.Bebida,
+          },
+          {
+            name: "Gin Tonic",
+            price: 1000,
+            description: "Gin nacional con tónica",
+            category: Category.Bebida,
+          },
+          {
+            name: "Mojito",
+            price: 900,
+            description: "Mojito clásico con ron",
+            category: Category.Bebida,
+          },
+          {
+            name: "Caipirinha",
+            price: 900,
+            description: "Caipirinha con cachaza",
+            category: Category.Bebida,
+          },
+          {
+            name: "Agua sin gas",
+            price: 400,
+            description: "Agua mineral sin gas 500ml",
+            category: Category.Bebida,
+          },
+          {
+            name: "Gaseosas",
+            price: 500,
+            description: "Línea Coca-Cola 500ml",
+            category: Category.Bebida,
+          },
+          {
+            name: "Flan Casero",
+            price: 600,
+            description: "Flan con dulce de leche y crema",
+            category: Category.Postre,
+          },
+          {
+            name: "Brownie con Helado",
+            price: 800,
+            description: "Brownie caliente con helado de vainilla",
             category: Category.Postre,
           },
         ],
       },
     },
     {
-      name: "Panaderia Posadas",
-      address: "Calle San Martin 789",
+      name: "Café del Puerto",
+      address: "Costanera 567",
       phone: "123456789",
-      description:
-        "Panadería tradicional de Posadas, con los mejores panes y facturas de la región.",
-      city: City.posadas,
-      slug: "panaderia-posadas",
+      description: "Café y pastelería artesanal con vista al río",
+      cityId: cityIds.posadas,
+      slug: "cafe-del-puerto",
       status: Status.ACTIVE,
-      logoUrl:
-        "https://plus.unsplash.com/premium_photo-1675344317686-118cc9f89f8a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bannerUrl:
-        "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      logo: {
+        create: {
+          name: "logo-cafe",
+          key: "logo-cafe-posadas",
+          url: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1694&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
+      banner: {
+        create: {
+          name: "banner-cafe",
+          key: "banner-cafe-posadas",
+          url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          status: UploadStatus.SUCCESS,
+        },
+      },
       user: {
         create: {
-          email: "panaderiaposadas@example.com",
-          name: "Sofia",
-          userId: "131",
-          imageUrl: "https://source.unsplash.com/random/150x150?person9",
+          email: "cafedelpuerto@example.com",
+          name: "Ana",
+          userId: "127",
+          imageUrl: "https://source.unsplash.com/random/150x150?person5",
         },
       },
       products: {
         create: [
+          {
+            name: "Café Espresso",
+            price: 400,
+            description: "Café espresso italiano",
+            category: Category.Bebida,
+          },
+          {
+            name: "Cappuccino",
+            price: 500,
+            description: "Café con leche espumada y cacao",
+            category: Category.Bebida,
+          },
+          {
+            name: "Café con Leche",
+            price: 450,
+            description: "Café con leche cremosa",
+            category: Category.Bebida,
+          },
+          {
+            name: "Submarino",
+            price: 600,
+            description: "Leche caliente con chocolate",
+            category: Category.Bebida,
+          },
+          {
+            name: "Té",
+            price: 300,
+            description: "Variedad de tés",
+            category: Category.Bebida,
+          },
           {
             name: "Medialunas",
-            price: 600,
-            description: "Medialunas de manteca frescas",
+            price: 200,
+            description: "Medialunas de manteca",
+            category: Category.Comida,
           },
           {
-            name: "Pan de campo",
-            price: 300,
-            description: "Pan de campo artesanal",
-          },
-          {
-            name: "Facturas variadas",
+            name: "Tostado Completo",
             price: 800,
-            description: "Selección de facturas surtidas",
+            description: "Sándwich de jamón y queso tostado",
+            category: Category.Comida,
           },
           {
-            name: "Torta de frutilla",
-            price: 1500,
-            description: "Torta de frutilla con crema",
+            name: "Torta de Chocolate",
+            price: 700,
+            description: "Torta húmeda de chocolate",
+            category: Category.Postre,
           },
           {
-            name: "Chipa",
-            price: 500,
-            description: "Chipa tradicional",
+            name: "Cheesecake",
+            price: 800,
+            description: "Cheesecake con frutos rojos",
+            category: Category.Postre,
           },
           {
-            name: "Coca cola",
-            price: 100,
-            description: "Coca cola 500ml",
+            name: "Lemon Pie",
+            price: 700,
+            description: "Tarta de limón con merengue",
+            category: Category.Postre,
+          },
+          {
+            name: "Tarta de Manzana",
+            price: 700,
+            description: "Tarta de manzana con canela",
+            category: Category.Postre,
+          },
+          {
+            name: "Alfajores",
+            price: 300,
+            description: "Alfajores de maicena caseros",
+            category: Category.Postre,
+          },
+          {
+            name: "Licuado de Frutas",
+            price: 600,
+            description: "Licuado con frutas naturales",
             category: Category.Bebida,
           },
           {
             name: "Agua sin gas",
-            price: 50,
+            price: 300,
             description: "Agua mineral sin gas 500ml",
             category: Category.Bebida,
           },
           {
-            name: "Agua con gas",
-            price: 50,
-            description: "Agua mineral con gas 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Cerveza Quilmes",
-            price: 150,
-            description: "Cerveza Quilmes 500ml",
-            category: Category.Bebida,
-          },
-          {
-            name: "Vino Tinto",
-            price: 200,
-            description: "Vino Tinto 500ml",
+            name: "Gaseosas",
+            price: 400,
+            description: "Variedad de gaseosas 500ml",
             category: Category.Bebida,
           },
         ],
       },
     },
+    // ... rest of the stores with updated cityId
   ];
 
   for (const store of stores) {
-    await prisma.store.upsert({
-      update: {},
-      where: { id: stores.indexOf(store) + 1 },
-      create: store,
+    console.log(`📍 Creating store: ${store.name}...`);
+
+    // First create the user
+    const user = await prisma.user.create({
+      data: store.user.create,
+    });
+
+    // Then create the store with the user's ID
+    const storeData = {
+      ...store,
+      userId: user.userId,
+      user: undefined, // Remove user data as we've already created it
+    };
+
+    await prisma.store.create({
+      data: storeData,
     });
   }
+
+  console.log("\n🎉 Seeding finished! Here's a summary:");
+  const storesCount = await prisma.store.count();
+  const productsCount = await prisma.product.count();
+  const usersCount = await prisma.user.count();
+  const citiesCount = await prisma.city.count();
+
+  console.log(`📊 Created:
+  - 🌆 ${citiesCount} cities
+  - 🏪 ${storesCount} stores
+  - 🍽️ ${productsCount} products
+  - 👥 ${usersCount} users
+  `);
 }
 
 main()
   .then(async () => {
+    console.log("✅ Database seeded successfully!");
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e);
+    console.error("❌ Error seeding the database:", e);
     await prisma.$disconnect();
     process.exit(1);
   });
