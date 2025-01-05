@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 import { db } from "@/lib/db";
 
@@ -154,9 +154,9 @@ export async function createStore(prevState: any, formData: FormData) {
       city: formData.get("city"),
     });
 
-    const user = await currentUser();
+    const { userId } = await auth();
 
-    if (!user) {
+    if (!userId) {
       throw new Error("User not found");
     }
 
@@ -174,7 +174,7 @@ export async function createStore(prevState: any, formData: FormData) {
         },
         user: {
           connect: {
-            userId: user.id,
+            userId: userId,
           },
         },
       },
@@ -194,16 +194,16 @@ export async function createStore(prevState: any, formData: FormData) {
 export async function createBanner(data: { key: string; storeId: string }) {
   try {
     const { key, storeId } = data;
-    const user = await currentUser();
+    const { userId } = await auth();
 
-    if (!user) {
+    if (!userId) {
       throw new Error("User not found");
     }
 
     const store = db.store.findFirst({
       where: {
         id: storeId,
-        userId: user.id,
+        userId,
       },
     });
 
@@ -242,16 +242,16 @@ export async function createBanner(data: { key: string; storeId: string }) {
 export async function createLogo(data: { key: string; storeId: string }) {
   try {
     const { key, storeId } = data;
-    const user = await currentUser();
+    const { userId } = await auth();
 
-    if (!user) {
+    if (!userId) {
       throw new Error("User not found");
     }
 
     const store = db.store.findFirst({
       where: {
         id: storeId,
-        userId: user.id,
+        userId,
       },
     });
 
