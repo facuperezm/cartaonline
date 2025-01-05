@@ -58,29 +58,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<Skeleton className="h-screen w-screen" />}>
-      <ClerkProvider
-        appearance={{
-          layout: {
-            socialButtonsPlacement: "bottom",
-            socialButtonsVariant: "iconButton",
-            termsPageUrl: "https://clerk.com/terms",
-          },
-        }}
+    <ClerkProvider
+      appearance={{
+        layout: {
+          socialButtonsPlacement: "bottom",
+          socialButtonsVariant: "iconButton",
+          termsPageUrl: "https://clerk.com/terms",
+        },
+      }}
+    >
+      <html
+        lang="en"
+        className={cn(
+          "min-h-screen scroll-smooth antialiased",
+          inter.className,
+        )}
       >
-        <html
-          lang="en"
-          className={cn(
-            "min-h-screen scroll-smooth antialiased",
-            inter.className,
-          )}
-        >
-          <Providers>
-            <body>{children}</body>
-            <Toaster richColors closeButton />
-          </Providers>
-        </html>
-      </ClerkProvider>
-    </Suspense>
+        <Providers>
+          <body>{children}</body>
+          <Toaster richColors closeButton />
+        </Providers>
+      </html>
+    </ClerkProvider>
   );
 }
