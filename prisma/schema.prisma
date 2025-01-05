@@ -30,8 +30,8 @@ model Logo {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 
-  store   Store  @relation("StoreLogo", fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  storeId String @unique
+  store   Store?  @relation("StoreLogo", fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  storeId String? @unique
 
   @@index([storeId])
 }
@@ -45,8 +45,8 @@ model Banner {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 
-  store   Store  @relation("StoreBanner", fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  storeId String @unique
+  store   Store?  @relation("StoreBanner", fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  storeId String? @unique
 
   @@index([storeId])
 }

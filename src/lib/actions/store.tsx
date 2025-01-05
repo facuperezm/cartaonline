@@ -145,109 +145,142 @@ export async function updateStoreSlug(storeId: string, newSlug: string) {
 }
 
 export async function createStore(prevState: any, formData: FormData) {
-  const rawFormData = Object.fromEntries(formData);
-  const validatedFields = storeSchema.safeParse(rawFormData);
+  try {
+    const validatedFields = storeSchema.parse({
+      name: formData.get("name"),
+      address: formData.get("address"),
+      phone: formData.get("phone"),
+      description: formData.get("description"),
+      city: formData.get("city"),
+    });
 
-  const user = await currentUser();
+    const user = await currentUser();
 
-  if (!user) {
-    throw new Error("User not found");
-  }
+    if (!user) {
+      throw new Error("User not found");
+    }
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
-
-  const storeWithTheSameName = await db.store.findFirst({
-    where: {
-      name: validatedFields.data.name,
-    },
-  });
-
-  if (storeWithTheSameName) {
-    return { success: false, message: "Store name is already taken" };
-  }
-
-  await db.store.create({
-    data: {
-      name: validatedFields.data.name,
-      address: validatedFields.data.address,
-      description: validatedFields.data.description,
-      phone: validatedFields.data.phone,
-      city: {
-        connect: {
-          name: validatedFields.data.city,
+    await db.store.create({
+      data: {
+        name: validatedFields.name,
+        address: validatedFields.address,
+        description: validatedFields.description,
+        phone: validatedFields.phone,
+        status: "ACTIVE",
+        city: {
+          connect: {
+            name: validatedFields.city,
+          },
+        },
+        user: {
+          connect: {
+            userId: user.id,
+          },
         },
       },
-      user: {
-        connect: {
-          userId: user.id,
-        },
+    });
+    return { message: "Store created successfully", success: true };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Logo Creation Error:", error.stack);
+    } else {
+      console.error("Logo Creation Error:", error);
+    }
+    return { success: false, error: "Failed to create logo" };
+  }
+  redirect(`/dashboard/stores`);
+}
+
+export async function createBanner(data: { key: string; storeId: string }) {
+  try {
+    const { key, storeId } = data;
+    const user = await currentUser();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const store = db.store.findFirst({
+      where: {
+        id: storeId,
+        userId: user.id,
       },
-    },
-  });
+    });
 
-  redirect("/dashboard/stores");
+    if (!store) {
+      throw new Error("Store not found");
+    }
+
+    await db.banner.upsert({
+      where: {
+        key: key,
+      },
+      create: {
+        key: key,
+        name: key,
+        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
+        status: "SUCCESS",
+        storeId: storeId,
+      },
+      update: {
+        storeId: storeId,
+        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
+      },
+    });
+
+    // redirect(`/dashboard/stores/${storeId}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Banner Creation Error:", error.stack);
+    } else {
+      console.error("Logo Creation Error:", error);
+    }
+    return { success: false, error: "Failed to create logo" };
+  }
 }
 
-export async function createBanner(data: { url: string; storeId: string }) {
-  const { url, storeId } = data;
-  const user = await currentUser();
+export async function createLogo(data: { key: string; storeId: string }) {
+  try {
+    const { key, storeId } = data;
+    const user = await currentUser();
 
-  if (!user) {
-    throw new Error("User not found");
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const store = db.store.findFirst({
+      where: {
+        id: storeId,
+        userId: user.id,
+      },
+    });
+
+    if (!store) {
+      throw new Error("Store not found");
+    }
+
+    await db.logo.upsert({
+      where: {
+        key: key,
+      },
+      create: {
+        key: key,
+        name: key,
+        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
+        status: "SUCCESS",
+        storeId: storeId,
+      },
+      update: {
+        storeId: storeId,
+        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
+      },
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Logo Creation Error:", error.stack);
+    } else {
+      console.error("Logo Creation Error:", { error });
+    }
+    return { success: false, error: "Failed to create logo" };
   }
-
-  const store = db.store.findFirst({
-    where: {
-      id: storeId,
-      userId: user.id,
-    },
-  });
-
-  if (!store) {
-    throw new Error("Store not found");
-  }
-
-  await db.banner.update({
-    where: {
-      storeId: storeId,
-    },
-    data: {
-      url,
-    },
-  });
-
-  redirect(`/dashboard/stores/${storeId}`);
-}
-
-export async function createLogo(data: { url: string; storeId: string }) {
-  const { url, storeId } = data;
-  const user = await currentUser();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  const store = db.store.findFirst({
-    where: {
-      id: storeId,
-      userId: user.id,
-    },
-  });
-
-  if (!store) {
-    throw new Error("Store not found");
-  }
-
-  await db.logo.update({
-    where: {
-      storeId,
-    },
-    data: {
-      url,
-    },
-  });
 }

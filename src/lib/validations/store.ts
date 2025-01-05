@@ -21,14 +21,7 @@ export const storeSchema = z.object({
   address: z.string().min(3, "Address must be at least 3 characters long."),
   phone: z.string().min(8, "Phone must be at least 8 characters long."),
   description: z.string(),
-  city: z.enum([
-    "buenos_aires",
-    "puerto_iguazu",
-    "corrientes",
-    "posadas",
-    "ushuaia",
-    "cordoba",
-  ]),
+  city: z.string(),
 });
 
 export type Inputs = z.infer<typeof storeSchema>;

@@ -1,9 +1,8 @@
-import { cache } from "react";
 import { currentUser } from "@clerk/nextjs/server";
 
 import { db } from "@/lib/db";
 
-export const InitialUser = cache(async () => {
+export const InitialUser = async () => {
   try {
     const user = await currentUser();
 
@@ -55,4 +54,4 @@ export const InitialUser = cache(async () => {
     }
     throw new Error("Failed to initialize user");
   }
-});
+};

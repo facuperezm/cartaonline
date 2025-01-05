@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { User } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { LayoutDashboard, LogOut } from "lucide-react";
 
 import { getUserEmail } from "@/lib/utils";
@@ -18,11 +18,9 @@ import {
 import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 
-interface SiteHeaderProps {
-  user: User | null;
-}
+export async function SiteHeader() {
+  const user = await currentUser();
 
-export async function SiteHeader({ user }: SiteHeaderProps) {
   const initials = `${user?.firstName?.charAt(0) ?? ""} ${
     user?.lastName?.charAt(0) ?? ""
   }`;

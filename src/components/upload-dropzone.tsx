@@ -12,9 +12,12 @@ import { cn, compressImage } from "@/lib/utils";
 import { Progress } from "./ui/progress";
 
 interface UploadDropzoneProps {
-  createImage: (data: { url: string; storeId: string }) => Promise<void>;
-  setIsOpen: (open: boolean) => void;
   storeId: string;
+  setIsOpen: (open: boolean) => void;
+  createImage: (data: {
+    key: string;
+    storeId: string;
+  }) => Promise<{ success: boolean; error: string } | undefined>;
 }
 
 export default function UploadDropzone({
@@ -29,7 +32,7 @@ export default function UploadDropzone({
   const { startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: async (res) => {
       if (res?.[0]) {
-        await createImage({ url: res[0].url, storeId });
+        await createImage({ key: res[0].key, storeId });
         setIsOpen(false);
       }
       router.refresh();
