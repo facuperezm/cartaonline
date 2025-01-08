@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import UploadDropzone from "@/components/upload-dropzone";
+import UploadDropzone from "@/app/(dashboard)/_components/upload-dropzone";
 
 export default function UploadBtn({
   storeId,
