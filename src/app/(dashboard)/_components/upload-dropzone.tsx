@@ -8,8 +8,7 @@ import { toast } from "sonner";
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn, compressImage } from "@/lib/utils";
-
-import { Progress } from "./ui/progress";
+import { Progress } from "@/components/ui/progress";
 
 interface UploadDropzoneProps {
   storeId: string;
