@@ -3,18 +3,25 @@ import { Category, PrismaClient, Status, UploadStatus } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  console.log("\n🌱 Starting to seed the database...\n");
+
+  console.time("\n🎉 Seeding finished!");
+
+  console.time(`🌱 Database has been seeded`);
+
   console.log("🧹 Cleaning up the database...");
+  console.time("\n✨ Database cleaned!");
+
   await prisma.product.deleteMany();
   await prisma.logo.deleteMany();
   await prisma.banner.deleteMany();
   await prisma.store.deleteMany();
   await prisma.city.deleteMany();
   await prisma.user.deleteMany();
-  console.log("✨ Database cleaned!");
+  console.timeEnd("\n✨ Database cleaned!");
 
-  console.log("\n🌱 Starting to seed the database...\n");
-
-  console.log("🌆 Creating cities...");
+  console.log("\n🌆 Creating cities...");
+  console.time("🌆 Cities created!");
   const cities = [
     {
       name: "puerto_iguazu",
@@ -75,8 +82,10 @@ async function main() {
   if (!cityIds.puerto_iguazu || !cityIds.corrientes || !cityIds.posadas) {
     throw new Error("Failed to create cities");
   }
+  console.timeEnd("🌆 Cities created!");
 
-  console.log("🏪 Creating stores...");
+  console.log("\n🏪 Creating stores...");
+  console.time("🏪 Stores created!");
   const stores = [
     {
       name: "Empanadas Iguazu",
@@ -695,7 +704,7 @@ async function main() {
   ];
 
   for (const store of stores) {
-    console.log(`📍 Creating store: ${store.name}...`);
+    console.time(`📍 Creating store: ${store.name}...`);
 
     // First create the user
     const user = await prisma.user.create({
@@ -713,14 +722,16 @@ async function main() {
       data: storeData,
     });
   }
+  console.timeEnd("🏪 Stores created!");
 
-  console.log("\n🎉 Seeding finished! Here's a summary:");
+  console.timeEnd("\n🎉 Seeding finished!");
+
   const storesCount = await prisma.store.count();
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
   const citiesCount = await prisma.city.count();
 
-  console.log(`📊 Created:
+  console.log(`📊 Here's a summary:
   - 🌆 ${citiesCount} cities
   - 🏪 ${storesCount} stores
   - 🍽️ ${productsCount} products
@@ -730,7 +741,7 @@ async function main() {
 
 main()
   .then(async () => {
-    console.log("✅ Database seeded successfully!");
+    console.timeEnd(`🌱 Database has been seeded`);
     await prisma.$disconnect();
   })
   .catch(async (e) => {
