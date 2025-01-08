@@ -22,9 +22,7 @@ export async function CityCard({ src, city, disabled, href }: CityCardProps) {
           src={src}
           className="object-cover blur-[1px] grayscale"
           sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-          width={420}
-          height={240}
-          quality={60}
+          fill
           alt={`${normalizedCity} image`}
         />
       </AspectRatio>
@@ -32,7 +30,7 @@ export async function CityCard({ src, city, disabled, href }: CityCardProps) {
         <div className="flex flex-row-reverse">
           <p className="text-sm text-zinc-200">Próximamente...</p>
         </div>
-        <h3 className="mt-auto text-xl font-medium capitalize text-zinc-200">
+        <h3 className="mt-auto text-2xl font-medium capitalize text-zinc-200">
           {normalizedCity}
         </h3>
       </div>
@@ -59,9 +57,7 @@ export async function CityCard({ src, city, disabled, href }: CityCardProps) {
               : "object-cover transition-transform group-hover:scale-105",
           )}
           sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-          width={420}
-          height={240}
-          quality={60}
+          fill
           alt={`${normalizedCity} image`}
         />
       </AspectRatio>
@@ -69,7 +65,7 @@ export async function CityCard({ src, city, disabled, href }: CityCardProps) {
         <div className="flex items-start justify-between space-x-4">
           <p className="text-sm text-zinc-200">{disabled && "Próximamente"}</p>
         </div>
-        <h3 className="mt-auto text-xl font-medium capitalize text-zinc-200">
+        <h3 className="mt-auto text-2xl font-medium capitalize text-zinc-200">
           {normalizedCity}
         </h3>
       </div>
