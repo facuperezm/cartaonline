@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -8,7 +7,6 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import Providers from "@/components/Providers";
 
 const inter = Inter({
