@@ -21,7 +21,7 @@ export default async function BillingPage() {
   const { userId, redirectToSignIn } = await auth();
 
   if (!userId) return redirectToSignIn();
-
+  // TODO: switch to getStoreByUserId
   const stores = await db.store.findMany({
     where: {
       userId,

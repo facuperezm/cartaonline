@@ -4,7 +4,7 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { AlertOctagon } from "lucide-react";
 
-import { db } from "@/lib/db";
+import { getStoreByUserId } from "@/lib/queries/store";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { buttonVariants } from "@/components/ui/button";
@@ -27,11 +27,7 @@ export default async function StoresPage() {
 
   if (!userId) return redirectToSignIn();
 
-  const allStores = await db.store.findMany({
-    where: {
-      userId: userId,
-    },
-  });
+  const allStores = await getStoreByUserId(userId);
 
   return (
     <Shell variant="sidebar">

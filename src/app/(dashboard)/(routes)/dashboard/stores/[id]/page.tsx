@@ -1,7 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { db } from "@/lib/db";
+import { getCities } from "@/lib/queries/city";
+import { getStoreById } from "@/lib/queries/store";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   PageHeader,
@@ -22,16 +23,12 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const store = await db.store.findFirst({
-    where: {
-      id,
-    },
-  });
+  const store = await getStoreById(id);
 
   if (!store) {
     return {
-      title: "Store not found",
-      description: "The store you are looking for does not exist.",
+      title: "CartaOnline - Tienda no encontrada",
+      description: "La tienda que estás buscando no existe.",
     };
   }
 
@@ -43,23 +40,13 @@ export async function generateMetadata({
 
 export default async function StorePage({ params }: PageProps) {
   const { id } = await params;
-  const store = await db.store.findFirst({
-    where: {
-      id,
-    },
-    include: {
-      city: true,
-      products: true,
-      logo: true,
-      banner: true,
-    },
-  });
+  const store = await getStoreById(id);
 
   if (!store) {
     notFound();
   }
 
-  const cities = await db.city.findMany();
+  const cities = await getCities();
 
   const storeUrl = `${
     process.env.NEXT_PUBLIC_APP_URL

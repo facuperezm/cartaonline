@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { db } from "@/lib/db";
+import { getStoreById } from "@/lib/queries/store";
 import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { ProductList } from "@/app/(lobby)/_components/product-list";
@@ -19,12 +19,7 @@ export async function generateMetadata({
   params,
 }: StorePageProps): Promise<Metadata> {
   const { id } = await params;
-  const store = await db.store.findFirst({
-    where: { id: id },
-    include: {
-      banner: true,
-    },
-  });
+  const store = await getStoreById(id);
 
   if (!store) {
     return {
@@ -52,24 +47,9 @@ export async function generateMetadata({
 }
 
 export default async function StorePage({ params }: StorePageProps) {
-  const { city, id } = await params;
+  const { id } = await params;
 
-  const store = await db.store.findFirst({
-    where: {
-      id,
-      city: {
-        name: city,
-      },
-    },
-    include: {
-      banner: true,
-      products: {
-        orderBy: {
-          category: "asc",
-        },
-      },
-    },
-  });
+  const store = await getStoreById(id);
 
   if (!store) {
     notFound();

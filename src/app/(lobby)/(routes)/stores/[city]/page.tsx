@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { db } from "@/lib/db";
+import { getStoresByCity } from "@/lib/queries/store";
 import { normalizeCityName } from "@/lib/utils";
 import {
   PageHeader,
@@ -29,20 +29,7 @@ export async function generateMetadata({
 export default async function CityPage({ params }: CityPageProps) {
   const { city } = await params;
 
-  const stores = await db.store.findMany({
-    where: {
-      city: {
-        name: city,
-      },
-      status: "ACTIVE",
-    },
-    include: {
-      city: true,
-      banner: true,
-      logo: true,
-    },
-  });
-
+  const stores = await getStoresByCity(city);
   const cityName = normalizeCityName(city);
 
   return stores.length > 0 ? (
