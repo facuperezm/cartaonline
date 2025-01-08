@@ -11,7 +11,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier -w -u .",
     "test": "vitest",
-    "seed": "tsx prisma/seed.ts"
+    "seed": ""
   },
   "dependencies": {
     "@clerk/nextjs": "6.9.6",
@@ -84,5 +84,16 @@
     "tailwindcss-animate": "1.0.7",
     "typescript": "5.3.3",
     "vitest": "^1.6.0"
-  }
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "eslintIgnore": [
+    "/node_modules",
+    "/build",
+    "/public/build",
+    "/playwright-report",
+    "/server-build",
+    "/prisma/migrations"
+  ]
 }
