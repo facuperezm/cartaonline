@@ -1,7 +1,7 @@
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import type { User } from "@clerk/nextjs/server";
 import { clsx, type ClassValue } from "clsx";
-import * as imageConversion from "image-conversion";
+// Lazy import heavy image-conversion only when needed
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import * as z from "zod";
@@ -74,6 +74,7 @@ export function catchError(err: unknown) {
 
 export async function compressImage(file: Blob, quality: number, name: string) {
   try {
+    const imageConversion = await import("image-conversion");
     const compressedBlob = await imageConversion.compress(file, {
       quality,
     });

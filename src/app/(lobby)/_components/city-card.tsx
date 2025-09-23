@@ -38,7 +38,7 @@ export async function CityCard({ src, city, disabled, href }: CityCardProps) {
     </div>
   ) : (
     <Link
-      prefetch={true}
+      prefetch={false}
       href={href ?? ""}
       className="group relative overflow-hidden rounded-md border"
     >

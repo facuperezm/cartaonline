@@ -86,8 +86,10 @@ export default async function Home() {
                 src="/images/demo-web.webp"
                 alt="Demo de carta digital"
                 className="h-full w-full object-cover"
-                width={1000}
-                height={2000}
+                width={1200}
+                height={675}
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
               />
             </div>
           </div>

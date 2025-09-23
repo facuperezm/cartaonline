@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import Providers from "@/components/Providers";
+// Providers moved to dashboard layout to avoid shipping react-query to public pages
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,15 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        layout: {
-          socialButtonsPlacement: "bottom",
-          socialButtonsVariant: "iconButton",
-          termsPageUrl: "https://clerk.com/terms",
-        },
-      }}
-    >
+    <ClerkProvider appearance={{ layout: { socialButtonsPlacement: "bottom", socialButtonsVariant: "iconButton", termsPageUrl: "https://clerk.com/terms" } }}>
       <html
         lang="en"
         className={cn(
@@ -72,10 +64,8 @@ export default function RootLayout({
           inter.className,
         )}
       >
-        <Providers>
-          <body>{children}</body>
-          <Toaster richColors closeButton />
-        </Providers>
+        <body>{children}</body>
+        <Toaster richColors closeButton />
       </html>
     </ClerkProvider>
   );
