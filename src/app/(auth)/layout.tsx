@@ -17,9 +17,9 @@ export default function AuthLayout({
           src="/images/auth-background.webp"
           alt="una mesa con comida y una computadora portátil abierta"
           fill
-          className="absolute inset-0 object-cover"
           priority
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 100vw"
+          className="absolute inset-0 object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-background/60" />
         <Link

@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { Download, Upload } from "lucide-react";
-import { QRCodeSVG } from "qrcode.react";
+import dynamic from "next/dynamic";
+const QRCodeSVG = dynamic(
+  () => import("qrcode.react").then((m) => m.QRCodeSVG),
+  { ssr: false }
+);
 
 import { Button } from "@/components/ui/button";
 import {

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Protect } from "@clerk/nextjs";
 import { ArrowLeft, BookOpenCheck } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
@@ -13,7 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "../icons";
 import { Separator } from "../ui/separator";
 
-export function MobileNav() {
+export function MobileNav({ isSignedIn }: { isSignedIn: boolean }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -57,22 +56,22 @@ export function MobileNav() {
               <Link href="/stores/corrientes">Corrientes</Link>
             </Button>
             <Separator className="my-2" />
-            <Protect
-              fallback={
-                <Button variant="ghost" className="w-full">
-                  <Link href="/auth/sign-in">Iniciar sesión</Link>
+            {isSignedIn ? (
+              <>
+                <Button variant="ghost" className="w-full space-x-2">
+                  <Icons.avatar className="size-4" />
+                  <Link href="/dashboard/account">Mi cuenta</Link>
                 </Button>
-              }
-            >
-              <Button variant="ghost" className="w-full space-x-2">
-                <Icons.avatar className="size-4" />
-                <Link href="/dashboard/account">Mi cuenta</Link>
+                <Button variant="ghost" className="w-full space-x-2">
+                  <Icons.store className="size-4" />
+                  <Link href="/dashboard/stores">Mis tiendas</Link>
+                </Button>
+              </>
+            ) : (
+              <Button variant="ghost" className="w-full">
+                <Link href="/auth/sign-in">Iniciar sesión</Link>
               </Button>
-              <Button variant="ghost" className="w-full space-x-2">
-                <Icons.store className="size-4" />
-                <Link href="/dashboard/stores">Mis tiendas</Link>
-              </Button>
-            </Protect>
+            )}
           </div>
         </ScrollArea>
       </SheetContent>

@@ -18,6 +18,8 @@ export function StoreHeader({ store }: StoreHeaderProps) {
           alt={store.name}
           className="h-full w-full object-cover"
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/40" />
       </div>
