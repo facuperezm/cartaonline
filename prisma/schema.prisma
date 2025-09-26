@@ -87,6 +87,7 @@ model Store {
   status       Status        @default(ACTIVE)
   cityId       String
   city         City          @relation(fields: [cityId], references: [id])
+  promotions   Promotion[]
 
   @@index([userId])
   @@index([status])
@@ -170,4 +171,29 @@ enum SubscriptionStatus {
   CANCELLED
   EXPIRED
   PENDING
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model Promotion {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  discountType DiscountType
+  value        Int
+  active       Boolean      @default(true)
+  startDate    DateTime
+  endDate      DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  storeId String
+  store   Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@index([storeId])
+  @@index([active])
+  @@index([startDate])
 }
