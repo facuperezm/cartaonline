@@ -32,6 +32,9 @@ export const getStoreById = async (id: string) => {
           category: "asc",
         },
       },
+      promotions: {
+        orderBy: { startDate: "desc" },
+      },
     },
   });
   return store;

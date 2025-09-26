@@ -32,6 +32,13 @@ import BannerBtn from "@/app/(dashboard)/_components/upload-btn-banner";
 import UploadBtn from "@/app/(dashboard)/_components/upload-btn-logo";
 
 import { columns } from "./tables/columns";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  createPromotion,
+  deletePromotion,
+  togglePromotion,
+} from "@/lib/actions/promotion";
+import { Button } from "@/components/ui/button";
 
 interface StoreSettingsProps {
   store: Store & {
@@ -39,6 +46,16 @@ interface StoreSettingsProps {
     logo: Logo | null;
     banner: Banner | null;
     city: City;
+    promotions?: Array<{
+      id: string;
+      title: string;
+      description: string | null;
+      discountType: "PERCENTAGE" | "FIXED";
+      value: number;
+      active: boolean;
+      startDate: Date;
+      endDate: Date | null;
+    }>;
   };
   cities: City[];
 }
@@ -189,6 +206,113 @@ export default function StoreSettings({ store, cities }: StoreSettingsProps) {
           data={store.products as Product[]}
         />
       </div>
+
+      {/* Promotions Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Promociones y descuentos</CardTitle>
+          <CardDescription>
+            Crea promos para eventos, feriados o campañas. Podés elegir monto fijo
+            o porcentaje y definir las fechas.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <form action={createPromotion} className="grid gap-4 md:grid-cols-2">
+            <input type="hidden" name="storeId" value={store.id} />
+            <div className="space-y-2">
+              <Label htmlFor="promo-title">Título</Label>
+              <Input id="promo-title" name="title" placeholder="Happy Hour" required />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="promo-discountType">Tipo de descuento</Label>
+              <select
+                id="promo-discountType"
+                name="discountType"
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                defaultValue="PERCENTAGE"
+              >
+                <option value="PERCENTAGE">Porcentaje (%)</option>
+                <option value="FIXED">Monto fijo</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="promo-value">Valor</Label>
+              <Input id="promo-value" name="value" type="number" min={1} placeholder="20" required />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="promo-startDate">Fecha de inicio</Label>
+              <Input id="promo-startDate" name="startDate" type="datetime-local" required />
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="promo-endDate">Fecha de fin (opcional)</Label>
+              <Input id="promo-endDate" name="endDate" type="datetime-local" />
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="promo-description">Descripción (opcional)</Label>
+              <Textarea id="promo-description" name="description" placeholder="2x1 en bebidas de 18 a 20 hs" />
+            </div>
+            <div className="md:col-span-2">
+              <LoadingButton action="create">Crear promoción</LoadingButton>
+            </div>
+          </form>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">Promos existentes</h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              {(((store.promotions ?? []) as Array<{
+                id: string;
+                title: string;
+                description: string | null;
+                discountType: "PERCENTAGE" | "FIXED";
+                value: number;
+                active: boolean;
+                startDate: Date;
+                endDate: Date | null;
+              }>)).map((promo) => (
+                <div key={promo.id} className="rounded-lg border p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        {promo.active ? "Activa" : "Inactiva"}
+                      </p>
+                      <h4 className="text-xl font-semibold">{promo.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {promo.discountType === "PERCENTAGE" ? `${promo.value}%` : `$${promo.value}`}
+                      </p>
+                      {promo.description ? (
+                        <p className="mt-1 text-sm">{promo.description}</p>
+                      ) : null}
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        Desde {new Date(promo.startDate).toLocaleString()} {promo.endDate ? `hasta ${new Date(promo.endDate).toLocaleString()}` : "(sin fecha de fin)"}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <form
+                        action={async () => {
+                          "use server";
+                          await togglePromotion(promo.id);
+                        }}
+                      >
+                        <Button variant="outline" size="sm">
+                          {promo.active ? "Desactivar" : "Activar"}
+                        </Button>
+                      </form>
+                      <form
+                        action={async () => {
+                          "use server";
+                          await deletePromotion(promo.id);
+                        }}
+                      >
+                        <Button variant="destructive" size="sm">Eliminar</Button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Store Status */}
       <form>
