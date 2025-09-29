@@ -157,7 +157,45 @@ export async function createStore(prevState: any, formData: FormData) {
     const { userId } = await auth();
 
     if (!userId) {
-      throw new Error("User not found");
+      return { 
+        success: false, 
+        error: "Usuario no autenticado. Por favor, inicia sesión nuevamente.",
+        message: "",
+        formData: Object.fromEntries(formData)
+      };
+    }
+
+    // Check if store name already exists for this user
+    const existingStore = await db.store.findFirst({
+      where: {
+        name: validatedFields.name,
+        userId: userId,
+      },
+    });
+
+    if (existingStore) {
+      return { 
+        success: false, 
+        error: "Ya tienes una tienda con este nombre. Por favor, elige otro nombre.",
+        message: "",
+        formData: Object.fromEntries(formData)
+      };
+    }
+
+    // Check if city exists
+    const city = await db.city.findUnique({
+      where: {
+        name: validatedFields.city,
+      },
+    });
+
+    if (!city) {
+      return { 
+        success: false, 
+        error: "La ciudad seleccionada no es válida. Por favor, elige una ciudad de la lista.",
+        message: "",
+        formData: Object.fromEntries(formData)
+      };
     }
 
     await db.store.create({
@@ -179,16 +217,59 @@ export async function createStore(prevState: any, formData: FormData) {
         },
       },
     });
-    return { message: "Store created successfully", success: true };
+    
+    redirect(`/dashboard/stores`);
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Logo Creation Error:", error.stack);
-    } else {
-      console.error("Logo Creation Error:", error);
+    // Allow Next.js redirect to propagate
+    if (error && typeof error === 'object' && 'digest' in error && 
+        typeof (error as any).digest === 'string' && 
+        (error as any).digest.startsWith('NEXT_REDIRECT')) {
+      throw error;
     }
-    return { success: false, error: "Failed to create logo" };
+    
+    console.error("Store Creation Error:", error);
+    
+    // Handle Zod validation errors
+    if (error && typeof error === 'object' && 'issues' in error) {
+      const zodError = error as { issues: Array<{ path: string[]; message: string }> };
+      const fieldErrors = zodError.issues.map(issue => 
+        `${issue.path.join('.')}: ${issue.message}`
+      ).join(', ');
+      return { 
+        success: false, 
+        error: `Error de validación: ${fieldErrors}`,
+        message: "",
+        formData: Object.fromEntries(formData)
+      };
+    }
+    
+    // Handle database errors
+    if (error instanceof Error) {
+      let errorMessage = "Error al crear la tienda. ";
+      
+      if (error.message.includes("Foreign key constraint")) {
+        errorMessage += "La ciudad seleccionada no existe. Por favor, selecciona una ciudad válida.";
+      } else if (error.message.includes("Unique constraint")) {
+        errorMessage += "Ya existe una tienda con este nombre.";
+      } else {
+        errorMessage += error.message;
+      }
+      
+      return { 
+        success: false, 
+        error: errorMessage,
+        message: "",
+        formData: Object.fromEntries(formData)
+      };
+    }
+    
+    return { 
+      success: false, 
+      error: "Ocurrió un error inesperado al crear la tienda. Por favor, inténtalo de nuevo.",
+      message: "",
+      formData: Object.fromEntries(formData)
+    };
   }
-  redirect(`/dashboard/stores`);
 }
 
 export async function createBanner(data: { key: string; storeId: string }) {
