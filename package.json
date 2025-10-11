@@ -11,7 +11,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier -w -u .",
     "test": "vitest",
-    "seed": ""
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.49",
