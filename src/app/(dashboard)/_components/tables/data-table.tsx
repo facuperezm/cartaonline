@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/table";
 
 import { AddProductForm } from "../../(routes)/dashboard/stores/[id]/_components/add-product";
+import { ImportMenuDialog } from "../import-menu-dialog";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
@@ -83,22 +84,25 @@ export function DataTable<TData, TValue>({
           <DataTableToolbar table={table} />
         </div>
 
-        <Dialog onOpenChange={setOpen} open={open}>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="ml-1 h-8">
-              Agregar
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Agregar producto</DialogTitle>
-              <DialogDescription>
-                Agregar producto a tu tienda
-              </DialogDescription>
-            </DialogHeader>
-            <AddProductForm storeId={storeId} setOpen={setOpen} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-1">
+          <ImportMenuDialog storeId={storeId} />
+          <Dialog onOpenChange={setOpen} open={open}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="ml-1 h-8">
+                Agregar
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Agregar producto</DialogTitle>
+                <DialogDescription>
+                  Agregar producto a tu tienda
+                </DialogDescription>
+              </DialogHeader>
+              <AddProductForm storeId={storeId} setOpen={setOpen} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
