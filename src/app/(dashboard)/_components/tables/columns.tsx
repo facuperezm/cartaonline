@@ -26,10 +26,10 @@ export type Product = {
 };
 
 export const columns: ColumnDef<Product>[] = [
-  {
-    accessorKey: "id",
-    header: () => <div className="text-left font-bold">ID</div>,
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: () => <div className="text-left font-bold">ID</div>,
+  // },
   {
     accessorKey: "category",
     header: ({ column }) => (

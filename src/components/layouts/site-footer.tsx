@@ -15,9 +15,8 @@ import { Shell } from "@/components/shell";
 export function SiteFooter() {
   return (
     <footer className="w-full border-t bg-slate-50">
-      <Shell className="py-12 md:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand and Description */}
+      <Shell className="gap-0 py-8 md:py-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
               <BookOpenCheck className="h-6 w-6" />
@@ -87,7 +86,6 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Product Links */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Producto</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
@@ -114,7 +112,6 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Company Links */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Empresa</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
@@ -141,7 +138,6 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Legal Links */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Legal</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
@@ -169,7 +165,6 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between space-y-4 border-t pt-8 text-sm text-muted-foreground md:flex-row md:space-y-0">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}. Todos los
