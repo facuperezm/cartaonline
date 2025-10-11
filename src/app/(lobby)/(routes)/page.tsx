@@ -15,7 +15,7 @@ import {
   Zap,
 } from "lucide-react";
 
-import { getCities } from "@/lib/queries/city";
+import { CITIES } from "@/lib/constants/cities";
 import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/shell";
 import { CityCard } from "@/app/(lobby)/_components/city-card";
@@ -29,8 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
-  const cities = await getCities();
+export default function Home() {
+  // Sort cities - active first
+  const cities = [...CITIES].sort(
+    (a, b) => Number(b.active) - Number(a.active),
+  );
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -195,9 +198,9 @@ export default async function Home() {
               {cities.map((city) => (
                 <CityCard
                   key={city.name}
-                  src={city.imgUrl ?? ""}
+                  src={city.imgUrl}
                   city={city.name}
-                  disabled={city.active === false}
+                  disabled={!city.active}
                   href={`/stores/${city.name}`}
                 />
               ))}
