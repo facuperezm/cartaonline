@@ -64,8 +64,10 @@ export default function RootLayout({
           inter.className,
         )}
       >
-        <body>{children}</body>
-        <Toaster richColors closeButton />
+        <body>
+          {children}
+          <Toaster richColors closeButton />
+        </body>
       </html>
     </ClerkProvider>
   );
