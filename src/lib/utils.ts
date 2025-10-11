@@ -13,7 +13,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getErrorMessage(err: unknown) {
   if (err instanceof z.ZodError) {
     return (
-      err.errors[0]?.message ??
+      err.issues[0]?.message ??
       "Hubo un error, porfavor probá denuevo más tarde"
     );
   } else if (isClerkAPIResponseError(err)) {
