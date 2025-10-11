@@ -75,14 +75,19 @@ OPENAI_API_KEY=...
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-4. Initialize the database:
+4. (Optional) Start local test database with Docker:
+```bash
+docker compose up -d  # Runs PostgreSQL on port 5433
+```
+
+5. Initialize the database:
 ```bash
 npx prisma generate
 npx prisma db push
 tsx prisma/seed.ts  # Optional: seed with sample data
 ```
 
-5. Run the development server:
+6. Run the development server:
 ```bash
 pnpm dev
 ```
