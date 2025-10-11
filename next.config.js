@@ -2,6 +2,9 @@
 const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
@@ -14,6 +17,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "utfs.io",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "uploadthing-prod.s3.us-west-2.amazonaws.com",
+      }
     ],
   },
   headers: async () => {
