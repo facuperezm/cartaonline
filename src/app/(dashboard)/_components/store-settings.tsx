@@ -199,19 +199,15 @@ export default function StoreSettings({ store, cities }: StoreSettingsProps) {
               tienda?
             </CardTitle>
             <CardDescription>
-              <p>
-                {store?.status === "ACTIVE"
-                  ? "Tu tienda no estará disponible."
-                  : "Tu tienda estará disponible."}
-              </p>
-              <span>
-                <input
-                  type="hidden"
-                  name="status"
-                  value={store?.status}
-                  aria-hidden
-                />
-              </span>
+              {store?.status === "ACTIVE"
+                ? "Tu tienda no estará disponible."
+                : "Tu tienda estará disponible."}
+              <input
+                type="hidden"
+                name="status"
+                value={store?.status}
+                aria-hidden
+              />
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
