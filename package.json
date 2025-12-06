@@ -48,7 +48,7 @@
     "image-conversion": "^2.1.1",
     "lucide-react": "0.545.0",
     "mercadopago": "^2.2.0",
-    "next": "16.0.1",
+    "next": "16.0.7",
     "postcss": "8.4.32",
     "qrcode.react": "^4.2.0",
     "react": "19.2.0",
