@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center justify-between pb-2 pt-5">
+      <div className="flex items-center justify-between py-4">
         <div className="flex flex-col  items-start gap-1 md:flex-row">
           <Input
             placeholder="Buscar producto"
