@@ -23,7 +23,6 @@ export default function BannerBtn({
   storeBanner: string;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isHovered, setIsHovered] = React.useState(false);
 
   return (
     <Dialog
@@ -35,43 +34,50 @@ export default function BannerBtn({
       }}
     >
       <DialogTrigger asChild>
-        <div
-          className="group relative cursor-pointer"
+        <button
+          type="button"
           onClick={() => setIsOpen(true)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          className="group relative aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 transition-all hover:border-primary/50 hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <div className="relative aspect-[21/9] w-full overflow-hidden rounded-lg border-2 border-border shadow-sm transition-all duration-200 group-hover:border-primary">
+          <div className="absolute inset-0">
             {storeBanner ? (
               <Image
                 src={storeBanner}
                 alt="Banner de la tienda"
-                className={cn(
-                  "h-full w-full object-cover transition-opacity duration-200",
-                  isHovered ? "opacity-50" : "opacity-100",
-                )}
+                className="object-cover transition-transform group-hover:scale-[1.02]"
                 fill
               />
             ) : (
-              <div className="flex h-full items-center justify-center bg-muted">
-                <ImageIcon className="h-8 w-8 text-muted-foreground" />
+              <div className="flex h-full flex-col items-center justify-center gap-3">
+                <div className="flex size-12 items-center justify-center rounded-full bg-muted-foreground/10">
+                  <ImageIcon className="size-6 text-muted-foreground/50" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Subir banner
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Recomendado: 1920 × 820px
+                  </p>
+                </div>
               </div>
             )}
+            {/* Hover overlay */}
             <div
               className={cn(
-                "absolute inset-0 flex items-center justify-center bg-background/10 backdrop-blur-sm transition-opacity duration-200",
-                isHovered ? "opacity-100" : "opacity-0",
+                "absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/80 backdrop-blur-sm transition-opacity",
+                storeBanner
+                  ? "opacity-0 group-hover:opacity-100"
+                  : "opacity-0"
               )}
             >
-              <Camera className="h-6 w-6 text-primary" />
+              <div className="flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+                <Camera className="size-5" />
+              </div>
+              <p className="text-sm font-medium">Cambiar banner</p>
             </div>
           </div>
-          <div className="mt-2">
-            <span className="text-sm text-muted-foreground">
-              Banner de la tienda (recomendado: 1920x820)
-            </span>
-          </div>
-        </div>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
