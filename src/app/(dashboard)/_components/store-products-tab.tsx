@@ -1,0 +1,16 @@
+"use client";
+
+import type { Product } from "@prisma/client";
+
+import { DataTable } from "@/app/(dashboard)/_components/tables/data-table";
+
+import { columns } from "./tables/columns";
+
+interface StoreProductsTabProps {
+  storeId: string;
+  products: Product[];
+}
+
+export function StoreProductsTab({ storeId, products }: StoreProductsTabProps) {
+  return <DataTable storeId={storeId} columns={columns} data={products} />;
+}
