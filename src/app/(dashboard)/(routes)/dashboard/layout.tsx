@@ -1,9 +1,7 @@
 import Providers from "@/components/Providers";
-import { dashboardConfig } from "@/config/dashboard";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SidebarNav } from "@/components/layouts/sidebar-nav";
-import { SiteFooter } from "@/components/layouts/site-footer";
-import { SiteHeader } from "@/components/layouts/site-header";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "../../_components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
 
 export default async function DashboardLayout({
   children,
@@ -12,18 +10,19 @@ export default async function DashboardLayout({
 }) {
   return (
     <Providers>
-      <div className="flex min-h-screen flex-col">
-        <SiteHeader />
-        <div className="container flex-1 items-start px-4 md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
-          <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r md:sticky md:block">
-            <ScrollArea className="py-6 pr-6 lg:py-8">
-              <SidebarNav items={dashboardConfig.sidebarNav} />
-            </ScrollArea>
-          </aside>
-          <main className="flex w-full flex-col overflow-hidden">{children}</main>
-        </div>
-        <SiteFooter />
-      </div>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <span className="font-sans text-sm font-medium">Dashboard</span>
+          </header>
+          <main className="flex-1 overflow-auto p-4 md:p-6">
+            {children}
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
     </Providers>
   );
 }
