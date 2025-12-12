@@ -8,32 +8,60 @@ import { db } from "@/lib/db";
 import { storeSchema, updateStoreSchema } from "../validations/store";
 
 export async function deleteStore(storeId: string) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("No autorizado. Por favor, inicia sesión.");
+  }
+
   try {
+    // Verify ownership before deletion
     const store = await db.store.findFirst({
       where: {
         id: storeId,
+        userId, // Only allow deletion if user owns the store
       },
     });
 
-    if (store) {
-      await db.product.deleteMany({
-        where: {
-          storeId,
-        },
-      });
-      await db.store.delete({ where: { id: storeId } });
+    if (!store) {
+      throw new Error("Tienda no encontrada o no tienes permiso para eliminarla.");
     }
+
+    await db.product.deleteMany({
+      where: {
+        storeId,
+      },
+    });
+    await db.store.delete({ where: { id: storeId } });
 
     redirect("/dashboard/stores");
   } catch (err) {
     throw err instanceof Error
       ? err
-      : new Error("Something went wrong, please try again.");
+      : new Error("Ocurrió un error. Por favor, intenta de nuevo.");
   }
 }
 
 export async function updateStore(storeId: string, fd: FormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("No autorizado. Por favor, inicia sesión.");
+  }
+
   try {
+    // Verify ownership before update
+    const existingStore = await db.store.findFirst({
+      where: {
+        id: storeId,
+        userId,
+      },
+    });
+
+    if (!existingStore) {
+      throw new Error("Tienda no encontrada o no tienes permiso para editarla.");
+    }
+
     const input = updateStoreSchema.parse({
       name: fd.get("name"),
       address: fd.get("address"),
@@ -50,7 +78,7 @@ export async function updateStore(storeId: string, fd: FormData) {
     });
 
     if (storeWithSameName) {
-      throw new Error("Store name already exists");
+      throw new Error("Ya existe una tienda con ese nombre.");
     }
 
     await db.store.update({
@@ -72,12 +100,30 @@ export async function updateStore(storeId: string, fd: FormData) {
   } catch (err) {
     throw err instanceof Error
       ? err
-      : new Error("Something went wrong, please try again.");
+      : new Error("Ocurrió un error. Por favor, intenta de nuevo.");
   }
 }
 
 export async function updateStoreStatus(storeId: string, fd: FormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("No autorizado. Por favor, inicia sesión.");
+  }
+
   try {
+    // Verify ownership before status change
+    const store = await db.store.findFirst({
+      where: {
+        id: storeId,
+        userId,
+      },
+    });
+
+    if (!store) {
+      throw new Error("Tienda no encontrada o no tienes permiso para modificarla.");
+    }
+
     const status = fd.get("status");
 
     await db.store.update({
@@ -93,7 +139,7 @@ export async function updateStoreStatus(storeId: string, fd: FormData) {
   } catch (err) {
     throw err instanceof Error
       ? err
-      : new Error("Something went wrong, please try again.");
+      : new Error("Ocurrió un error. Por favor, intenta de nuevo.");
   }
 }
 
@@ -313,10 +359,11 @@ export async function createBanner(data: { key: string; storeId: string }) {
     const { userId } = await auth();
 
     if (!userId) {
-      throw new Error("User not found");
+      throw new Error("No autorizado. Por favor, inicia sesión.");
     }
 
-    const store = db.store.findFirst({
+    // Fixed: added await to properly check store ownership
+    const store = await db.store.findFirst({
       where: {
         id: storeId,
         userId,
@@ -324,7 +371,7 @@ export async function createBanner(data: { key: string; storeId: string }) {
     });
 
     if (!store) {
-      throw new Error("Store not found");
+      throw new Error("Tienda no encontrada o no tienes permiso para modificarla.");
     }
 
     await db.banner.upsert({
@@ -344,14 +391,14 @@ export async function createBanner(data: { key: string; storeId: string }) {
       },
     });
 
-    // redirect(`/dashboard/stores/${storeId}`);
+    return { success: true };
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Banner Creation Error:", error.stack);
     } else {
-      console.error("Logo Creation Error:", error);
+      console.error("Banner Creation Error:", error);
     }
-    return { success: false, error: "Failed to create logo" };
+    return { success: false, error: "Error al crear el banner" };
   }
 }
 
@@ -361,10 +408,11 @@ export async function createLogo(data: { key: string; storeId: string }) {
     const { userId } = await auth();
 
     if (!userId) {
-      throw new Error("User not found");
+      throw new Error("No autorizado. Por favor, inicia sesión.");
     }
 
-    const store = db.store.findFirst({
+    // Fixed: added await to properly check store ownership
+    const store = await db.store.findFirst({
       where: {
         id: storeId,
         userId,
@@ -372,7 +420,7 @@ export async function createLogo(data: { key: string; storeId: string }) {
     });
 
     if (!store) {
-      throw new Error("Store not found");
+      throw new Error("Tienda no encontrada o no tienes permiso para modificarla.");
     }
 
     await db.logo.upsert({
@@ -391,12 +439,14 @@ export async function createLogo(data: { key: string; storeId: string }) {
         url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
       },
     });
+
+    return { success: true };
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Logo Creation Error:", error.stack);
     } else {
-      console.error("Logo Creation Error:", { error });
+      console.error("Logo Creation Error:", error);
     }
-    return { success: false, error: "Failed to create logo" };
+    return { success: false, error: "Error al crear el logo" };
   }
 }

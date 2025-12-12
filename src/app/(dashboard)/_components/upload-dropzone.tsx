@@ -16,7 +16,7 @@ interface UploadDropzoneProps {
   createImage: (data: {
     key: string;
     storeId: string;
-  }) => Promise<{ success: boolean; error: string } | undefined>;
+  }) => Promise<{ success: boolean; error?: string } | undefined>;
 }
 
 export default function UploadDropzone({

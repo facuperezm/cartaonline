@@ -46,7 +46,7 @@ function SubmitButton() {
 
 const initialState = {
   message: "",
-  status: "",
+  status: "idle" as const,
 };
 
 export default function EditProductForm({ id }: { id: string }) {
