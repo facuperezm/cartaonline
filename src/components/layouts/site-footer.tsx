@@ -1,10 +1,10 @@
 import Link from "next/link";
 import {
-  BookOpenCheck,
   Facebook,
   Github,
   Instagram,
   Twitter,
+  UtensilsCrossed,
 } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
@@ -14,165 +14,137 @@ import { Shell } from "@/components/shell";
 
 export function SiteFooter() {
   return (
-    <footer className="w-full border-t bg-slate-50">
-      <Shell className="gap-0 py-8 md:py-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4">
+    <footer className="relative w-full">
+      {/* Gradient transition */}
+      <div className="h-24 bg-gradient-to-b from-background via-background to-muted/50" />
+
+      {/* Footer content */}
+      <div className="bg-muted/50">
+        <Shell className="gap-0 pb-8 pt-8 md:pb-10 md:pt-12">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <BookOpenCheck className="h-6 w-6" />
-              <span className="font-bold">{siteConfig.name}</span>
+            <Link href="/" className="group flex items-center space-x-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-transform group-hover:scale-110 group-hover:rotate-3">
+                <UtensilsCrossed className="h-5 w-5" />
+              </div>
+              <span className="text-xl font-bold tracking-tight">{siteConfig.name}</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Transformando la experiencia gastronómica con menús digitales
-              inteligentes. Hacemos que tu negocio brille en la era digital.
+              inteligentes. Hacemos que tu negocio brille.
             </p>
-            <div className="flex space-x-4">
-              <Link
-                href={siteConfig.links.github}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  buttonVariants({
-                    size: "icon",
-                    variant: "ghost",
-                  }),
-                )}
-              >
-                <Github className="h-4 w-4" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-              <Link
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  buttonVariants({
-                    size: "icon",
-                    variant: "ghost",
-                  }),
-                )}
-              >
-                <Twitter className="h-4 w-4" />
-                <span className="sr-only">Twitter</span>
-              </Link>
-              <Link
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  buttonVariants({
-                    size: "icon",
-                    variant: "ghost",
-                  }),
-                )}
-              >
-                <Instagram className="h-4 w-4" />
-                <span className="sr-only">Instagram</span>
-              </Link>
-              <Link
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  buttonVariants({
-                    size: "icon",
-                    variant: "ghost",
-                  }),
-                )}
-              >
-                <Facebook className="h-4 w-4" />
-                <span className="sr-only">Facebook</span>
-              </Link>
+            <div className="flex space-x-2">
+              {[
+                { href: siteConfig.links.github, icon: Github, label: "GitHub" },
+                { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
+                { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
+                { href: "https://facebook.com", icon: Facebook, label: "Facebook" },
+              ].map((social) => (
+                <Link
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={cn(
+                    buttonVariants({
+                      size: "icon",
+                      variant: "ghost",
+                    }),
+                    "h-9 w-9 rounded-full hover:bg-primary/10 hover:text-primary",
+                  )}
+                >
+                  <social.icon className="h-4 w-4" />
+                  <span className="sr-only">{social.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Producto</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <Link href="/pricing" className="hover:text-foreground">
-                  Precios
-                </Link>
-              </li>
-              <li>
-                <Link href="#features" className="hover:text-foreground">
-                  Características
-                </Link>
-              </li>
-              <li>
-                <Link href="#testimonials" className="hover:text-foreground">
-                  Testimonios
-                </Link>
-              </li>
-              <li>
-                <Link href="#faq" className="hover:text-foreground">
-                  FAQ
-                </Link>
-              </li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Producto
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {[
+                { href: "/pricing", label: "Precios" },
+                { href: "#features", label: "Características" },
+                { href: "#testimonials", label: "Testimonios" },
+                { href: "#faq", label: "FAQ" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Empresa</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <Link href="/about" className="hover:text-foreground">
-                  Sobre nosotros
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-foreground">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="hover:text-foreground">
-                  Carreras
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-foreground">
-                  Contacto
-                </Link>
-              </li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Empresa
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {[
+                { href: "/about", label: "Sobre nosotros" },
+                { href: "/blog", label: "Blog" },
+                { href: "/careers", label: "Carreras" },
+                { href: "/contact", label: "Contacto" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Legal</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <Link href="/privacy" className="hover:text-foreground">
-                  Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="hover:text-foreground">
-                  Términos
-                </Link>
-              </li>
-              <li>
-                <Link href="/cookies" className="hover:text-foreground">
-                  Cookies
-                </Link>
-              </li>
-              <li>
-                <Link href="/licenses" className="hover:text-foreground">
-                  Licencias
-                </Link>
-              </li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Legal
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {[
+                { href: "/privacy", label: "Privacidad" },
+                { href: "/terms", label: "Términos" },
+                { href: "/cookies", label: "Cookies" },
+                { href: "/licenses", label: "Licencias" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between space-y-4 border-t pt-8 text-sm text-muted-foreground md:flex-row md:space-y-0">
-          <p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl bg-card p-6 shadow-sm md:flex-row">
+          <p className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} {siteConfig.name}. Todos los
             derechos reservados.
           </p>
-          <p>Hecho con ❤️ en Argentina</p>
+          <p className="flex items-center gap-1 text-sm text-muted-foreground">
+            Hecho con
+            <span className="mx-1 inline-block animate-pulse text-destructive">
+              ❤️
+            </span>
+            en Argentina
+          </p>
         </div>
-      </Shell>
+        </Shell>
+      </div>
     </footer>
   );
 }
