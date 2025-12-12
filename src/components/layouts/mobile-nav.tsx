@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpenCheck } from "lucide-react";
+import { ArrowLeft, UtensilsCrossed } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
@@ -22,8 +22,10 @@ export function MobileNav({ isSignedIn }: { isSignedIn: boolean }) {
           variant="ghost"
           className="mr-2 gap-2 p-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
         >
-          <BookOpenCheck className="h-6 w-6" aria-hidden="true" />
-          <span className="inline-block font-bold">{siteConfig.name}</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <UtensilsCrossed className="h-4 w-4" aria-hidden="true" />
+          </div>
+          <span className="inline-block text-lg font-bold tracking-tight">{siteConfig.name}</span>
           <span className="sr-only">Home</span>
         </Button>
       </SheetTrigger>
