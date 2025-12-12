@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 
 export default function ClipboardShare({ storeId }: { storeId: string }) {
   return (
-    <Card className="mt-8">
+    <Card>
       <CardHeader>
         <CardTitle>Compartir tu tienda</CardTitle>
         <CardDescription>
