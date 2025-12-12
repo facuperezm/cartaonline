@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Sora } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
@@ -9,9 +9,10 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 // Providers moved to dashboard layout to avoid shipping react-query to public pages
 
-const inter = Inter({
+const sora = Sora({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -61,10 +62,10 @@ export default function RootLayout({
         lang="en"
         className={cn(
           "min-h-screen scroll-smooth antialiased",
-          inter.className,
+          sora.variable,
         )}
       >
-        <body>
+        <body className="font-sans">
           {children}
           <Toaster richColors closeButton />
         </body>
