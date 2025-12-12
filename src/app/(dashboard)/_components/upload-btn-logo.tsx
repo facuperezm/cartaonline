@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Camera, ImageIcon } from "lucide-react";
+import { Camera, ImageIcon, Upload } from "lucide-react";
 
 import { createLogo } from "@/lib/actions/store";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +24,6 @@ export default function UploadBtn({
   storeLogo: string;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isHovered, setIsHovered] = React.useState(false);
 
   return (
     <Dialog
@@ -35,38 +35,31 @@ export default function UploadBtn({
       }}
     >
       <DialogTrigger asChild>
-        <div
-          className="group relative cursor-pointer"
+        <button
+          type="button"
           onClick={() => setIsOpen(true)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          className="group flex aspect-[4/3] w-full flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-6 transition-all hover:border-primary/50 hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <Avatar className="h-24 w-24 rounded-full border-2 border-border shadow-sm transition-all duration-200 group-hover:border-primary">
-            <AvatarImage
-              src={storeLogo}
-              className={cn(
-                "object-cover transition-opacity duration-200",
-                isHovered ? "opacity-50" : "opacity-100",
-              )}
-            />
-            <AvatarFallback className="bg-muted">
-              <ImageIcon className="h-8 w-8 text-muted-foreground" />
-            </AvatarFallback>
-          </Avatar>
-          <div
-            className={cn(
-              "absolute inset-0 flex items-center justify-center rounded-full transition-opacity duration-200",
-              isHovered ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <Camera className="h-6 w-6 text-primary" />
+          <div className="relative">
+            <Avatar className="size-20 ring-4 ring-background shadow-lg transition-transform group-hover:scale-105">
+              <AvatarImage src={storeLogo} className="object-cover" />
+              <AvatarFallback className="bg-gradient-to-br from-muted to-muted-foreground/10">
+                <ImageIcon className="size-8 text-muted-foreground/50" />
+              </AvatarFallback>
+            </Avatar>
+            <div className="absolute -bottom-1 -right-1 flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
+              <Camera className="size-3.5" />
+            </div>
           </div>
-          <div className="mt-2 text-center">
-            <span className="text-sm text-muted-foreground">
-              Logo de la tienda
-            </span>
+          <div className="text-center">
+            <p className="text-sm font-medium text-foreground">
+              {storeLogo ? "Cambiar logo" : "Subir logo"}
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Click para seleccionar
+            </p>
           </div>
-        </div>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
