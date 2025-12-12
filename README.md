@@ -16,7 +16,7 @@
 ## 🛠️ Stack
 
 - [**React 19**](https://reactjs.org/) - A JavaScript library for building user interfaces.
-- [**Next.js 15**](https://nextjs.org/) - The React framework for building production-ready websites.
+- [**Next.js**](https://nextjs.org/) - The React framework for building production-ready websites.
 - [**TypeScript**](https://www.typescriptlang.org/) - JavaScript with syntax for types.
 - [**Tailwind CSS**](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
 - [**Shadcn/ui**](https://ui.shadcn.com/) - A collection of UI components for React.
@@ -54,17 +54,20 @@
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/facuperezm/second-try-carta-online.git
 cd second-try-carta-online
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Set up environment variables (see `.env.example`):
+
 ```env
 DATABASE_URL=your_postgres_url
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
@@ -76,11 +79,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 4. (Optional) Start local test database with Docker:
+
 ```bash
 docker compose up -d  # Runs PostgreSQL on port 5433
 ```
 
 5. Initialize the database:
+
 ```bash
 npx prisma generate
 npx prisma db push
@@ -88,6 +93,7 @@ tsx prisma/seed.ts  # Optional: seed with sample data
 ```
 
 6. Run the development server:
+
 ```bash
 pnpm dev
 ```
