@@ -1,9 +1,13 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { AlertCircle } from "lucide-react";
 
 import { createStore } from "@/lib/actions/store";
+import { CITIES } from "@/lib/constants/cities";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -16,9 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Icons } from "@/components/icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
 
 const initialState = {
   success: false,
@@ -126,7 +127,7 @@ export function AddStoreForm() {
       </Label>
       <Label htmlFor="city" className="flex flex-col gap-2">
         Ciudad
-        <Select 
+        <Select
           value={formData.city}
           onValueChange={handleSelectChange}
           required
@@ -137,18 +138,15 @@ export function AddStoreForm() {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Ciudad</SelectLabel>
-              <SelectItem value="puerto_iguazu">Puerto Iguazú</SelectItem>
-              <SelectItem value="posadas">Posadas</SelectItem>
-              <SelectItem value="corrientes">Corrientes</SelectItem>
-              <SelectItem disabled value="cordoba">
-                Córdoba
-              </SelectItem>
-              <SelectItem disabled value="buenos_aires">
-                Buenos Aires
-              </SelectItem>
-              <SelectItem disabled value="ushuaia">
-                Ushuaia
-              </SelectItem>
+              {CITIES.map((city) => (
+                <SelectItem
+                  key={city.name}
+                  value={city.name}
+                  disabled={!city.active}
+                >
+                  {city.displayName}
+                </SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>

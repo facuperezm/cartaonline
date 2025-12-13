@@ -44,3 +44,13 @@ export const CITIES = [
     active: false,
   },
 ] as const;
+
+// Derive types from the constant - single source of truth
+export type CityName = (typeof CITIES)[number]["name"];
+export const CITY_NAMES = CITIES.map((c) => c.name) as [CityName, ...CityName[]];
+export const ACTIVE_CITIES = CITIES.filter((c) => c.active);
+
+// Helper to get city by name
+export function getCityByName(name: string) {
+  return CITIES.find((c) => c.name === name);
+}

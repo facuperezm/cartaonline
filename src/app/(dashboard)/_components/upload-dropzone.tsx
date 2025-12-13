@@ -42,8 +42,7 @@ export default function UploadDropzone({
     },
     onUploadError: (error) => {
       setIsUploading(false);
-      console.log(error);
-      toast.error("Error al subir la imagen");
+      toast.error(error.message || "Error al subir la imagen");
     },
   });
 

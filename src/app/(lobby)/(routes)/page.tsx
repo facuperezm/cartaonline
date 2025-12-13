@@ -20,9 +20,9 @@ import {
   Users,
   Utensils,
   X,
-  Zap,
 } from "lucide-react";
 
+import { clientEnv } from "@/env";
 import { CITIES } from "@/lib/constants/cities";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,7 @@ import { CityCard } from "@/app/(lobby)/_components/city-card";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+    metadataBase: new URL(clientEnv.NEXT_PUBLIC_APP_URL),
     title: "Carta Online - Tu Menú Digital",
     description:
       "La manera más fácil de publicar y gestionar tu carta online. Digitaliza tu menú y llega a más clientes.",

@@ -30,8 +30,6 @@ export function getErrorMessage(err: unknown) {
 
 export function showErrorToast(err: unknown) {
   const errorMessage = getErrorMessage(err);
-  console.log({ errorMessage });
-
   return toast.error(errorMessage);
 }
 

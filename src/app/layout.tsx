@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
+import { clientEnv } from "@/env";
 import { cn } from "@/lib/utils";
 // Providers moved to dashboard layout to avoid shipping react-query to public pages
 
@@ -16,7 +17,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(clientEnv.NEXT_PUBLIC_APP_URL),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,

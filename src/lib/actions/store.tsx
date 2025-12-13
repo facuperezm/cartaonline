@@ -190,7 +190,17 @@ export async function updateStoreSlug(storeId: string, newSlug: string) {
   }
 }
 
-export async function createStore(prevState: any, formData: FormData) {
+type CreateStoreState = {
+  success: boolean;
+  error: string;
+  message: string;
+  formData?: Record<string, FormDataEntryValue>;
+};
+
+export async function createStore(
+  _prevState: CreateStoreState,
+  formData: FormData,
+): Promise<CreateStoreState> {
   try {
     const validatedFields = storeSchema.parse({
       name: formData.get("name"),
