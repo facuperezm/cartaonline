@@ -1,8 +1,14 @@
 import "server-only";
 
+import { cacheLife, cacheTag } from "next/cache";
+
 import { db } from "../db";
 
 export const getStoresByCity = async (city: string) => {
+  "use cache";
+  cacheTag(`stores-city-${city}`);
+  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+
   const stores = await db.store.findMany({
     where: {
       city: {
@@ -21,6 +27,10 @@ export const getStoresByCity = async (city: string) => {
 };
 
 export const getStoreById = async (id: string) => {
+  "use cache";
+  cacheTag(`store-${id}`);
+  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+
   const store = await db.store.findUnique({
     where: { id },
     include: {

@@ -132,8 +132,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl bg-card p-6 shadow-sm md:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} {siteConfig.name}. Todos los
-            derechos reservados.
+            &copy; 2025 {siteConfig.name}. Todos los derechos reservados.
           </p>
           <p className="flex items-center gap-1 text-sm text-muted-foreground">
             Hecho con

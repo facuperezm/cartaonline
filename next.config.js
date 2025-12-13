@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  cacheComponents: true,
   experimental: {
     optimizePackageImports: ["lucide-react"],
     serverActions: {

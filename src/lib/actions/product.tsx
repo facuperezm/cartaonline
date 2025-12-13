@@ -1,6 +1,10 @@
 "use server";
 
-import { unstable_noStore as noStore, revalidatePath } from "next/cache";
+import {
+  unstable_noStore as noStore,
+  revalidatePath,
+  revalidateTag,
+} from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
@@ -42,6 +46,9 @@ export async function deleteProduct({ productId }: { productId: string }) {
     }
 
     await db.product.delete({ where: { id: productId } });
+
+    // Invalidate cache for the store's menu
+    revalidateTag(`store-${product.storeId}`, "max");
 
     revalidatePath("/dashboard/stores");
     redirect("/dashboard/stores");
@@ -119,6 +126,9 @@ export async function updateProduct(
     },
   });
 
+  // Invalidate cache for the store's menu
+  revalidateTag(`store-${product.storeId}`, "max");
+
   const path = `/dashboard/stores/${product.storeId}`;
   revalidatePath(path);
   return {
@@ -159,6 +169,9 @@ export async function addProduct(data: AddProductData) {
   await db.product.create({
     data: { name, price: Number(price), category, description, storeId },
   });
+
+  // Invalidate cache for the store's menu
+  revalidateTag(`store-${storeId}`, "max");
 
   revalidatePath(`/dashboard/stores/${storeId}`);
 }

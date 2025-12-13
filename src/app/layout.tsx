@@ -1,14 +1,14 @@
 import "@/styles/globals.css";
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Sora } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
 import { siteConfig } from "@/config/site";
 import { clientEnv } from "@/env";
 import { cn } from "@/lib/utils";
-// Providers moved to dashboard layout to avoid shipping react-query to public pages
+import { ClerkProviderWrapper } from "@/components/clerk-provider-wrapper";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -58,19 +58,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider appearance={{ layout: { socialButtonsPlacement: "bottom", socialButtonsVariant: "iconButton", termsPageUrl: "https://clerk.com/terms" } }}>
-      <html
-        lang="en"
-        className={cn(
-          "min-h-screen scroll-smooth antialiased",
-          sora.variable,
-        )}
-      >
-        <body className="font-sans">
-          {children}
-          <Toaster richColors closeButton />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html
+      lang="en"
+      className={cn("min-h-screen scroll-smooth antialiased", sora.variable)}
+    >
+      <body className="font-sans">
+        <Suspense fallback={null}>
+          <ClerkProviderWrapper>{children}</ClerkProviderWrapper>
+        </Suspense>
+        <Toaster richColors closeButton />
+      </body>
+    </html>
   );
 }

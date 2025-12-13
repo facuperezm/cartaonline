@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
@@ -21,6 +22,9 @@ export async function deleteStore(storeId: string) {
         id: storeId,
         userId, // Only allow deletion if user owns the store
       },
+      include: {
+        city: true,
+      },
     });
 
     if (!store) {
@@ -33,6 +37,9 @@ export async function deleteStore(storeId: string) {
       },
     });
     await db.store.delete({ where: { id: storeId } });
+
+    // Invalidate cache for the city's store list
+    revalidateTag(`stores-city-${store.city.name}`, "max");
 
     redirect("/dashboard/stores");
   } catch (err) {
@@ -50,17 +57,22 @@ export async function updateStore(storeId: string, fd: FormData) {
   }
 
   try {
-    // Verify ownership before update
+    // Verify ownership before update and get current city
     const existingStore = await db.store.findFirst({
       where: {
         id: storeId,
         userId,
+      },
+      include: {
+        city: true,
       },
     });
 
     if (!existingStore) {
       throw new Error("Tienda no encontrada o no tienes permiso para editarla.");
     }
+
+    const oldCityName = existingStore.city.name;
 
     const input = updateStoreSchema.parse({
       name: fd.get("name"),
@@ -96,6 +108,13 @@ export async function updateStore(storeId: string, fd: FormData) {
       },
     });
 
+    // Invalidate cache for this store and city listings
+    revalidateTag(`store-${storeId}`, "max");
+    revalidateTag(`stores-city-${oldCityName}`, "max");
+    if (input.city !== oldCityName) {
+      revalidateTag(`stores-city-${input.city}`, "max");
+    }
+
     redirect("/dashboard/stores");
   } catch (err) {
     throw err instanceof Error
@@ -118,6 +137,9 @@ export async function updateStoreStatus(storeId: string, fd: FormData) {
         id: storeId,
         userId,
       },
+      include: {
+        city: true,
+      },
     });
 
     if (!store) {
@@ -134,6 +156,10 @@ export async function updateStoreStatus(storeId: string, fd: FormData) {
         status: status === "ACTIVE" ? "INACTIVE" : "ACTIVE",
       },
     });
+
+    // Invalidate cache for this store and city listing (status affects visibility)
+    revalidateTag(`store-${storeId}`, "max");
+    revalidateTag(`stores-city-${store.city.name}`, "max");
 
     redirect("/dashboard/stores");
   } catch (err) {
@@ -180,6 +206,9 @@ export async function updateStoreSlug(storeId: string, newSlug: string) {
         slug: newSlug,
       },
     });
+
+    // Invalidate cache for this store
+    revalidateTag(`store-${storeId}`, "max");
 
     return { success: true };
   } catch (err) {
@@ -301,6 +330,9 @@ export async function createStore(
       },
     });
 
+    // Invalidate cache for the city's store list
+    revalidateTag(`stores-city-${validatedFields.city}`, "max");
+
     redirect(`/dashboard/stores`);
   } catch (error: unknown) {
     // Allow Next.js redirect to propagate
@@ -401,6 +433,9 @@ export async function createBanner(data: { key: string; storeId: string }) {
       },
     });
 
+    // Invalidate cache for this store (banner is part of store data)
+    revalidateTag(`store-${storeId}`, "max");
+
     return { success: true };
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -449,6 +484,9 @@ export async function createLogo(data: { key: string; storeId: string }) {
         url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
       },
     });
+
+    // Invalidate cache for this store (logo is part of store data)
+    revalidateTag(`store-${storeId}`, "max");
 
     return { success: true };
   } catch (error: unknown) {

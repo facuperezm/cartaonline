@@ -1,4 +1,6 @@
 import { type Metadata } from "next";
+import { Suspense } from "react";
+import { connection } from "next/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
@@ -20,12 +22,19 @@ export const metadata: Metadata = {
   description: "Inicia sesión a tu cuenta en Carta Online",
 };
 
-export default async function SignIn() {
+async function AuthCheck() {
+  await connection();
   const user = await currentUser();
   if (user) redirect("/");
+  return null;
+}
 
+export default function SignIn() {
   return (
     <Shell className="h-screen max-w-lg">
+      <Suspense fallback={null}>
+        <AuthCheck />
+      </Suspense>
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Inicia sesion</CardTitle>
