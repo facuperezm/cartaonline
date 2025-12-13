@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider } from '@clerk/nextjs'
 
 export function ClerkProviderWrapper({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <ClerkProvider
       appearance={{
         layout: {
-          socialButtonsPlacement: "bottom",
-          socialButtonsVariant: "iconButton",
-          termsPageUrl: "https://clerk.com/terms",
+          socialButtonsPlacement: 'bottom',
+          socialButtonsVariant: 'iconButton',
+          termsPageUrl: 'https://clerk.com/terms',
         },
       }}
     >
       {children}
     </ClerkProvider>
-  );
+  )
 }

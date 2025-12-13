@@ -1,34 +1,34 @@
-import type { Icons } from "@/components/icons";
+import type { Icons } from '@/components/icons'
 
 export interface SiteConfig {
-  name: string;
-  description: string;
-  url: string;
-  ogImage: string;
+  name: string
+  description: string
+  url: string
+  ogImage: string
   links: {
-    twitter: string;
-    github: string;
-  };
+    twitter: string
+    github: string
+  }
 }
 
 export interface NavItem {
-  title: string;
-  href?: string;
-  disabled?: boolean;
-  external?: boolean;
-  icon?: keyof typeof Icons;
-  label?: string;
-  description?: string;
+  title: string
+  href?: string
+  disabled?: boolean
+  external?: boolean
+  icon?: keyof typeof Icons
+  label?: string
+  description?: string
 }
 
 export interface NavItemWithChildren extends NavItem {
-  items: NavItemWithChildren[];
+  items: NavItemWithChildren[]
 }
 
 export interface NavItemWithOptionalChildren extends NavItem {
-  items?: NavItemWithChildren[];
+  items?: NavItemWithChildren[]
 }
 
-export type MainNavItem = NavItemWithOptionalChildren;
+export type MainNavItem = NavItemWithOptionalChildren
 
-export type SidebarNavItem = NavItemWithChildren;
+export type SidebarNavItem = NavItemWithChildren

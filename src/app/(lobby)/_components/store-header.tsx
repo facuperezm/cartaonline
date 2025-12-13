@@ -1,12 +1,11 @@
-import Image from "next/image";
-import { type Banner, type Store } from "@prisma/client";
-import { Clock, MapPin, Phone, Share2, Star } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Shell } from "@/components/shell";
+import type { Banner, Store } from '@prisma/client'
+import { Clock, MapPin, Phone, Share2, Star } from 'lucide-react'
+import Image from 'next/image'
+import { Shell } from '@/components/shell'
+import { Button } from '@/components/ui/button'
 
 interface StoreHeaderProps {
-  store: Store & { banner: Banner | null };
+  store: Store & { banner: Banner | null }
 }
 
 export function StoreHeader({ store }: StoreHeaderProps) {
@@ -14,12 +13,12 @@ export function StoreHeader({ store }: StoreHeaderProps) {
     <div className="relative h-[40vh] min-h-[300px] w-full">
       <div className="absolute inset-0">
         <Image
-          src={store.banner?.url ?? "/images/restaurant.webp"}
           alt={store.name}
           className="h-full w-full object-cover"
           fill
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+          src={store.banner?.url ?? '/images/restaurant.webp'}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/40" />
       </div>
@@ -27,7 +26,7 @@ export function StoreHeader({ store }: StoreHeaderProps) {
         <Shell>
           <div className="space-y-4 text-black">
             <div className="flex flex-wrap items-center gap-2 text-primary-foreground">
-              <div className="rounded-full bg-primary px-3 py-1 text-sm font-medium">
+              <div className="rounded-full bg-primary px-3 py-1 font-medium text-sm">
                 Abierto
               </div>
               <div className="flex items-center gap-1">
@@ -39,7 +38,7 @@ export function StoreHeader({ store }: StoreHeaderProps) {
                 <span className="text-sm">4.8 (200+ reseñas)</span>
               </div>
             </div>
-            <h1 className="text-4xl font-bold text-white md:text-5xl">
+            <h1 className="font-bold text-4xl text-white md:text-5xl">
               {store.name}
             </h1>
             <div className="flex flex-wrap items-center gap-4 text-primary-foreground">
@@ -53,7 +52,7 @@ export function StoreHeader({ store }: StoreHeaderProps) {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="secondary" size="lg">
+              <Button size="lg" variant="secondary">
                 <Share2 className="mr-2 h-4 w-4" />
                 Compartir
               </Button>
@@ -62,5 +61,5 @@ export function StoreHeader({ store }: StoreHeaderProps) {
         </Shell>
       </div>
     </div>
-  );
+  )
 }

@@ -1,29 +1,28 @@
-"use client";
+'use client'
 
-import { type Category } from "@prisma/client";
-import { type ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import type { Category } from '@prisma/client'
+import type { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import DeleteProduct from '@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/delete-product'
+import EditProduct from '@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/edit-product'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import DeleteProduct from "@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/delete-product";
-import EditProduct from "@/app/(dashboard)/(routes)/dashboard/stores/[id]/_components/edit-product";
+} from '@/components/ui/dropdown-menu'
 
-import { statuses } from "./data";
-import { DataTableColumnHeader } from "./data-table-column-header";
+import { statuses } from './data'
+import { DataTableColumnHeader } from './data-table-column-header'
 
 export type Product = {
-  id: string;
-  name: string;
-  price: number;
-  category: Category;
-};
+  id: string
+  name: string
+  price: number
+  category: Category
+}
 
 export const columns: ColumnDef<Product>[] = [
   // {
@@ -31,17 +30,17 @@ export const columns: ColumnDef<Product>[] = [
   //   header: () => <div className="text-left font-bold">ID</div>,
   // },
   {
-    accessorKey: "category",
+    accessorKey: 'category',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Categoría" />
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue("category"),
-      );
+        (status) => status.value === row.getValue('category'),
+      )
 
       if (!status) {
-        return null;
+        return null
       }
 
       return (
@@ -51,59 +50,53 @@ export const columns: ColumnDef<Product>[] = [
           )}
           <span>{status.label}</span>
         </div>
-      );
+      )
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="text-center"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Nombre
-          <ArrowUpDown className="ml-2 size-3.5" />
-        </Button>
-      );
-    },
+    accessorKey: 'name',
+    header: ({ column }) => (
+      <Button
+        className="text-center"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        variant="ghost"
+      >
+        Nombre
+        <ArrowUpDown className="ml-2 size-3.5" />
+      </Button>
+    ),
   },
   {
-    accessorKey: "price",
+    accessorKey: 'price',
     header: () => <div className="text-center">Precio</div>,
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(price);
+      const price = Number.parseFloat(row.getValue('price'))
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(price)
 
-      return <div className="text-center font-medium">{formatted}</div>;
+      return <div className="text-center font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: 'description',
     header: () => <div className="text-center">Descripción</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="mx-auto max-w-24 truncate text-center sm:max-w-[40ch]">
-          {row.getValue("description")}
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="mx-auto max-w-24 truncate text-center sm:max-w-[40ch]">
+        {row.getValue('description')}
+      </div>
+    ),
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => {
-      const info = row.original;
+      const info = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button className="h-8 w-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
@@ -115,7 +108,7 @@ export const columns: ColumnDef<Product>[] = [
             <DeleteProduct id={info.id} />
           </DropdownMenuContent>
         </DropdownMenu>
-      );
+      )
     },
   },
-];
+]

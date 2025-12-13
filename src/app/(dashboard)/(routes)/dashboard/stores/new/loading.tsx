@@ -1,10 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function NewStoreLoading() {
   return (
@@ -34,11 +29,11 @@ export default function NewStoreLoading() {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="xs:flex-row flex flex-col gap-2">
+        <CardFooter className="flex xs:flex-row flex-col gap-2">
           <Skeleton className="h-10 w-32" />
           <Skeleton className="h-10 w-32" />
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 function PageHeader({
   className,
@@ -6,12 +6,12 @@ function PageHeader({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <section className={cn("border-grid border-b", className)} {...props}>
+    <section className={cn('border-grid border-b', className)} {...props}>
       <div className="container flex flex-col items-start gap-1 px-0 py-2 md:py-4 lg:py-6">
         {children}
       </div>
     </section>
-  );
+  )
 }
 
 function PageHeaderHeading({
@@ -21,12 +21,12 @@ function PageHeaderHeading({
   return (
     <h1
       className={cn(
-        "text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]",
+        'font-bold text-3xl leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]',
         className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 function PageHeaderDescription({
@@ -36,12 +36,12 @@ function PageHeaderDescription({
   return (
     <p
       className={cn(
-        "max-w-2xl text-balance text-lg font-light text-foreground",
+        'max-w-2xl text-balance font-light text-foreground text-lg',
         className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 function PageActions({
@@ -51,12 +51,12 @@ function PageActions({
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-start gap-2 pt-2",
+        'flex w-full items-center justify-start gap-2 pt-2',
         className,
       )}
       {...props}
     />
-  );
+  )
 }
 
-export { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading };
+export { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading }

@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Store, CreditCard, User, ChefHat } from "lucide-react";
+import { ChefHat, CreditCard, Store, User } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import {
   Sidebar,
@@ -15,35 +15,35 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar'
 
 const navItems = [
   {
-    title: "Tiendas",
-    href: "/dashboard/stores",
+    title: 'Tiendas',
+    href: '/dashboard/stores',
     icon: Store,
   },
   {
-    title: "Cuenta",
-    href: "/dashboard/account",
+    title: 'Cuenta',
+    href: '/dashboard/account',
     icon: User,
   },
   {
-    title: "Pagos",
-    href: "/dashboard/billing",
+    title: 'Pagos',
+    href: '/dashboard/billing',
     icon: CreditCard,
   },
-];
+]
 
 export function AppSidebar() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton asChild size="lg">
               <Link href="/dashboard/stores">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <ChefHat className="size-4" />
@@ -52,7 +52,7 @@ export function AppSidebar() {
                   <span className="truncate font-sans font-semibold">
                     Carta Online
                   </span>
-                  <span className="truncate text-xs text-muted-foreground">
+                  <span className="truncate text-muted-foreground text-xs">
                     Dashboard
                   </span>
                 </div>
@@ -68,17 +68,21 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => {
-                const isActive = pathname.startsWith(item.href);
+                const isActive = pathname.startsWith(item.href)
                 return (
                   <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive}
+                      tooltip={item.title}
+                    >
                       <Link href={item.href}>
                         <item.icon className="size-4" />
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                );
+                )
               })}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -90,8 +94,8 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="sm">
               <Link
-                href="/"
                 className="text-muted-foreground hover:text-foreground"
+                href="/"
               >
                 <span className="text-xs">← Volver al inicio</span>
               </Link>
@@ -100,5 +104,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }

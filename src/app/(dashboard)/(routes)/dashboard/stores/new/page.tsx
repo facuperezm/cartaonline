@@ -1,30 +1,29 @@
-import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
-
-import { Card, CardContent } from "@/components/ui/card";
+import { auth } from '@clerk/nextjs/server'
+import type { Metadata } from 'next'
+import { AddStoreForm } from '@/app/(dashboard)/(routes)/dashboard/stores/new/_components/add-store'
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
-import { Shell } from "@/components/shell";
-import { AddStoreForm } from "@/app/(dashboard)/(routes)/dashboard/stores/new/_components/add-store";
+} from '@/components/page-header'
+import { Shell } from '@/components/shell'
+import { Card, CardContent } from '@/components/ui/card'
 
 export const metadata: Metadata = {
-  title: "Nueva empresa",
-  description: "Agrega tu nueva empresa a Carta Online",
-};
+  title: 'Nueva empresa',
+  description: 'Agrega tu nueva empresa a Carta Online',
+}
 
 export default async function NewStorePage() {
-  const { userId, redirectToSignIn } = await auth();
+  const { userId, redirectToSignIn } = await auth()
 
-  if (!userId) return redirectToSignIn();
+  if (!userId) return redirectToSignIn()
 
   return (
     <Shell variant="sidebar">
       <PageHeader
-        id="new-store-page-header"
         aria-labelledby="new-store-page-header-heading"
+        id="new-store-page-header"
       >
         <PageHeaderHeading>Nueva tienda</PageHeaderHeading>
         <PageHeaderDescription>
@@ -32,14 +31,14 @@ export default async function NewStorePage() {
         </PageHeaderDescription>
       </PageHeader>
       <Card
+        aria-labelledby="new-store-page-form-heading"
         as="section"
         id="new-store-page-form-container"
-        aria-labelledby="new-store-page-form-heading"
       >
         <CardContent className="mt-6">
           <AddStoreForm />
         </CardContent>
       </Card>
     </Shell>
-  );
+  )
 }

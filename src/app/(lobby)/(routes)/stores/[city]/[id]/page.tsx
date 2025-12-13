@@ -1,31 +1,30 @@
-import { type Metadata } from "next";
-import { notFound } from "next/navigation";
-
-import { getStoreById } from "@/lib/queries/store";
-import { Button } from "@/components/ui/button";
-import { Shell } from "@/components/shell";
-import { ProductList } from "@/app/(lobby)/_components/product-list";
-import { ReserveButton } from "@/app/(lobby)/_components/reserve-button";
-import { StoreHeader } from "@/app/(lobby)/_components/store-header";
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { ProductList } from '@/app/(lobby)/_components/product-list'
+import { ReserveButton } from '@/app/(lobby)/_components/reserve-button'
+import { StoreHeader } from '@/app/(lobby)/_components/store-header'
+import { Shell } from '@/components/shell'
+import { Button } from '@/components/ui/button'
+import { getStoreById } from '@/lib/queries/store'
 
 interface StorePageProps {
   params: Promise<{
-    city: string;
-    id: string;
-  }>;
+    city: string
+    id: string
+  }>
 }
 
 export async function generateMetadata({
   params,
 }: StorePageProps): Promise<Metadata> {
-  const { id } = await params;
-  const store = await getStoreById(id);
+  const { id } = await params
+  const store = await getStoreById(id)
 
   if (!store) {
     return {
-      title: "Tienda no encontrada",
-      description: "La tienda que buscas no existe",
-    };
+      title: 'Tienda no encontrada',
+      description: 'La tienda que buscas no existe',
+    }
   }
 
   return {
@@ -36,23 +35,23 @@ export async function generateMetadata({
       description: store.description,
       images: [
         {
-          url: store.banner?.url ?? "/images/restaurant.webp",
+          url: store.banner?.url ?? '/images/restaurant.webp',
           width: 800,
           height: 600,
           alt: store.name,
         },
       ],
     },
-  };
+  }
 }
 
 export default async function StorePage({ params }: StorePageProps) {
-  const { id } = await params;
+  const { id } = await params
 
-  const store = await getStoreById(id);
+  const store = await getStoreById(id)
 
   if (!store) {
-    notFound();
+    notFound()
   }
 
   return (
@@ -64,12 +63,12 @@ export default async function StorePage({ params }: StorePageProps) {
       <Shell className="flex-1 py-6 md:py-8">
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Nuestro Menú</h2>
+            <h2 className="font-bold text-2xl">Nuestro Menú</h2>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
+              <Button size="sm" variant="outline">
                 Ordenar por
               </Button>
-              <Button variant="outline" size="sm">
+              <Button size="sm" variant="outline">
                 Filtrar
               </Button>
             </div>
@@ -79,5 +78,5 @@ export default async function StorePage({ params }: StorePageProps) {
         <ReserveButton phone={store.phone} />
       </Shell>
     </div>
-  );
+  )
 }

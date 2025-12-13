@@ -1,33 +1,32 @@
-import React from "react";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
-import { AlertOctagon } from "lucide-react";
-
-import { getStoreByUserId } from "@/lib/queries/store";
-import { cn } from "@/lib/utils";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { buttonVariants } from "@/components/ui/button";
+import { auth } from '@clerk/nextjs/server'
+import { AlertOctagon } from 'lucide-react'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import React from 'react'
+import { StoreCard } from '@/app/(dashboard)/_components/store-card'
+import { StoreCardSkeleton } from '@/app/(dashboard)/_components/store-card-skeleton'
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
-import { Shell } from "@/components/shell";
-import { StoreCard } from "@/app/(dashboard)/_components/store-card";
-import { StoreCardSkeleton } from "@/app/(dashboard)/_components/store-card-skeleton";
+} from '@/components/page-header'
+import { Shell } from '@/components/shell'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { buttonVariants } from '@/components/ui/button'
+import { getStoreByUserId } from '@/lib/queries/store'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: "Mis empresas",
-  description: "Administra tus empresas en un solo lugar",
-};
+  title: 'Mis empresas',
+  description: 'Administra tus empresas en un solo lugar',
+}
 
 export default async function StoresPage() {
-  const { userId, redirectToSignIn } = await auth();
+  const { userId, redirectToSignIn } = await auth()
 
-  if (!userId) return redirectToSignIn();
+  if (!userId) return redirectToSignIn()
 
-  const allStores = await getStoreByUserId(userId);
+  const allStores = await getStoreByUserId(userId)
 
   return (
     <Shell variant="sidebar">
@@ -36,12 +35,12 @@ export default async function StoresPage() {
           <PageHeaderHeading className="flex-1">Tiendas</PageHeaderHeading>
           <Link
             aria-label="Create store"
-            href="stores/new"
             className={cn(
               buttonVariants({
-                size: "sm",
+                size: 'sm',
               }),
             )}
+            href="stores/new"
           >
             Crear tienda
           </Link>
@@ -66,14 +65,14 @@ export default async function StoresPage() {
           ) : (
             allStores.map((store) => (
               <StoreCard
+                href={`/dashboard/stores/${store.id}`}
                 key={store.id}
                 store={store}
-                href={`/dashboard/stores/${store.id}`}
               />
             ))
           )}
         </React.Suspense>
       </section>
     </Shell>
-  );
+  )
 }

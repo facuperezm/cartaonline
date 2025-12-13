@@ -1,14 +1,13 @@
-import { type Metadata } from "next";
-
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shell } from "@/components/shell";
-import { LogOutButtons } from "@/app/(auth)/_components/log-out-buttons";
+import type { Metadata } from 'next'
+import { LogOutButtons } from '@/app/(auth)/_components/log-out-buttons'
+import { Shell } from '@/components/shell'
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
-  title: "Cerrar sesión",
-  description: "Cerrá sesión en tu cuenta de Carta Online",
-};
+  title: 'Cerrar sesión',
+  description: 'Cerrá sesión en tu cuenta de Carta Online',
+}
 
 export default function Signout() {
   return (
@@ -24,5 +23,5 @@ export default function Signout() {
         </Card>
       </div>
     </Shell>
-  );
+  )
 }

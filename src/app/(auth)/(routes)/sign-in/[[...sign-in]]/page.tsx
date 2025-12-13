@@ -1,32 +1,31 @@
-import { type Metadata } from "next";
-import { Suspense } from "react";
-import { connection } from "next/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
-
+import { currentUser } from '@clerk/nextjs/server'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { connection } from 'next/server'
+import { Suspense } from 'react'
+import { SignInForm } from '@/app/(auth)/_components/auth-sign-in'
+import { OAuthSignIn } from '@/app/(auth)/_components/oauth-signin'
+import { Shell } from '@/components/shell'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Shell } from "@/components/shell";
-import { SignInForm } from "@/app/(auth)/_components/auth-sign-in";
-import { OAuthSignIn } from "@/app/(auth)/_components/oauth-signin";
+} from '@/components/ui/card'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
-  title: "Iniciar sesión",
-  description: "Inicia sesión a tu cuenta en Carta Online",
-};
+  title: 'Iniciar sesión',
+  description: 'Inicia sesión a tu cuenta en Carta Online',
+}
 
 async function AuthCheck() {
-  await connection();
-  const user = await currentUser();
-  if (user) redirect("/");
-  return null;
+  await connection()
+  const user = await currentUser()
+  if (user) redirect('/')
+  return null
 }
 
 export default function SignIn() {
@@ -54,14 +53,14 @@ export default function SignIn() {
           <SignInForm />
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             <span className="mr-1 hidden sm:inline-block">
               Todavía no tenes cuenta?
             </span>
             <Link
               aria-label="Registrate"
-              href="/sign-up"
               className="text-primary underline-offset-4 transition-colors hover:underline"
+              href="/sign-up"
             >
               Registrate
             </Link>
@@ -69,5 +68,5 @@ export default function SignIn() {
         </CardFooter>
       </Card>
     </Shell>
-  );
+  )
 }

@@ -1,18 +1,18 @@
-import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+} from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { cn } from '@/lib/utils'
 
 interface UsageCardProps extends React.ComponentPropsWithoutRef<typeof Card> {
-  title: string;
-  count: number;
-  limit: number;
-  moreInfo?: string;
+  title: string
+  count: number
+  limit: number
+  moreInfo?: string
 }
 
 export function UsageCard({
@@ -22,7 +22,7 @@ export function UsageCard({
   className,
   ...props
 }: UsageCardProps) {
-  const progress = Math.round((count / limit) * 100);
+  const progress = Math.round((count / limit) * 100)
 
   return (
     <Card className={cn(className)} {...props}>
@@ -35,8 +35,8 @@ export function UsageCard({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Progress className="w-full" value={progress} max={100} />
+        <Progress className="w-full" max={100} value={progress} />
       </CardContent>
     </Card>
-  );
+  )
 }

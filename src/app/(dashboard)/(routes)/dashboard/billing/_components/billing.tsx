@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { CheckIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { CheckIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { SubscriptionButton } from '@/app/(dashboard)/(routes)/dashboard/billing/_components/subscription-button'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -11,74 +10,74 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { SubscriptionButton } from "@/app/(dashboard)/(routes)/dashboard/billing/_components/subscription-button";
+} from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
-import { UsageCard } from "./usage";
+import { UsageCard } from './usage'
 
 const plans = [
   {
-    name: "Gratis",
-    description: "Podes crear una tienda",
+    name: 'Gratis',
+    description: 'Podes crear una tienda',
     price: 0,
-    features: ["Crear una tienda", "Hasta 15 productos"],
-    planType: "BASIC" as const,
+    features: ['Crear una tienda', 'Hasta 15 productos'],
+    planType: 'BASIC' as const,
   },
   {
-    name: "Pro",
-    description: "Para negocios en crecimiento",
+    name: 'Pro',
+    description: 'Para negocios en crecimiento',
     price: 2999,
     features: [
-      "Hasta 3 tiendas",
-      "Productos ilimitados",
-      "Estadísticas avanzadas",
-      "Soporte prioritario",
+      'Hasta 3 tiendas',
+      'Productos ilimitados',
+      'Estadísticas avanzadas',
+      'Soporte prioritario',
     ],
-    planType: "PRO" as const,
+    planType: 'PRO' as const,
   },
   {
-    name: "Enterprise",
-    description: "Para grandes empresas",
+    name: 'Enterprise',
+    description: 'Para grandes empresas',
     price: 5999,
     features: [
-      "Tiendas ilimitadas",
-      "Productos ilimitados",
-      "Estadísticas avanzadas",
-      "Soporte 24/7",
-      "API personalizada",
-      "Panel de administración",
+      'Tiendas ilimitadas',
+      'Productos ilimitados',
+      'Estadísticas avanzadas',
+      'Soporte 24/7',
+      'API personalizada',
+      'Panel de administración',
     ],
-    planType: "ENTERPRISE" as const,
+    planType: 'ENTERPRISE' as const,
   },
-];
+]
 
 interface BillingProps {
-  storeId: string;
-  currentPlan?: "BASIC" | "PRO" | "ENTERPRISE";
-  storeCount: number;
+  storeId: string
+  currentPlan?: 'BASIC' | 'PRO' | 'ENTERPRISE'
+  storeCount: number
 }
 
 export function Billing({
   storeId,
-  currentPlan = "BASIC",
+  currentPlan = 'BASIC',
   storeCount,
 }: BillingProps) {
   const storeLimits = {
     BASIC: 1,
     PRO: 3,
-    ENTERPRISE: Infinity,
-  };
+    ENTERPRISE: Number.POSITIVE_INFINITY,
+  }
 
   return (
     <>
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Plan y uso</CardTitle>
-          <div className="text-sm text-muted-foreground">
-            En este momento estas en el plan:{" "}
+          <div className="text-muted-foreground text-sm">
+            En este momento estas en el plan:{' '}
             <Badge
-              variant="secondary"
               className="pointer-events-none text-foreground/90"
+              variant="secondary"
             >
               {plans.find((p) => p.planType === currentPlan)?.name}
             </Badge>
@@ -86,34 +85,34 @@ export function Billing({
         </CardHeader>
         <CardContent className="grid gap-6">
           <UsageCard
-            title="Tiendas disponibles"
             count={storeCount}
             limit={storeLimits[currentPlan]}
             moreInfo="The number of stores you can create on the current plan."
+            title="Tiendas disponibles"
           />
         </CardContent>
       </Card>
       <section className="grid gap-6 lg:grid-cols-3">
         {plans.map((plan) => (
-          <Card key={plan.name} className={cn("flex flex-col")}>
+          <Card className={cn('flex flex-col')} key={plan.name}>
             <CardHeader className="flex-1">
               <CardTitle className="text-lg">{plan.name}</CardTitle>
               <CardDescription>{plan.description}</CardDescription>
             </CardHeader>
             <CardContent className="grid flex-1 place-items-start gap-6">
-              <div className="text-3xl font-bold">
+              <div className="font-bold text-3xl">
                 ${plan.price}
-                <span className="text-sm font-normal text-muted-foreground">
+                <span className="font-normal text-muted-foreground text-sm">
                   /mes
                 </span>
               </div>
               <div className="w-full space-y-2">
                 {plan.features.map((feature) => (
-                  <div key={feature} className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" key={feature}>
                     <div className="aspect-square shrink-0 rounded-full bg-foreground p-px text-background">
-                      <CheckIcon className="size-3.5" aria-hidden="true" />
+                      <CheckIcon aria-hidden="true" className="size-3.5" />
                     </div>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-muted-foreground text-sm">
                       {feature}
                     </span>
                   </div>
@@ -125,8 +124,8 @@ export function Billing({
                 <Button className="w-full" disabled>
                   Plan actual
                 </Button>
-              ) : plan.planType === "BASIC" ? (
-                <Button className="w-full" asChild>
+              ) : plan.planType === 'BASIC' ? (
+                <Button asChild className="w-full">
                   <Link href="/dashboard/stores">
                     Crear tienda
                     <span className="sr-only">Ir a tiendas</span>
@@ -134,9 +133,9 @@ export function Billing({
                 </Button>
               ) : (
                 <SubscriptionButton
-                  storeId={storeId}
-                  planType={plan.planType as "BASIC" | "PRO"}
                   className="w-full"
+                  planType={plan.planType as 'BASIC' | 'PRO'}
+                  storeId={storeId}
                 />
               )}
             </CardFooter>
@@ -144,5 +143,5 @@ export function Billing({
         ))}
       </section>
     </>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import Link from "next/link";
-import { AlertTriangle, ArrowLeft, RefreshCw } from "lucide-react";
+import { AlertTriangle, ArrowLeft, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import * as React from 'react'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -12,18 +12,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 
 export default function DashboardError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+  error: Error & { digest?: string }
+  reset: () => void
 }) {
   React.useEffect(() => {
-    console.error("Dashboard error:", error);
-  }, [error]);
+    console.error('Dashboard error:', error)
+  }, [error])
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center p-4">
@@ -39,22 +39,22 @@ export default function DashboardError({
         </CardHeader>
 
         <CardContent className="text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Si el problema persiste, por favor contacta con soporte.
           </p>
           {error.digest && (
-            <p className="mt-2 font-mono text-xs text-muted-foreground/70">
+            <p className="mt-2 font-mono text-muted-foreground/70 text-xs">
               Ref: {error.digest}
             </p>
           )}
         </CardContent>
 
         <CardFooter className="flex flex-col gap-2 sm:flex-row">
-          <Button onClick={reset} className="w-full gap-2">
+          <Button className="w-full gap-2" onClick={reset}>
             <RefreshCw className="size-4" />
             Reintentar
           </Button>
-          <Button variant="outline" className="w-full gap-2" asChild>
+          <Button asChild className="w-full gap-2" variant="outline">
             <Link href="/dashboard/stores">
               <ArrowLeft className="size-4" />
               Volver a tiendas
@@ -63,5 +63,5 @@ export default function DashboardError({
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }

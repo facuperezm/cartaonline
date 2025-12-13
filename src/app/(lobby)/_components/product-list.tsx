@@ -1,33 +1,33 @@
-import { type Product } from "@prisma/client";
+import type { Product } from '@prisma/client'
 
 interface ProductListProps {
-  products: Product[];
+  products: Product[]
 }
 
 export function ProductList({ products }: ProductListProps) {
   // Group products by category
   const groupedProducts = products.reduce(
     (acc, product) => {
-      const category = product.category;
+      const category = product.category
       if (!acc[category]) {
-        acc[category] = [];
+        acc[category] = []
       }
-      acc[category].push(product);
-      return acc;
+      acc[category].push(product)
+      return acc
     },
     {} as Record<string, Product[]>,
-  );
+  )
 
   return (
     <div className="space-y-12">
       {Object.entries(groupedProducts).map(([category, products]) => (
-        <div key={category} className="space-y-6">
-          <h3 className="text-xl font-semibold capitalize">{category}</h3>
+        <div className="space-y-6" key={category}>
+          <h3 className="font-semibold text-xl capitalize">{category}</h3>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
               <div
-                key={product.id}
                 className="group relative overflow-hidden rounded-2xl border bg-card transition-all hover:shadow-md"
+                key={product.id}
               >
                 {/* {product.imageUrl && (
                   <div className="aspect-[16/10] w-full overflow-hidden">
@@ -43,7 +43,7 @@ export function ProductList({ products }: ProductListProps) {
                     <div className="space-y-2">
                       <h4 className="font-medium">{product.name}</h4>
                       {product.description && (
-                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                        <p className="line-clamp-2 text-muted-foreground text-sm">
                           {product.description}
                         </p>
                       )}
@@ -78,5 +78,5 @@ export function ProductList({ products }: ProductListProps) {
         </div>
       ))}
     </div>
-  );
+  )
 }

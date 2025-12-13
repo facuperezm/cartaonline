@@ -1,12 +1,9 @@
-"use client";
+'use client'
 
-import React, { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { toast } from "sonner";
-
-import { updateProduct } from "@/lib/actions/product";
-import { useProduct } from "@/hooks/use-products";
-import { Button } from "@/components/ui/button";
+import React, { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -14,55 +11,57 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useProduct } from '@/hooks/use-products'
+import { updateProduct } from '@/lib/actions/product'
 
-import { Icons } from "../../../../../../../components/icons";
+import { Icons } from '../../../../../../../components/icons'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../../../../components/ui/select";
+} from '../../../../../../../components/ui/select'
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending } = useFormStatus()
 
   return (
     <Button className="mt-2 w-full transition-all" disabled={pending}>
       {pending && (
         <Icons.spinner
-          className="mr-2 h-4 w-4 animate-spin"
           aria-hidden="true"
+          className="mr-2 h-4 w-4 animate-spin"
         />
       )}
-      {pending ? "Editando producto" : "Editar producto"}
+      {pending ? 'Editando producto' : 'Editar producto'}
       <span className="sr-only">Editar producto</span>
     </Button>
-  );
+  )
 }
 
 const initialState = {
-  message: "",
-  status: "idle" as const,
-};
+  message: '',
+  status: 'idle' as const,
+}
 
 export default function EditProductForm({ id }: { id: string }) {
-  const { data: product } = useProduct(id);
-  const [openEdit, setOpenEdit] = React.useState(false);
+  const { data: product } = useProduct(id)
+  const [openEdit, setOpenEdit] = React.useState(false)
 
-  const [state, formAction] = useActionState(updateProduct, initialState);
+  const [state, formAction] = useActionState(updateProduct, initialState)
 
   React.useEffect(() => {
-    if (state.status === "success") {
-      toast.success(state.message);
-      setOpenEdit(false);
-    } else if (state.status === "error") {
-      toast.error(state.message);
+    if (state.status === 'success') {
+      toast.success(state.message)
+      setOpenEdit(false)
+    } else if (state.status === 'error') {
+      toast.error(state.message)
     }
-  }, [state.status, state.message]);
+  }, [state.status, state.message])
 
   return (
     <Dialog onOpenChange={setOpenEdit} open={openEdit}>
@@ -80,53 +79,53 @@ export default function EditProductForm({ id }: { id: string }) {
           <DialogDescription>Cambiar</DialogDescription>
         </DialogHeader>
         <form action={formAction} className="grid w-full max-w-xl gap-3">
-          <Label htmlFor="id" className="sr-only" />
+          <Label className="sr-only" htmlFor="id" />
           <Input
+            className="mt-2"
+            defaultValue={product?.id ?? ''}
             name="id"
             type="hidden"
-            className="mt-2"
-            defaultValue={product?.id ?? ""}
           />
           <Label htmlFor="name">
             Nombre del producto
             <Input
-              name="name"
-              required
-              minLength={3}
-              maxLength={50}
               className="mt-2"
+              defaultValue={product?.name ?? ''}
+              maxLength={50}
+              minLength={3}
+              name="name"
               placeholder="empanadas"
-              defaultValue={product?.name ?? ""}
+              required
             />
           </Label>
           <Label htmlFor="price">
             Precio
             <Input
+              className="mt-2"
+              defaultValue={product?.price ?? ''}
+              maxLength={50}
+              minLength={3}
               name="price"
+              placeholder="1230"
               required
               type="number"
-              minLength={3}
-              className="mt-2"
-              maxLength={50}
-              placeholder="1230"
-              defaultValue={product?.price ?? ""}
             />
           </Label>
           <Label htmlFor="description">
             Descripción
             <Input
-              name="description"
-              required
-              minLength={3}
               className="mt-2"
+              defaultValue={product?.description ?? ''}
               maxLength={350}
+              minLength={3}
+              name="description"
               placeholder="1230"
-              defaultValue={product?.description ?? ""}
+              required
             />
           </Label>
           <Label htmlFor="category">
             Categoría
-            <Select name="category" defaultValue={product?.category || ""}>
+            <Select defaultValue={product?.category || ''} name="category">
               <SelectTrigger className="mt-2">
                 <SelectValue
                   defaultValue={product?.category}
@@ -144,5 +143,5 @@ export default function EditProductForm({ id }: { id: string }) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

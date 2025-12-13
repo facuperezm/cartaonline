@@ -1,19 +1,19 @@
-"use client";
+'use client'
 
-import React from "react";
 import {
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
   type SortingState,
-} from "@tanstack/react-table";
+  useReactTable,
+} from '@tanstack/react-table'
+import React from 'react'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -21,8 +21,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -30,17 +30,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table'
 
-import { AddProductForm } from "../../(routes)/dashboard/stores/[id]/_components/add-product";
-import { ImportMenuDialog } from "../import-menu-dialog";
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { AddProductForm } from '../../(routes)/dashboard/stores/[id]/_components/add-product'
+import { ImportMenuDialog } from '../import-menu-dialog'
+import { DataTablePagination } from './data-table-pagination'
+import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  storeId: string;
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  storeId: string
 }
 
 export function DataTable<TData, TValue>({
@@ -48,11 +48,11 @@ export function DataTable<TData, TValue>({
   data,
   storeId,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
-  );
-  const [open, setOpen] = React.useState(false);
+  )
+  const [open, setOpen] = React.useState(false)
 
   const table = useReactTable({
     data,
@@ -67,19 +67,19 @@ export function DataTable<TData, TValue>({
     },
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-  });
+  })
 
   return (
     <div>
       <div className="flex items-center justify-between py-4">
-        <div className="flex flex-col  items-start gap-1 md:flex-row">
+        <div className="flex flex-col items-start gap-1 md:flex-row">
           <Input
-            placeholder="Buscar producto"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
             className="h-8 max-w-sm"
+            onChange={(event) =>
+              table.getColumn('name')?.setFilterValue(event.target.value)
+            }
+            placeholder="Buscar producto"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           />
           <DataTableToolbar table={table} />
         </div>
@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
           <ImportMenuDialog storeId={storeId} />
           <Dialog onOpenChange={setOpen} open={open}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="ml-1 h-8">
+              <Button className="ml-1 h-8" variant="outline">
                 Agregar
               </Button>
             </DialogTrigger>
@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
                   Agregar producto a tu tienda
                 </DialogDescription>
               </DialogHeader>
-              <AddProductForm storeId={storeId} setOpen={setOpen} />
+              <AddProductForm setOpen={setOpen} storeId={storeId} />
             </DialogContent>
           </Dialog>
         </div>
@@ -109,18 +109,16 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -128,8 +126,8 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  data-state={row.getIsSelected() && 'selected'}
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -144,8 +142,8 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center"
+                  colSpan={columns.length}
                 >
                   Sin resultados.
                 </TableCell>
@@ -156,5 +154,5 @@ export function DataTable<TData, TValue>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  );
+  )
 }

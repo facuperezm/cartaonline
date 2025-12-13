@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { FileQuestion, Home, Search } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Shell } from "@/components/shell";
+import { FileQuestion, Home, Search } from 'lucide-react'
+import Link from 'next/link'
+import { Shell } from '@/components/shell'
+import { Button } from '@/components/ui/button'
 
 export default function NotFound() {
   return (
@@ -13,8 +12,8 @@ export default function NotFound() {
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">404</h1>
-          <h2 className="text-xl font-semibold">Página no encontrada</h2>
+          <h1 className="font-bold text-4xl tracking-tight">404</h1>
+          <h2 className="font-semibold text-xl">Página no encontrada</h2>
           <p className="max-w-md text-muted-foreground">
             Lo sentimos, la página que buscas no existe o fue movida a otra
             ubicación.
@@ -28,7 +27,7 @@ export default function NotFound() {
               Volver al inicio
             </Link>
           </Button>
-          <Button variant="outline" asChild className="gap-2">
+          <Button asChild className="gap-2" variant="outline">
             <Link href="/stores/puerto_iguazu">
               <Search className="size-4" />
               Ver restaurantes
@@ -37,5 +36,5 @@ export default function NotFound() {
         </div>
       </div>
     </Shell>
-  );
+  )
 }

@@ -1,35 +1,35 @@
-import "server-only";
+import 'server-only'
 
-import { cacheLife, cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from 'next/cache'
 
-import { db } from "../db";
+import { db } from '../db'
 
 export const getStoresByCity = async (city: string) => {
-  "use cache";
-  cacheTag(`stores-city-${city}`);
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  'use cache'
+  cacheTag(`stores-city-${city}`)
+  cacheLife({ stale: 300, revalidate: 3600, expire: 86_400 })
 
   const stores = await db.store.findMany({
     where: {
       city: {
         name: city,
       },
-      status: "ACTIVE",
+      status: 'ACTIVE',
     },
     include: {
       city: true,
       banner: true,
       logo: true,
     },
-  });
+  })
 
-  return stores;
-};
+  return stores
+}
 
 export const getStoreById = async (id: string) => {
-  "use cache";
-  cacheTag(`store-${id}`);
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  'use cache'
+  cacheTag(`store-${id}`)
+  cacheLife({ stale: 300, revalidate: 3600, expire: 86_400 })
 
   const store = await db.store.findUnique({
     where: { id },
@@ -39,19 +39,19 @@ export const getStoreById = async (id: string) => {
       logo: true,
       products: {
         orderBy: {
-          category: "asc",
+          category: 'asc',
         },
       },
     },
-  });
-  return store;
-};
+  })
+  return store
+}
 
 export const getStoreByUserId = async (userId: string) => {
   const store = await db.store.findMany({
     where: {
-      userId: userId,
+      userId,
     },
-  });
-  return store;
-};
+  })
+  return store
+}

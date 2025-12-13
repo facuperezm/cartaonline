@@ -1,10 +1,10 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "@/components/page-header";
-import { Shell } from "@/components/shell";
+} from '@/components/page-header'
+import { Shell } from '@/components/shell'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AccountLoading() {
   return (
@@ -37,5 +37,5 @@ export default function AccountLoading() {
         </div>
       </section>
     </Shell>
-  );
+  )
 }

@@ -1,32 +1,31 @@
-import { type Metadata } from "next";
-import { Suspense } from "react";
-import { connection } from "next/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
-
+import { currentUser } from '@clerk/nextjs/server'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { connection } from 'next/server'
+import { Suspense } from 'react'
+import { SignUpForm } from '@/app/(auth)/_components/auth-sign-up'
+import { OAuthSignIn } from '@/app/(auth)/_components/oauth-signin'
+import { Shell } from '@/components/shell'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Shell } from "@/components/shell";
-import { SignUpForm } from "@/app/(auth)/_components/auth-sign-up";
-import { OAuthSignIn } from "@/app/(auth)/_components/oauth-signin";
+} from '@/components/ui/card'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
-  title: "Registrate",
-  description: "Registrá tu cuenta en Carta Online",
-};
+  title: 'Registrate',
+  description: 'Registrá tu cuenta en Carta Online',
+}
 
 async function AuthCheck() {
-  await connection();
-  const user = await currentUser();
-  if (user) redirect("/");
-  return null;
+  await connection()
+  const user = await currentUser()
+  if (user) redirect('/')
+  return null
 }
 
 export default function SignUp() {
@@ -54,12 +53,12 @@ export default function SignUp() {
           <SignUpForm />
         </CardContent>
         <CardFooter>
-          <div className="text-sm text-muted-foreground">
-            Ya tenes una cuenta?{" "}
+          <div className="text-muted-foreground text-sm">
+            Ya tenes una cuenta?{' '}
             <Link
               aria-label="Sign in"
-              href="/sign-in"
               className="text-primary underline-offset-4 transition-colors hover:underline"
+              href="/sign-in"
             >
               Inicia sesion
             </Link>
@@ -67,5 +66,5 @@ export default function SignUp() {
         </CardFooter>
       </Card>
     </Shell>
-  );
+  )
 }

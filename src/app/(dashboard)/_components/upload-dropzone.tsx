@@ -1,22 +1,21 @@
-"use client";
+'use client'
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { Cloud, File, Loader2 } from "lucide-react";
-import Dropzone from "react-dropzone";
-import { toast } from "sonner";
-
-import { useUploadThing } from "@/lib/uploadthing";
-import { cn, compressImage } from "@/lib/utils";
-import { Progress } from "@/components/ui/progress";
+import { Cloud, File, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import React from 'react'
+import Dropzone from 'react-dropzone'
+import { toast } from 'sonner'
+import { Progress } from '@/components/ui/progress'
+import { useUploadThing } from '@/lib/uploadthing'
+import { cn, compressImage } from '@/lib/utils'
 
 interface UploadDropzoneProps {
-  storeId: string;
-  setIsOpen: (open: boolean) => void;
+  storeId: string
+  setIsOpen: (open: boolean) => void
   createImage: (data: {
-    key: string;
-    storeId: string;
-  }) => Promise<{ success: boolean; error?: string } | undefined>;
+    key: string
+    storeId: string
+  }) => Promise<{ success: boolean; error?: string } | undefined>
 }
 
 export default function UploadDropzone({
@@ -24,70 +23,70 @@ export default function UploadDropzone({
   setIsOpen,
   storeId,
 }: UploadDropzoneProps) {
-  const router = useRouter();
-  const [isUploading, setIsUploading] = React.useState(false);
-  const [uploadProgress, setUploadProgress] = React.useState(0);
+  const router = useRouter()
+  const [isUploading, setIsUploading] = React.useState(false)
+  const [uploadProgress, setUploadProgress] = React.useState(0)
 
-  const { startUpload } = useUploadThing("imageUploader", {
+  const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       if (res?.[0]) {
-        await createImage({ key: res[0].key, storeId });
-        setIsOpen(false);
+        await createImage({ key: res[0].key, storeId })
+        setIsOpen(false)
       }
-      router.refresh();
-      setIsUploading(false);
+      router.refresh()
+      setIsUploading(false)
     },
     onUploadProgress: (progress) => {
-      setUploadProgress(progress);
+      setUploadProgress(progress)
     },
     onUploadError: (error) => {
-      setIsUploading(false);
-      toast.error(error.message || "Error al subir la imagen");
+      setIsUploading(false)
+      toast.error(error.message || 'Error al subir la imagen')
     },
-  });
+  })
 
   const startSimulatedProgress = () => {
-    setUploadProgress(0);
+    setUploadProgress(0)
     const interval = setInterval(() => {
       setUploadProgress((prevProgress) => {
         if (prevProgress >= 95) {
-          clearInterval(interval);
-          return prevProgress;
+          clearInterval(interval)
+          return prevProgress
         }
-        return prevProgress + 5;
-      });
-    }, 500);
-    return interval;
-  };
+        return prevProgress + 5
+      })
+    }, 500)
+    return interval
+  }
 
   return (
     <Dropzone
       multiple={false}
       onDrop={async (acceptedFile) => {
-        setIsUploading(true);
-        const progressInterval = startSimulatedProgress();
+        setIsUploading(true)
+        const progressInterval = startSimulatedProgress()
         const compressed = await compressImage(
           acceptedFile[0],
           0.5,
           acceptedFile[0].name,
-        );
-        await startUpload([compressed]);
+        )
+        await startUpload([compressed])
 
-        clearInterval(progressInterval);
-        setUploadProgress(100);
+        clearInterval(progressInterval)
+        setUploadProgress(100)
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div
           {...getRootProps()}
-          className="m-4 h-64 rounded-lg border border-dashed border-gray-300 hover:bg-gray-50"
+          className="m-4 h-64 rounded-lg border border-gray-300 border-dashed hover:bg-gray-50"
         >
           <div className="flex h-full w-full items-center justify-center">
             <label
-              htmlFor="dropzone-file"
               className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-gray-50 hover:bg-gray-100"
+              htmlFor="dropzone-file"
             >
-              <div className="flex flex-col items-center justify-center pb-6 pt-5">
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <Cloud className="mb-2 h-6 w-6 text-zinc-500" />
                 <p className="mb-2 text-sm text-zinc-700">
                   <span className="font-semibold">Click para subir</span> o
@@ -110,11 +109,11 @@ export default function UploadDropzone({
               {isUploading ? (
                 <div className="mx-auto mt-4 w-full max-w-xs">
                   <Progress
-                    value={uploadProgress}
                     className={cn(
-                      "h-1 w-full bg-zinc-200",
-                      uploadProgress === 100 ? "bg-green-500" : "",
+                      'h-1 w-full bg-zinc-200',
+                      uploadProgress === 100 ? 'bg-green-500' : '',
                     )}
+                    value={uploadProgress}
                   />
                   {uploadProgress === 100 ? (
                     <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
@@ -127,14 +126,14 @@ export default function UploadDropzone({
 
               <input
                 {...getInputProps()}
-                type="file"
-                id="dropzone-file"
                 className="hidden"
+                id="dropzone-file"
+                type="file"
               />
             </label>
           </div>
         </div>
       )}
     </Dropzone>
-  );
+  )
 }

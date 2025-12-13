@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { toast } from "sonner";
+import { toast } from 'sonner'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 
 export default function ClipboardShare({ storeId }: { storeId: string }) {
   return (
@@ -25,8 +25,8 @@ export default function ClipboardShare({ storeId }: { storeId: string }) {
         <div className="flex flex-col gap-3">
           <div className="flex gap-2">
             <Input
-              id="store-url"
               aria-describedby="store-url"
+              id="store-url"
               readOnly={true}
               value={`https://cartaonline.facupm.dev/share/${storeId}`}
             />
@@ -34,10 +34,10 @@ export default function ClipboardShare({ storeId }: { storeId: string }) {
           <Button
             className="shrink-0"
             onClick={() => {
-              toast.success("Link copiado al portapapeles");
+              toast.success('Link copiado al portapapeles')
               navigator.clipboard.writeText(
                 `https://cartaonline.facupm.dev/share/${storeId}`,
-              );
+              )
             }}
           >
             Copiar link
@@ -45,5 +45,5 @@ export default function ClipboardShare({ storeId }: { storeId: string }) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-import { type SidebarNavItem } from "@/lib/validations/types";
+import type { SidebarNavItem } from '@/lib/validations/types'
 
 export interface DashboardConfig {
-  sidebarNav: SidebarNavItem[];
+  sidebarNav: SidebarNavItem[]
 }
 
 export const dashboardConfig: DashboardConfig = {
   sidebarNav: [
     {
-      title: "Cuenta",
-      href: "/dashboard/account",
-      icon: "avatar",
+      title: 'Cuenta',
+      href: '/dashboard/account',
+      icon: 'avatar',
       items: [],
     },
     {
-      title: "Tiendas",
-      href: "/dashboard/stores",
-      icon: "store",
+      title: 'Tiendas',
+      href: '/dashboard/stores',
+      icon: 'store',
       items: [],
     },
     {
-      title: "Pagos",
-      href: "/dashboard/billing",
-      icon: "credit",
+      title: 'Pagos',
+      href: '/dashboard/billing',
+      icon: 'credit',
       items: [],
     },
   ],
-};
+}

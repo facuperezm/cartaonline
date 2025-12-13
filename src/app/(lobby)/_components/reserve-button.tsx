@@ -1,9 +1,9 @@
-import Link from "next/link";
+import Link from 'next/link'
 
-import { Icons } from "@/components/icons";
+import { Icons } from '@/components/icons'
 
 interface ReserveButtonProps {
-  phone: string;
+  phone: string
 }
 
 export function ReserveButton({ phone }: ReserveButtonProps) {
@@ -17,5 +17,5 @@ export function ReserveButton({ phone }: ReserveButtonProps) {
         <span>Reservar</span>
       </div>
     </Link>
-  );
+  )
 }

@@ -1,20 +1,19 @@
-import Link from "next/link";
-import type { Store } from "@prisma/client";
-
-import { getRandomPatternStyle } from "@/lib/generate-pattern";
-import { cn } from "@/lib/utils";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Badge } from "@/components/ui/badge";
+import type { Store } from '@prisma/client'
+import Link from 'next/link'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
+import { getRandomPatternStyle } from '@/lib/generate-pattern'
+import { cn } from '@/lib/utils'
 
 interface StoreCardProps {
-  store: Store;
-  href: string;
+  store: Store
+  href: string
 }
 
 export function StoreCard({ store, href }: StoreCardProps) {
@@ -26,16 +25,16 @@ export function StoreCard({ store, href }: StoreCardProps) {
             className="absolute inset-0 bg-gradient-to-t from-transparent to-zinc-950/50"
             style={getRandomPatternStyle(String(store.id))}
           />
-          <div className="absolute right-2 top-2">
+          <div className="absolute top-2 right-2">
             <Badge
               className={cn(
-                store.status === "ACTIVE"
-                  ? "border-green-600/20 bg-green-50 text-green-700"
-                  : "border-red-600/10 bg-red-50 text-red-700",
+                store.status === 'ACTIVE'
+                  ? 'border-green-600/20 bg-green-50 text-green-700'
+                  : 'border-red-600/10 bg-red-50 text-red-700',
               )}
               variant="secondary"
             >
-              {store.status === "ACTIVE" ? "Activa" : "Inactiva"}
+              {store.status === 'ACTIVE' ? 'Activa' : 'Inactiva'}
             </Badge>
           </div>
         </AspectRatio>
@@ -49,5 +48,5 @@ export function StoreCard({ store, href }: StoreCardProps) {
         </CardHeader>
       </Link>
     </Card>
-  );
+  )
 }

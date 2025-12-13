@@ -1,28 +1,35 @@
-import type { Store } from "@prisma/client";
-import { AlertTriangleIcon, EyeOffIcon, PowerIcon, Trash2Icon } from "lucide-react";
-
-import { deleteStore, updateStoreStatus } from "@/lib/actions/store";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import type { Store } from '@prisma/client'
+import {
+  AlertTriangleIcon,
+  EyeOffIcon,
+  PowerIcon,
+  Trash2Icon,
+} from 'lucide-react'
+import { LoadingButton } from '@/components/loading-button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { LoadingButton } from "@/components/loading-button";
+} from '@/components/ui/card'
+import { deleteStore, updateStoreStatus } from '@/lib/actions/store'
 
 interface StoreDangerZoneProps {
-  store: Store;
+  store: Store
 }
 
 export function StoreDangerZone({ store }: StoreDangerZoneProps) {
-  const isActive = store?.status === "ACTIVE";
+  const isActive = store?.status === 'ACTIVE'
 
   return (
     <div className="space-y-6">
       {/* Warning Header */}
-      <Alert variant="destructive" className="border-destructive/50 bg-destructive/5">
+      <Alert
+        className="border-destructive/50 bg-destructive/5"
+        variant="destructive"
+      >
         <AlertTriangleIcon className="size-4" />
         <AlertTitle>Zona de peligro</AlertTitle>
         <AlertDescription>
@@ -43,30 +50,30 @@ export function StoreDangerZone({ store }: StoreDangerZoneProps) {
                 <PowerIcon className="size-5 text-emerald-600" />
               )}
               <CardTitle className="text-base">
-                {isActive ? "Desactivar tienda" : "Activar tienda"}
+                {isActive ? 'Desactivar tienda' : 'Activar tienda'}
               </CardTitle>
             </div>
             <CardDescription className="mt-2">
               {isActive
-                ? "Tu tienda dejará de ser visible para los clientes. Podrás reactivarla en cualquier momento."
-                : "Tu tienda volverá a estar visible para todos los clientes."}
+                ? 'Tu tienda dejará de ser visible para los clientes. Podrás reactivarla en cualquier momento.'
+                : 'Tu tienda volverá a estar visible para todos los clientes.'}
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
             <form>
               <input
-                type="hidden"
-                name="status"
-                value={store?.status}
                 aria-hidden
+                name="status"
+                type="hidden"
+                value={store?.status}
               />
               <LoadingButton
-                variant={isActive ? "secondary" : "default"}
                 action="update"
-                formAction={updateStoreStatus.bind(null, store.id)}
                 className="w-full"
+                formAction={updateStoreStatus.bind(null, store.id)}
+                variant={isActive ? 'secondary' : 'default'}
               >
-                {isActive ? "Desactivar tienda" : "Activar tienda"}
+                {isActive ? 'Desactivar tienda' : 'Activar tienda'}
               </LoadingButton>
             </form>
           </CardContent>
@@ -89,10 +96,10 @@ export function StoreDangerZone({ store }: StoreDangerZoneProps) {
           <CardContent className="pt-0">
             <form>
               <LoadingButton
-                formAction={deleteStore.bind(null, store.id)}
-                variant="destructive"
                 action="delete"
                 className="w-full"
+                formAction={deleteStore.bind(null, store.id)}
+                variant="destructive"
               >
                 Eliminar permanentemente
               </LoadingButton>
@@ -101,5 +108,5 @@ export function StoreDangerZone({ store }: StoreDangerZoneProps) {
         </Card>
       </div>
     </div>
-  );
+  )
 }

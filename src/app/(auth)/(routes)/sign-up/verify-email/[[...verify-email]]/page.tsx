@@ -1,20 +1,19 @@
-import { type Metadata } from "next";
-
+import type { Metadata } from 'next'
+import { VerifyEmailForm } from '@/app/(auth)/(routes)/sign-up/verify-email/_components/verify-email-form'
+import { Shell } from '@/components/shell'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Shell } from "@/components/shell";
-import { VerifyEmailForm } from "@/app/(auth)/(routes)/sign-up/verify-email/_components/verify-email-form";
+} from '@/components/ui/card'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
-  title: "Verificá tu mail",
-  description: "Verificá tu casilla de entrada",
-};
+  title: 'Verificá tu mail',
+  description: 'Verificá tu casilla de entrada',
+}
 
 export default function VerifyEmailPage() {
   return (
@@ -33,5 +32,5 @@ export default function VerifyEmailPage() {
         </CardContent>
       </Card>
     </Shell>
-  );
+  )
 }

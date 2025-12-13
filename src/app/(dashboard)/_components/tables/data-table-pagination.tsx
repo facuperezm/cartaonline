@@ -3,20 +3,20 @@ import {
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
-import { type Table } from "@tanstack/react-table";
+} from '@radix-ui/react-icons'
+import type { Table } from '@tanstack/react-table'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
+  table: Table<TData>
 }
 
 export function DataTablePagination<TData>({
@@ -25,12 +25,12 @@ export function DataTablePagination<TData>({
   return (
     <div className="mt-3 flex items-center justify-between space-x-6 px-2 lg:space-x-8">
       <div className="flex items-center space-x-2">
-        <p className="text-sm font-medium">Filas por página</p>
+        <p className="font-medium text-sm">Filas por página</p>
         <Select
-          value={`${table.getState().pagination.pageSize}`}
           onValueChange={(value) => {
-            table.setPageSize(Number(value));
+            table.setPageSize(Number(value))
           }}
+          value={`${table.getState().pagination.pageSize}`}
         >
           <SelectTrigger className="h-8 w-[70px]">
             <SelectValue placeholder={table.getState().pagination.pageSize} />
@@ -46,47 +46,47 @@ export function DataTablePagination<TData>({
       </div>
 
       <div className="flex items-center space-x-2">
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Página {table.getState().pagination.pageIndex + 1} de{" "}
+        <div className="flex w-[100px] items-center justify-center font-medium text-sm">
+          Página {table.getState().pagination.pageIndex + 1} de{' '}
           {table.getPageCount()}
         </div>
         <Button
-          variant="outline"
           className="hidden h-8 w-8 p-0 lg:flex"
-          onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
+          onClick={() => table.setPageIndex(0)}
+          variant="outline"
         >
           <span className="sr-only">Ir a la primer página</span>
           <DoubleArrowLeftIcon className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
           className="h-8 w-8 p-0"
-          onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
+          onClick={() => table.previousPage()}
+          variant="outline"
         >
           <span className="sr-only">Ir a la anterior</span>
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
           className="h-8 w-8 p-0"
-          onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
+          onClick={() => table.nextPage()}
+          variant="outline"
         >
           <span className="sr-only">Ir a la siguiente</span>
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
           className="hidden h-8 w-8 p-0 lg:flex"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          variant="outline"
         >
           <span className="sr-only">Ir a la última</span>
           <DoubleArrowRightIcon className="h-4 w-4" />
         </Button>
       </div>
     </div>
-  );
+  )
 }

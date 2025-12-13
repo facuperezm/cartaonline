@@ -1,24 +1,23 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
-
-import { cn } from "@/lib/utils";
-import { useMounted } from "@/hooks/use-mounted";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { SignOutButton } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useMounted } from '@/hooks/use-mounted'
+import { cn } from '@/lib/utils'
 
 export function LogOutButtons() {
-  const router = useRouter();
-  const mounted = useMounted();
+  const router = useRouter()
+  const mounted = useMounted()
 
   return (
     <div className="flex w-full flex-col-reverse items-center gap-2 sm:flex-row">
       <Button
-        variant="secondary"
-        size="sm"
         className="w-full"
         onClick={() => router.back()}
+        size="sm"
+        variant="secondary"
       >
         Volver
         <span className="sr-only">Página previa</span>
@@ -27,7 +26,7 @@ export function LogOutButtons() {
         <SignOutButton
           redirectUrl={`${window.location.origin}/?redirect=false`}
         >
-          <Button size="sm" className="w-full">
+          <Button className="w-full" size="sm">
             Cerrar sesión
             <span className="sr-only">Cerrar sesión</span>
           </Button>
@@ -35,13 +34,13 @@ export function LogOutButtons() {
       ) : (
         <Skeleton
           className={cn(
-            buttonVariants({ size: "sm" }),
-            "w-full bg-muted text-muted-foreground",
+            buttonVariants({ size: 'sm' }),
+            'w-full bg-muted text-muted-foreground',
           )}
         >
           Cerrar sesión
         </Skeleton>
       )}
     </div>
-  );
+  )
 }

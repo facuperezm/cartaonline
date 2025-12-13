@@ -85,7 +85,12 @@
     @apply bg-background text-foreground;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-sans font-semibold;
   }
 
@@ -104,7 +109,7 @@
     @apply relative inline-block;
   }
   .highlight::after {
-    content: '';
+    content: "";
     @apply absolute -inset-x-1 bottom-1 -z-10 h-3 bg-secondary/50 rounded;
   }
 

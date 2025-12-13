@@ -1,45 +1,44 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input, type InputProps } from "@/components/ui/input";
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import * as React from 'react'
+import { Button } from '@/components/ui/button'
+import { Input, type InputProps } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false)
 
     return (
       <div className="relative">
         <Input
-          type={showPassword ? "text" : "password"}
-          className={cn("pr-10", className)}
+          className={cn('pr-10', className)}
           ref={ref}
+          type={showPassword ? 'text' : 'password'}
           {...props}
         />
         <Button
+          className="absolute top-0 right-0 h-full px-3 py-1 hover:bg-transparent"
+          disabled={props.value === '' || props.disabled}
+          onClick={() => setShowPassword((prev) => !prev)}
+          size="sm"
           type="button"
           variant="ghost"
-          size="sm"
-          className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent"
-          onClick={() => setShowPassword((prev) => !prev)}
-          disabled={props.value === "" || props.disabled}
         >
           {showPassword ? (
-            <EyeNoneIcon className="h-4 w-4" aria-hidden="true" />
+            <EyeNoneIcon aria-hidden="true" className="h-4 w-4" />
           ) : (
-            <EyeOpenIcon className="h-4 w-4" aria-hidden="true" />
+            <EyeOpenIcon aria-hidden="true" className="h-4 w-4" />
           )}
           <span className="sr-only">
-            {showPassword ? "Hide password" : "Show password"}
+            {showPassword ? 'Hide password' : 'Show password'}
           </span>
         </Button>
       </div>
-    );
+    )
   },
-);
-PasswordInput.displayName = "PasswordInput";
+)
+PasswordInput.displayName = 'PasswordInput'
 
-export { PasswordInput };
+export { PasswordInput }

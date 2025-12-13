@@ -1,93 +1,94 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { Download, Upload } from "lucide-react";
-import dynamic from "next/dynamic";
+import { Download, Upload } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import { useState } from 'react'
+
 const QRCodeSVG = dynamic(
-  () => import("qrcode.react").then((m) => m.QRCodeSVG),
-  { ssr: false }
-);
+  () => import('qrcode.react').then((m) => m.QRCodeSVG),
+  { ssr: false },
+)
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
+} from '@/components/ui/select'
+import { Slider } from '@/components/ui/slider'
 
 interface QRCodeCustomizerProps {
-  storeUrl: string;
-  storeName: string;
+  storeUrl: string
+  storeName: string
 }
 
 export function QRCodeCustomizer({
   storeUrl,
   storeName,
 }: QRCodeCustomizerProps) {
-  const [qrStyle, setQrStyle] = useState<"squares" | "dots">("squares");
-  const [primaryColor, setPrimaryColor] = useState("#000000");
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
-  const [size, setSize] = useState(256);
-  const [logo, setLogo] = useState<string | null>(null);
-  const [includeMargin] = useState(true);
+  const [qrStyle, setQrStyle] = useState<'squares' | 'dots'>('squares')
+  const [primaryColor, setPrimaryColor] = useState('#000000')
+  const [backgroundColor, setBackgroundColor] = useState('#ffffff')
+  const [size, setSize] = useState(256)
+  const [logo, setLogo] = useState<string | null>(null)
+  const [includeMargin] = useState(true)
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setLogo(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+        setLogo(reader.result as string)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   const downloadQRCode = () => {
-    const svg = document.getElementById("qr-code");
+    const svg = document.getElementById('qr-code')
     if (svg) {
       // Get SVG data
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      const img = new Image();
+      const svgData = new XMLSerializer().serializeToString(svg)
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      const img = new Image()
 
       // Set canvas size to match SVG size
-      canvas.width = size;
-      canvas.height = size;
+      canvas.width = size
+      canvas.height = size
 
       img.onload = () => {
         // Draw white background
         if (ctx) {
-          ctx.fillStyle = backgroundColor;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0);
+          ctx.fillStyle = backgroundColor
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          ctx.drawImage(img, 0, 0)
 
           // Convert to PNG
-          const pngFile = canvas.toDataURL("image/png");
+          const pngFile = canvas.toDataURL('image/png')
 
           // Download
-          const downloadLink = document.createElement("a");
-          downloadLink.download = `${storeName}-qr-code.png`;
-          downloadLink.href = pngFile;
-          downloadLink.click();
+          const downloadLink = document.createElement('a')
+          downloadLink.download = `${storeName}-qr-code.png`
+          downloadLink.href = pngFile
+          downloadLink.click()
         }
-      };
+      }
 
-      img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+      img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
     }
-  };
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -102,13 +103,9 @@ export function QRCodeCustomizer({
         <CardContent className="flex flex-col items-center justify-center space-y-4">
           <div className="rounded-lg border bg-white p-4">
             <QRCodeSVG
-              id="qr-code"
-              value={storeUrl}
-              size={size}
-              fgColor={primaryColor}
               bgColor={backgroundColor}
-              level="H"
-              includeMargin={includeMargin}
+              fgColor={primaryColor}
+              id="qr-code"
               imageSettings={
                 logo
                   ? {
@@ -119,9 +116,13 @@ export function QRCodeCustomizer({
                     }
                   : undefined
               }
+              includeMargin={includeMargin}
+              level="H"
+              size={size}
+              value={storeUrl}
             />
           </div>
-          <Button onClick={downloadQRCode} className="w-full">
+          <Button className="w-full" onClick={downloadQRCode}>
             <Download className="mr-2 h-4 w-4" />
             Descargar QR
           </Button>
@@ -140,8 +141,8 @@ export function QRCodeCustomizer({
           <div className="space-y-2">
             <Label>Estilo</Label>
             <Select
+              onValueChange={(value) => setQrStyle(value as 'squares' | 'dots')}
               value={qrStyle}
-              onValueChange={(value) => setQrStyle(value as "squares" | "dots")}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -157,10 +158,10 @@ export function QRCodeCustomizer({
             <Label>Color principal</Label>
             <div className="flex gap-2">
               <Input
+                className="h-10 w-full"
+                onChange={(e) => setPrimaryColor(e.target.value)}
                 type="color"
                 value={primaryColor}
-                onChange={(e) => setPrimaryColor(e.target.value)}
-                className="h-10 w-full"
               />
             </div>
           </div>
@@ -169,10 +170,10 @@ export function QRCodeCustomizer({
             <Label>Color de fondo</Label>
             <div className="flex gap-2">
               <Input
+                className="h-10 w-full"
+                onChange={(e) => setBackgroundColor(e.target.value)}
                 type="color"
                 value={backgroundColor}
-                onChange={(e) => setBackgroundColor(e.target.value)}
-                className="h-10 w-full"
               />
             </div>
           </div>
@@ -180,12 +181,12 @@ export function QRCodeCustomizer({
           <div className="space-y-2">
             <Label>Tamaño ({size}px)</Label>
             <Slider
-              value={[size]}
-              onValueChange={(value) => setSize(value[0])}
-              min={128}
-              max={512}
-              step={8}
               className="w-full"
+              max={512}
+              min={128}
+              onValueChange={(value) => setSize(value[0])}
+              step={8}
+              value={[size]}
             />
           </div>
 
@@ -193,25 +194,25 @@ export function QRCodeCustomizer({
             <Label>Logo (opcional)</Label>
             <div className="flex items-center gap-2">
               <Input
-                type="file"
                 accept="image/*"
-                onChange={handleLogoUpload}
                 className="hidden"
                 id="logo-upload"
+                onChange={handleLogoUpload}
+                type="file"
               />
               <Button
-                variant="outline"
                 className="w-full"
-                onClick={() => document.getElementById("logo-upload")?.click()}
+                onClick={() => document.getElementById('logo-upload')?.click()}
+                variant="outline"
               >
                 <Upload className="mr-2 h-4 w-4" />
                 Subir logo
               </Button>
               {logo && (
                 <Button
-                  variant="destructive"
-                  size="icon"
                   onClick={() => setLogo(null)}
+                  size="icon"
+                  variant="destructive"
                 >
                   ×
                 </Button>
@@ -221,5 +222,5 @@ export function QRCodeCustomizer({
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
