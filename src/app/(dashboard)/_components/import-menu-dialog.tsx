@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog'
 import { importMenuFromFile } from '@/lib/actions/import-menu'
 
-interface ImportMenuDialogProps {
+type ImportMenuDialogProps = {
   storeId: string
 }
 
@@ -152,21 +152,21 @@ export function ImportMenuDialog({ storeId }: ImportMenuDialogProps) {
                   disabled={isPending}
                   onClick={handleImport}
                 >
-                  {isPending && (
+                  {isPending ? (
                     <Icons.spinner
                       aria-hidden="true"
                       className="mr-2 h-4 w-4 animate-spin"
                     />
-                  )}
+                  ) : null}
                   {isPending ? 'Procesando...' : 'Importar menú'}
                 </Button>
               </div>
 
-              {isPending && (
+              {isPending ? (
                 <p className="text-center text-muted-foreground text-xs">
                   Esto puede tomar unos segundos...
                 </p>
-              )}
+              ) : null}
             </div>
           ) : (
             <div

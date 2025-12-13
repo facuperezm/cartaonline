@@ -180,6 +180,7 @@ export async function updateStoreSlug(storeId: string, newSlug: string) {
     }
 
     // Validar formato del slug
+    // biome-ignore lint/performance/useTopLevelRegex: Only used once in this function
     const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
     if (!slugRegex.test(newSlug)) {
       throw new Error(
@@ -230,6 +231,7 @@ type CreateStoreState = {
   formData?: Record<string, FormDataEntryValue>
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Server action with comprehensive error handling
 export async function createStore(
   _prevState: CreateStoreState,
   formData: FormData,
@@ -344,8 +346,8 @@ export async function createStore(
       error &&
       typeof error === 'object' &&
       'digest' in error &&
-      typeof (error as any).digest === 'string' &&
-      (error as any).digest.startsWith('NEXT_REDIRECT')
+      typeof (error as { digest: unknown }).digest === 'string' &&
+      (error as { digest: string }).digest.startsWith('NEXT_REDIRECT')
     ) {
       throw error
     }

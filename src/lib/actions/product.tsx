@@ -12,7 +12,7 @@ import { updateProductSchema } from '@/lib/validations/product'
 
 import { db } from '../db'
 
-export async function getProduct(id: string) {
+export function getProduct(id: string) {
   return db.product.findFirst({ where: { id } })
 }
 

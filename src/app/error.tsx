@@ -29,11 +29,11 @@ export default function GlobalError({
           <p className="text-muted-foreground">
             Ocurrió un error inesperado. Por favor, intenta de nuevo.
           </p>
-          {error.digest && (
+          {error.digest ? (
             <p className="text-muted-foreground/70 text-xs">
               Código de error: {error.digest}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className="flex gap-3">

@@ -4,7 +4,9 @@ import { Shell } from '@/components/shell'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+  ),
   title: 'Cerrar sesión',
   description: 'Cerrá sesión en tu cuenta de Carta Online',
 }

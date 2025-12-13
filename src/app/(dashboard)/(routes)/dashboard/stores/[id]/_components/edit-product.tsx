@@ -31,12 +31,12 @@ function SubmitButton() {
 
   return (
     <Button className="mt-2 w-full transition-all" disabled={pending}>
-      {pending && (
+      {pending ? (
         <Icons.spinner
           aria-hidden="true"
           className="mr-2 h-4 w-4 animate-spin"
         />
-      )}
+      ) : null}
       {pending ? 'Editando producto' : 'Editar producto'}
       <span className="sr-only">Editar producto</span>
     </Button>

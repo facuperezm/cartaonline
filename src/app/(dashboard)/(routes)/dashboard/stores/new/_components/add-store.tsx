@@ -68,20 +68,20 @@ export function AddStoreForm() {
 
   return (
     <form action={action} className="grid w-full max-w-xl gap-5">
-      {state?.error && (
+      {state?.error ? (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error al crear la tienda</AlertTitle>
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
-      )}
+      ) : null}
 
-      {state?.success && state?.message && (
+      {state?.success === true && state?.message ? (
         <Alert className="border-green-500 text-green-700">
           <AlertTitle>¡Éxito!</AlertTitle>
           <AlertDescription>{state.message}</AlertDescription>
         </Alert>
-      )}
+      ) : null}
 
       <Label className="flex flex-col gap-2" htmlFor="name">
         Nombre de la tienda

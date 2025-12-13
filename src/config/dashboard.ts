@@ -1,6 +1,6 @@
 import type { SidebarNavItem } from '@/lib/validations/types'
 
-export interface DashboardConfig {
+export type DashboardConfig = {
   sidebarNav: SidebarNavItem[]
 }
 

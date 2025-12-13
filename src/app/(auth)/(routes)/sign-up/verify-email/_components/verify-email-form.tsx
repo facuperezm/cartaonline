@@ -36,7 +36,9 @@ export function VerifyEmailForm() {
   })
 
   function onSubmit(data: Inputs) {
-    if (!isLoaded) return
+    if (!isLoaded) {
+      return
+    }
 
     startTransition(async () => {
       try {
@@ -61,10 +63,7 @@ export function VerifyEmailForm() {
 
   return (
     <Form {...form}>
-      <form
-        className="grid gap-4"
-        onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
-      >
+      <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="code"
@@ -86,12 +85,12 @@ export function VerifyEmailForm() {
           )}
         />
         <Button disabled={isPending}>
-          {isPending && (
+          {isPending ? (
             <Icons.spinner
               aria-hidden="true"
               className="mr-2 h-4 w-4 animate-spin"
             />
-          )}
+          ) : null}
           Crear cuenta
           <span className="sr-only">Crear cuenta</span>
         </Button>

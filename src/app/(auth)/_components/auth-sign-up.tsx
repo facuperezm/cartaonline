@@ -38,7 +38,9 @@ export function SignUpForm() {
   })
 
   function onSubmit(data: Inputs) {
-    if (!isLoaded) return
+    if (!isLoaded) {
+      return
+    }
 
     startTransition(async () => {
       try {
@@ -92,12 +94,12 @@ export function SignUpForm() {
           )}
         />
         <Button disabled={isPending}>
-          {isPending && (
+          {isPending ? (
             <Icons.spinner
               aria-hidden="true"
               className="mr-2 h-4 w-4 animate-spin"
             />
-          )}
+          ) : null}
           Verificar tu email
           <span className="sr-only">Verificar tu email</span>
         </Button>

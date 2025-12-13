@@ -6,7 +6,7 @@ import { DataTable } from '@/app/(dashboard)/_components/tables/data-table'
 
 import { columns } from './tables/columns'
 
-interface StoreProductsTabProps {
+type StoreProductsTabProps = {
   storeId: string
   products: Product[]
 }

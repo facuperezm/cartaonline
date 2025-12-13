@@ -9,7 +9,7 @@ import { Progress } from '@/components/ui/progress'
 import { useUploadThing } from '@/lib/uploadthing'
 import { cn, compressImage } from '@/lib/utils'
 
-interface UploadDropzoneProps {
+type UploadDropzoneProps = {
   storeId: string
   setIsOpen: (open: boolean) => void
   createImage: (data: {

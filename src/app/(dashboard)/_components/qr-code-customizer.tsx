@@ -1,3 +1,4 @@
+// biome-ignore-all lint/nursery/noLeakedRender: False positive - ternaries used in prop values are safe
 'use client'
 
 import { Download, Upload } from 'lucide-react'
@@ -28,7 +29,7 @@ import {
 } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
 
-interface QRCodeCustomizerProps {
+type QRCodeCustomizerProps = {
   storeUrl: string
   storeName: string
 }
@@ -107,7 +108,7 @@ export function QRCodeCustomizer({
               fgColor={primaryColor}
               id="qr-code"
               imageSettings={
-                logo
+                logo !== null
                   ? {
                       src: logo,
                       height: size * 0.2,
@@ -208,7 +209,7 @@ export function QRCodeCustomizer({
                 <Upload className="mr-2 h-4 w-4" />
                 Subir logo
               </Button>
-              {logo && (
+              {logo !== null ? (
                 <Button
                   onClick={() => setLogo(null)}
                   size="icon"
@@ -216,7 +217,7 @@ export function QRCodeCustomizer({
                 >
                   ×
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
         </CardContent>

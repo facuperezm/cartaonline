@@ -11,7 +11,7 @@ interface CityCardProps extends React.HTMLAttributes<HTMLAnchorElement> {
   href?: string
 }
 
-export async function CityCard({ src, city, disabled, href }: CityCardProps) {
+export function CityCard({ src, city, disabled, href }: CityCardProps) {
   const normalizedCity = normalizeCityName(city)
 
   return disabled ? (

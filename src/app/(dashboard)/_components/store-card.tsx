@@ -11,7 +11,7 @@ import {
 import { getRandomPatternStyle } from '@/lib/generate-pattern'
 import { cn } from '@/lib/utils'
 
-interface StoreCardProps {
+type StoreCardProps = {
   store: Store
   href: string
 }

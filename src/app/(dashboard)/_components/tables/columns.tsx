@@ -35,9 +35,7 @@ export const columns: ColumnDef<Product>[] = [
       <DataTableColumnHeader column={column} title="Categoría" />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
-        (status) => status.value === row.getValue('category'),
-      )
+      const status = statuses.find((s) => s.value === row.getValue('category'))
 
       if (!status) {
         return null
@@ -45,9 +43,9 @@ export const columns: ColumnDef<Product>[] = [
 
       return (
         <div className="flex w-[100px] items-center">
-          {status.icon && (
+          {status.icon ? (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
+          ) : null}
           <span>{status.label}</span>
         </div>
       )

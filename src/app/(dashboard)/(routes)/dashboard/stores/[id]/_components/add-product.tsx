@@ -123,12 +123,12 @@ export function AddProductForm({
           )}
         />
         <Button className="mt-2 w-full transition-all" disabled={isPending}>
-          {isPending && (
+          {isPending ? (
             <Icons.spinner
               aria-hidden="true"
               className="mr-2 h-4 w-4 animate-spin"
             />
-          )}
+          ) : null}
           {isPending ? 'Agregando producto' : 'Agregar producto'}
           <span className="sr-only">Agregar producto</span>
         </Button>

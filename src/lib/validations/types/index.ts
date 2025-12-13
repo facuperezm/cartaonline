@@ -1,6 +1,6 @@
 import type { Icons } from '@/components/icons'
 
-export interface SiteConfig {
+export type SiteConfig = {
   name: string
   description: string
   url: string
@@ -11,7 +11,7 @@ export interface SiteConfig {
   }
 }
 
-export interface NavItem {
+export type NavItem = {
   title: string
   href?: string
   disabled?: boolean

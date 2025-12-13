@@ -9,7 +9,7 @@ export const size = {
 }
 export const contentType = 'image/png'
 
-export default async function Image() {
+export default function Image() {
   return new ImageResponse(
     <div
       style={{
@@ -90,8 +90,10 @@ export default async function Image() {
         >
           {/* Utensils icon */}
           <svg
+            aria-label="Utensils icon"
             fill="none"
             height="56"
+            role="img"
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"

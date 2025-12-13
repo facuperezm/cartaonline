@@ -22,7 +22,9 @@ function getQueryClient() {
   if (isServer) {
     return makeQueryClient()
   }
-  if (!browserQueryClient) browserQueryClient = makeQueryClient()
+  if (!browserQueryClient) {
+    browserQueryClient = makeQueryClient()
+  }
   return browserQueryClient
 }
 

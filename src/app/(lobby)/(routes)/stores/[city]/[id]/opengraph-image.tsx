@@ -31,10 +31,12 @@ export default async function Image({ params }: { params: { id: string } }) {
         justifyContent: 'center',
       }}
     >
-      {store?.banner && (
+      {store?.banner ? (
+        // biome-ignore lint/performance/noImgElement: ImageResponse doesn't support next/image
         <img
           alt="background"
-          src={store?.banner.url}
+          height={size.height}
+          src={store.banner.url}
           style={{
             position: 'absolute',
             top: 0,
@@ -43,8 +45,9 @@ export default async function Image({ params }: { params: { id: string } }) {
             height: '100%',
             objectFit: 'cover',
           }}
+          width={size.width}
         />
-      )}
+      ) : null}
       <div
         style={{
           position: 'absolute',

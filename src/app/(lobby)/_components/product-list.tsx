@@ -1,6 +1,6 @@
 import type { Product } from '@prisma/client'
 
-interface ProductListProps {
+type ProductListProps = {
   products: Product[]
 }
 
@@ -20,11 +20,11 @@ export function ProductList({ products }: ProductListProps) {
 
   return (
     <div className="space-y-12">
-      {Object.entries(groupedProducts).map(([category, products]) => (
+      {Object.entries(groupedProducts).map(([category, categoryProducts]) => (
         <div className="space-y-6" key={category}>
           <h3 className="font-semibold text-xl capitalize">{category}</h3>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
+            {categoryProducts.map((product) => (
               <div
                 className="group relative overflow-hidden rounded-2xl border bg-card transition-all hover:shadow-md"
                 key={product.id}
@@ -42,11 +42,11 @@ export function ProductList({ products }: ProductListProps) {
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-2">
                       <h4 className="font-medium">{product.name}</h4>
-                      {product.description && (
+                      {product.description ? (
                         <p className="line-clamp-2 text-muted-foreground text-sm">
                           {product.description}
                         </p>
-                      )}
+                      ) : null}
                     </div>
                     <div className="flex items-start gap-2">
                       <p className="font-semibold">

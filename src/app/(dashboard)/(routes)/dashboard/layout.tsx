@@ -1,4 +1,4 @@
-import Providers from '@/components/Providers'
+import Providers from '@/components/providers'
 import { Separator } from '@/components/ui/separator'
 import {
   SidebarInset,

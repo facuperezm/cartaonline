@@ -10,7 +10,9 @@ import {
 } from '@/components/ui/card'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+  ),
   title: 'Verificá tu mail',
   description: 'Verificá tu casilla de entrada',
 }

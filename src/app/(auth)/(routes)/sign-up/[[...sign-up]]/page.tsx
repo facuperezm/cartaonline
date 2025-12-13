@@ -16,7 +16,9 @@ import {
 } from '@/components/ui/card'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+  ),
   title: 'Registrate',
   description: 'Registrá tu cuenta en Carta Online',
 }
@@ -24,7 +26,9 @@ export const metadata: Metadata = {
 async function AuthCheck() {
   await connection()
   const user = await currentUser()
-  if (user) redirect('/')
+  if (user) {
+    redirect('/')
+  }
   return null
 }
 

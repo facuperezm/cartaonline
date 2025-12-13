@@ -24,7 +24,9 @@ export const metadata: Metadata = {
 export default async function StoresPage() {
   const { userId, redirectToSignIn } = await auth()
 
-  if (!userId) return redirectToSignIn()
+  if (!userId) {
+    return redirectToSignIn()
+  }
 
   const allStores = await getStoreByUserId(userId)
 

@@ -6,7 +6,7 @@ import * as React from 'react'
 
 import { Icons } from '@/components/icons'
 
-interface SSOCallbackProps {
+type SSOCallbackProps = {
   searchParams: HandleOAuthCallbackParams
 }
 
@@ -14,16 +14,11 @@ export function SSOCallback({ searchParams }: SSOCallbackProps) {
   const { handleRedirectCallback } = useClerk()
 
   React.useEffect(() => {
-    void handleRedirectCallback(searchParams)
+    handleRedirectCallback(searchParams)
   }, [searchParams, handleRedirectCallback])
 
   return (
-    <div
-      aria-describedby="loading-description"
-      aria-label="Loading"
-      className="flex items-center justify-center"
-      role="status"
-    >
+    <div className="flex items-center justify-center">
       <Icons.spinner aria-hidden="true" className="size-16 animate-spin" />
     </div>
   )

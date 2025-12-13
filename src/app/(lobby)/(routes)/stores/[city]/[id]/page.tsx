@@ -7,7 +7,7 @@ import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
 import { getStoreById } from '@/lib/queries/store'
 
-interface StorePageProps {
+type StorePageProps = {
   params: Promise<{
     city: string
     id: string

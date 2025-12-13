@@ -33,7 +33,15 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "performance": {
+        // Allow `import * as React from 'react'` - common pattern
+        "noNamespaceImport": "off"
+      },
+      "suspicious": {
+        // Allow index keys for static skeleton/placeholder lists
+        "noArrayIndexKey": "off"
+      }
     }
   },
   "javascript": {

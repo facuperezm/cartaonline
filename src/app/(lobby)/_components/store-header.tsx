@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
 
-interface StoreHeaderProps {
+type StoreHeaderProps = {
   store: Store & { banner: Banner | null }
 }
 

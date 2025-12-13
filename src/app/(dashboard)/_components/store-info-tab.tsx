@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/select'
 import { updateStore } from '@/lib/actions/store'
 
-interface StoreInfoTabProps {
+type StoreInfoTabProps = {
   store: Store & {
     logo: Logo | null
     banner: Banner | null

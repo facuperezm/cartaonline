@@ -13,6 +13,20 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
+function SortIcon({
+  sortDirection,
+}: {
+  sortDirection: false | 'asc' | 'desc'
+}) {
+  if (sortDirection === 'desc') {
+    return <ArrowDownIcon className="ml-2 h-4 w-4" />
+  }
+  if (sortDirection === 'asc') {
+    return <ArrowUpIcon className="ml-2 h-4 w-4" />
+  }
+  return <CaretSortIcon className="ml-2 h-4 w-4" />
+}
+
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -38,13 +52,7 @@ export function DataTableColumnHeader<TData, TValue>({
             variant="ghost"
           >
             <span>{title}</span>
-            {column.getIsSorted() === 'desc' ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              <CaretSortIcon className="ml-2 h-4 w-4" />
-            )}
+            <SortIcon sortDirection={column.getIsSorted()} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">

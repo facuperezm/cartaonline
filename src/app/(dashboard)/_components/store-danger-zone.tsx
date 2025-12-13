@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/card'
 import { deleteStore, updateStoreStatus } from '@/lib/actions/store'
 
-interface StoreDangerZoneProps {
+type StoreDangerZoneProps = {
   store: Store
 }
 

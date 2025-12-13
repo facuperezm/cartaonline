@@ -1,3 +1,4 @@
+// biome-ignore-all lint/nursery/noLeakedRender: False positive - ternaries used in function calls are safe
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import type { Column } from '@tanstack/react-table'
 import type * as React from 'react'
@@ -18,7 +19,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
-interface DataTableFacetedFilterProps<TData, TValue> {
+type DataTableFacetedFilterProps<TData, TValue> = {
   column?: Column<TData, TValue>
   title?: string
   options: {
@@ -94,7 +95,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                       }
                       const filterValues = Array.from(selectedValues)
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined,
+                        filterValues.length > 0 ? filterValues : undefined,
                       )
                     }}
                   >
@@ -108,9 +109,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                     >
                       <CheckIcon className={cn('h-4 w-4')} />
                     </div>
-                    {option.icon && (
+                    {option.icon ? (
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-                    )}
+                    ) : null}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
                       <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">

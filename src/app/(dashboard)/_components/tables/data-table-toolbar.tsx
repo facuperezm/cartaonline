@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { statuses } from './data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
 
-interface DataTableToolbarProps<TData> {
+type DataTableToolbarProps<TData> = {
   table: Table<TData>
 }
 
@@ -27,7 +27,7 @@ export function DataTableToolbar<TData>({
             title="Categoría"
           />
         )}
-        {isFiltered && (
+        {isFiltered ? (
           <Button
             className="h-8 px-2 lg:px-3"
             onClick={() => table.resetColumnFilters()}
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
             Limpiar
             <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
-        )}
+        ) : null}
       </div>
     </div>
   )

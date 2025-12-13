@@ -37,7 +37,9 @@ export function SignInForm() {
   })
 
   function onSubmit(data: Inputs) {
-    if (!isLoaded) return
+    if (!isLoaded) {
+      return
+    }
     startTransition(async () => {
       const result = await signIn.create({
         identifier: data.email,
@@ -56,10 +58,7 @@ export function SignInForm() {
 
   return (
     <Form {...form}>
-      <form
-        className="grid gap-4"
-        onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
-      >
+      <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -87,12 +86,12 @@ export function SignInForm() {
           )}
         />
         <Button disabled={isPending} type="submit">
-          {isPending && (
+          {isPending ? (
             <Icons.spinner
               aria-hidden="true"
               className="mr-2 h-4 w-4 animate-spin"
             />
-          )}
+          ) : null}
           Inicia sesión
           <span className="sr-only">Inicia sesión</span>
         </Button>

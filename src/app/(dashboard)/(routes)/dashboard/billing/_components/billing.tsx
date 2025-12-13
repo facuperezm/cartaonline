@@ -15,6 +15,43 @@ import { cn } from '@/lib/utils'
 
 import { UsageCard } from './usage'
 
+function PlanButton({
+  currentPlan,
+  planType,
+  storeId,
+}: {
+  currentPlan: 'BASIC' | 'PRO' | 'ENTERPRISE'
+  planType: 'BASIC' | 'PRO' | 'ENTERPRISE'
+  storeId: string
+}) {
+  if (planType === currentPlan) {
+    return (
+      <Button className="w-full" disabled>
+        Plan actual
+      </Button>
+    )
+  }
+
+  if (planType === 'BASIC') {
+    return (
+      <Button asChild className="w-full">
+        <Link href="/dashboard/stores">
+          Crear tienda
+          <span className="sr-only">Ir a tiendas</span>
+        </Link>
+      </Button>
+    )
+  }
+
+  return (
+    <SubscriptionButton
+      className="w-full"
+      planType={planType as 'BASIC' | 'PRO'}
+      storeId={storeId}
+    />
+  )
+}
+
 const plans = [
   {
     name: 'Gratis',
@@ -51,7 +88,7 @@ const plans = [
   },
 ]
 
-interface BillingProps {
+type BillingProps = {
   storeId: string
   currentPlan?: 'BASIC' | 'PRO' | 'ENTERPRISE'
   storeCount: number
@@ -120,24 +157,11 @@ export function Billing({
               </div>
             </CardContent>
             <CardFooter className="pt-4">
-              {plan.planType === currentPlan ? (
-                <Button className="w-full" disabled>
-                  Plan actual
-                </Button>
-              ) : plan.planType === 'BASIC' ? (
-                <Button asChild className="w-full">
-                  <Link href="/dashboard/stores">
-                    Crear tienda
-                    <span className="sr-only">Ir a tiendas</span>
-                  </Link>
-                </Button>
-              ) : (
-                <SubscriptionButton
-                  className="w-full"
-                  planType={plan.planType as 'BASIC' | 'PRO'}
-                  storeId={storeId}
-                />
-              )}
+              <PlanButton
+                currentPlan={currentPlan}
+                planType={plan.planType}
+                storeId={storeId}
+              />
             </CardFooter>
           </Card>
         ))}

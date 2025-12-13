@@ -24,7 +24,7 @@ import { getCities } from '@/lib/queries/city'
 import { getStoreById } from '@/lib/queries/store'
 import { cn } from '@/lib/utils'
 
-interface PageProps {
+type PageProps = {
   params: Promise<{
     id: string
   }>
@@ -73,7 +73,7 @@ export default async function StorePage({ params }: PageProps) {
           <Badge
             className={cn(
               'gap-1.5',
-              isActive && 'bg-emerald-600 hover:bg-emerald-600/90',
+              isActive ? 'bg-emerald-600 hover:bg-emerald-600/90' : '',
             )}
             variant={isActive ? 'default' : 'destructive'}
           >

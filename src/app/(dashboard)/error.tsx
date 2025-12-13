@@ -42,11 +42,11 @@ export default function DashboardError({
           <p className="text-muted-foreground text-sm">
             Si el problema persiste, por favor contacta con soporte.
           </p>
-          {error.digest && (
+          {error.digest ? (
             <p className="mt-2 font-mono text-muted-foreground/70 text-xs">
               Ref: {error.digest}
             </p>
-          )}
+          ) : null}
         </CardContent>
 
         <CardFooter className="flex flex-col gap-2 sm:flex-row">

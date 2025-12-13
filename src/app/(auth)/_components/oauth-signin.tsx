@@ -20,7 +20,9 @@ export function OAuthSignIn() {
   const { signIn, isLoaded: signInLoaded } = useSignIn()
 
   async function oauthSignIn(provider: OAuthStrategy) {
-    if (!signInLoaded) return null
+    if (!signInLoaded) {
+      return null
+    }
     try {
       setIsLoading(provider)
       await signIn.authenticateWithRedirect({
@@ -53,7 +55,9 @@ export function OAuthSignIn() {
             className="w-full bg-background sm:w-auto"
             disabled={isLoading !== null}
             key={provider.strategy}
-            onClick={() => void oauthSignIn(provider.strategy)}
+            onClick={() => {
+              oauthSignIn(provider.strategy)
+            }}
             variant="outline"
           >
             {isLoading === provider.strategy ? (

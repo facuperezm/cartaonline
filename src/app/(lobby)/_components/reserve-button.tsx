@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Icons } from '@/components/icons'
 
-interface ReserveButtonProps {
+type ReserveButtonProps = {
   phone: string
 }
 

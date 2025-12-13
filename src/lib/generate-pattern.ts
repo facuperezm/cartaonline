@@ -455,7 +455,7 @@ const bgPattern = (
     .replace(/>/g, '%3E')
     .replace(/&/g, '%26')
     .replace(/#/g, '%23')
-  return 'url("data:image/svg+xml,' + svg + '")'
+  return `url("data:image/svg+xml,${svg}")`
 }
 
 const colors = [
@@ -483,8 +483,10 @@ export const getRandomPatternStyle = (seed: string) => {
   let hash = 0
   if (seed.length !== 0) {
     for (let i = 0; i < seed.length; i++) {
+      // biome-ignore lint/suspicious/noBitwiseOperators: Required for hash function
       hash = seed.charCodeAt(i) + ((hash << 5) - hash)
-      hash = hash & hash
+      // biome-ignore lint/suspicious/noBitwiseOperators: Required for hash function
+      hash &= hash
     }
   }
   const [nPatterns, nColors] = [patterns.length, colors.length]

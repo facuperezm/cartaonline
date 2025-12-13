@@ -9,7 +9,7 @@ import { Shell } from '@/components/shell'
 import { getStoresByCity } from '@/lib/queries/store'
 import { normalizeCityName } from '@/lib/utils'
 
-interface CityPageProps {
+type CityPageProps = {
   params: Promise<{ city: string }>
 }
 
