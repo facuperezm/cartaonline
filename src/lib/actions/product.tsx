@@ -12,8 +12,8 @@ import { updateProductSchema } from '@/lib/validations/product'
 
 import { db } from '../db'
 
-export function getProduct(id: string) {
-  return db.product.findFirst({ where: { id } })
+export async function getProduct(id: string) {
+  return await db.product.findFirst({ where: { id } })
 }
 
 export async function deleteProduct({ productId }: { productId: string }) {
