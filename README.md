@@ -9,7 +9,7 @@
 <a href="https://cartaonline.facupm.dev">Live website</a>
 <span>&nbsp;✦&nbsp;</span>
 
-![App Screenshot](./public/screenshot.png)
+![App Screenshot](./public/screenshot.webp)
 
 </div>
 
