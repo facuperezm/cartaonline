@@ -8,25 +8,21 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
 type SubscriptionButtonProps = {
-  planType: 'PRO' | 'ENTERPRISE'
   className?: string
+  label?: string
 }
 
-const PLAN_TITLES = {
-  PRO: 'Plan Pro',
-  ENTERPRISE: 'Plan Enterprise',
-} as const
-
 export function SubscriptionButton({
-  planType,
   className,
+  label = 'Suscribirse al plan Pro',
 }: SubscriptionButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useUser()
 
   const handleSubscription = async () => {
     try {
-      if (!user?.emailAddresses[0]?.emailAddress) {
+      const email = user?.emailAddresses[0]?.emailAddress
+      if (!email) {
         toast.error('No se encontró un email asociado a tu cuenta')
         return
       }
@@ -34,13 +30,8 @@ export function SubscriptionButton({
       setIsLoading(true)
       const response = await fetch('/api/checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: user.emailAddresses[0].emailAddress,
-          planType,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, planType: 'PRO' }),
       })
 
       const data = await response.json().catch(() => null)
@@ -53,11 +44,14 @@ export function SubscriptionButton({
         throw new Error('No se recibió el enlace de pago')
       }
 
-      const { initPoint } = data
-      window.location.href = initPoint
+      window.location.href = data.initPoint as string
     } catch (error) {
       console.error('[SUBSCRIPTION_ERROR]', error)
-      toast.error('Error al procesar la suscripción')
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Error al procesar la suscripción'
+      toast.error(message)
     } finally {
       setIsLoading(false)
     }
@@ -68,11 +62,12 @@ export function SubscriptionButton({
       className={className}
       disabled={isLoading}
       onClick={handleSubscription}
+      type="button"
     >
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        `Suscribirse al ${PLAN_TITLES[planType]}`
+        <span>{label}</span>
       )}
     </Button>
   )

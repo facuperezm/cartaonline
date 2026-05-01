@@ -8,6 +8,7 @@ import {
 import { Shell } from '@/components/shell'
 import { db } from '@/lib/db'
 import { refreshSubscriptionFromPreapproval } from '@/lib/queries/subscription'
+import { getActivePlan, getSubscriptionUiState } from '@/lib/subscription'
 
 import { Billing } from './_components/billing'
 
@@ -43,8 +44,8 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
     db.subscription.findUnique({ where: { userId } }),
   ])
 
-  const currentPlan = subscription?.planType ?? 'BASIC'
-  const subscriptionStatus = subscription?.status ?? 'INACTIVE'
+  const activePlan = getActivePlan(subscription)
+  const uiState = getSubscriptionUiState(subscription)
 
   return (
     <Shell className="overflow-hidden" variant="sidebar">
@@ -53,10 +54,10 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
         <PageHeaderDescription>Administra tu suscripción</PageHeaderDescription>
       </PageHeader>
       <Billing
-        currentPlan={currentPlan}
+        activePlan={activePlan}
         justReturnedFromMp={justReturnedFromMp}
         storeCount={storeCount}
-        subscriptionStatus={subscriptionStatus}
+        uiState={uiState}
       />
     </Shell>
   )
