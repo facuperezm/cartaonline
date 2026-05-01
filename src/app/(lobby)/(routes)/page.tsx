@@ -24,17 +24,14 @@ import { CityCard } from '@/app/(lobby)/_components/city-card'
 import { HeroPreview } from '@/app/(lobby)/_components/hero-preview'
 import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
-import { ENTERPRISE_CARD, PLANS } from '@/config/plans'
+import { ENTERPRISE_CARD } from '@/config/plans'
 import { clientEnv } from '@/env'
 import { CITIES } from '@/lib/constants/cities'
+import { getPlan } from '@/lib/subscription'
 import { cn } from '@/lib/utils'
 
-const BASIC_PLAN = PLANS.find((plan) => plan.planType === 'BASIC')
-const PRO_PLAN = PLANS.find((plan) => plan.planType === 'PRO')
-
-if (!(BASIC_PLAN && PRO_PLAN)) {
-  throw new Error('BASIC or PRO plan missing from PLANS config')
-}
+const BASIC_PLAN = getPlan('BASIC')
+const PRO_PLAN = getPlan('PRO')
 
 const formatArs = (amount: number) => `$${amount.toLocaleString('es-AR')}`
 
