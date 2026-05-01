@@ -16,6 +16,8 @@ async function main() {
   await prisma.logo.deleteMany()
   await prisma.banner.deleteMany()
   await prisma.store.deleteMany()
+  await prisma.payment.deleteMany()
+  await prisma.subscription.deleteMany()
   await prisma.city.deleteMany()
   await prisma.user.deleteMany()
   console.timeEnd('\n✨ Database cleaned!')

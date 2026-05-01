@@ -8,18 +8,16 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
 type SubscriptionButtonProps = {
-  storeId: string
-  planType: 'BASIC' | 'PRO'
+  planType: 'PRO' | 'ENTERPRISE'
   className?: string
 }
 
 const PLAN_TITLES = {
-  BASIC: 'Plan Básico',
   PRO: 'Plan Pro',
+  ENTERPRISE: 'Plan Enterprise',
 } as const
 
 export function SubscriptionButton({
-  storeId,
   planType,
   className,
 }: SubscriptionButtonProps) {
@@ -42,15 +40,20 @@ export function SubscriptionButton({
         body: JSON.stringify({
           email: user.emailAddresses[0].emailAddress,
           planType,
-          storeId,
         }),
       })
 
+      const data = await response.json().catch(() => null)
+
       if (!response.ok) {
-        throw new Error('Error al crear la suscripción')
+        throw new Error(data?.error ?? 'Error al crear la suscripción')
       }
 
-      const { initPoint } = await response.json()
+      if (!data?.initPoint) {
+        throw new Error('No se recibió el enlace de pago')
+      }
+
+      const { initPoint } = data
       window.location.href = initPoint
     } catch (error) {
       console.error('[SUBSCRIPTION_ERROR]', error)

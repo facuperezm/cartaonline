@@ -18,7 +18,9 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  stores Store[]
+  stores        Store[]
+  subscription  Subscription?
+  payments      Payment[]
 }
 
 model Logo {
@@ -82,8 +84,6 @@ model Store {
   logo         Logo?         @relation("StoreLogo")
   banner       Banner?       @relation("StoreBanner")
   products     Product[]
-  payments     Payment[]
-  subscription Subscription?
   status       Status        @default(ACTIVE)
   cityId       String
   city         City          @relation(fields: [cityId], references: [id])
@@ -110,34 +110,45 @@ model Product {
 
 model Payment {
   id              String   @id @default(cuid())
-  paymentId       String   @unique
-  storeId         String   @unique
-  store           Store    @relation(fields: [storeId], references: [id])
+  paymentId       String?  @unique
+  provider        String
+  userId          String
+  user            User     @relation(fields: [userId], references: [userId])
+  subscriptionId  String?
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
   status          String
-  merchantOrderId String
+  merchantOrderId String?
   amount          Float
-  paymentMethod   String
-  metadata        Json
+  currency        String?
+  paymentMethod   String?
+  metadata        Json?
+  rawPayload      Json?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@index([storeId])
+  @@index([userId])
+  @@index([subscriptionId])
   @@index([paymentId])
 }
 
 model Subscription {
-  id        String             @id @default(cuid())
-  storeId   String             @unique
-  planType  PlanType
-  status    SubscriptionStatus @default(INACTIVE)
-  startDate DateTime           @default(now())
-  expiresAt DateTime
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  planType           PlanType
+  status             SubscriptionStatus @default(PENDING)
+  mpPreapprovalId    String?            @unique
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  nextPaymentDate    DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 
-  store Store @relation(fields: [storeId], references: [id])
+  user     User      @relation(fields: [userId], references: [userId])
+  payments Payment[]
 
-  @@index([storeId])
+  @@index([userId])
+  @@index([status])
+  @@index([mpPreapprovalId])
 }
 
 enum Status {

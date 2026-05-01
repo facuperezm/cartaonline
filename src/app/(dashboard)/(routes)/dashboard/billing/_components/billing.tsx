@@ -11,23 +11,45 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { PLANS } from '@/config/plans'
 import { cn } from '@/lib/utils'
 
 import { UsageCard } from './usage'
 
 function PlanButton({
   currentPlan,
+  subscriptionStatus,
   planType,
-  storeId,
 }: {
   currentPlan: 'BASIC' | 'PRO' | 'ENTERPRISE'
+  subscriptionStatus:
+    | 'ACTIVE'
+    | 'INACTIVE'
+    | 'CANCELLED'
+    | 'EXPIRED'
+    | 'PENDING'
   planType: 'BASIC' | 'PRO' | 'ENTERPRISE'
-  storeId: string
 }) {
-  if (planType === currentPlan) {
+  if (planType === 'BASIC' && currentPlan === 'BASIC') {
     return (
       <Button className="w-full" disabled>
         Plan actual
+      </Button>
+    )
+  }
+
+  if (planType === currentPlan && subscriptionStatus === 'ACTIVE') {
+    return (
+      <Button className="w-full" disabled>
+        Plan actual
+      </Button>
+    )
+  }
+
+  if (planType === currentPlan && subscriptionStatus === 'PENDING') {
+    return (
+      <Button className="w-full" disabled>
+        Pago pendiente
       </Button>
     )
   }
@@ -46,36 +68,27 @@ function PlanButton({
   return (
     <SubscriptionButton
       className="w-full"
-      planType={planType as 'BASIC' | 'PRO'}
-      storeId={storeId}
+      planType={planType as 'PRO' | 'ENTERPRISE'}
     />
   )
 }
 
-const plans = [
-  {
-    name: 'Gratis',
+const PLAN_CONTENT = {
+  BASIC: {
     description: 'Podes crear una tienda',
-    price: 0,
     features: ['Crear una tienda', 'Hasta 15 productos'],
-    planType: 'BASIC' as const,
   },
-  {
-    name: 'Pro',
+  PRO: {
     description: 'Para negocios en crecimiento',
-    price: 2999,
     features: [
       'Hasta 3 tiendas',
       'Productos ilimitados',
       'Estadísticas avanzadas',
       'Soporte prioritario',
     ],
-    planType: 'PRO' as const,
   },
-  {
-    name: 'Enterprise',
+  ENTERPRISE: {
     description: 'Para grandes empresas',
-    price: 5999,
     features: [
       'Tiendas ilimitadas',
       'Productos ilimitados',
@@ -84,19 +97,40 @@ const plans = [
       'API personalizada',
       'Panel de administración',
     ],
-    planType: 'ENTERPRISE' as const,
   },
-]
+} as const
+
+const planByType = Object.fromEntries(
+  PLANS.map((plan) => [plan.planType, plan]),
+) as Record<'BASIC' | 'PRO' | 'ENTERPRISE', (typeof PLANS)[number] | undefined>
+
+const plans = (['BASIC', 'PRO', 'ENTERPRISE'] as const).map((planType) => {
+  const plan = planByType[planType]
+  const content = PLAN_CONTENT[planType]
+
+  return {
+    name: plan?.name ?? planType,
+    description: content.description,
+    price: plan?.priceArs ?? 0,
+    features: content.features,
+    planType,
+  }
+})
 
 type BillingProps = {
-  storeId: string
   currentPlan?: 'BASIC' | 'PRO' | 'ENTERPRISE'
   storeCount: number
+  subscriptionStatus:
+    | 'ACTIVE'
+    | 'INACTIVE'
+    | 'CANCELLED'
+    | 'EXPIRED'
+    | 'PENDING'
 }
 
 export function Billing({
-  storeId,
   currentPlan = 'BASIC',
+  subscriptionStatus,
   storeCount,
 }: BillingProps) {
   const storeLimits = {
@@ -160,7 +194,7 @@ export function Billing({
               <PlanButton
                 currentPlan={currentPlan}
                 planType={plan.planType}
-                storeId={storeId}
+                subscriptionStatus={subscriptionStatus}
               />
             </CardFooter>
           </Card>

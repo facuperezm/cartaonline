@@ -19,8 +19,10 @@ const serverEnvSchema = z.object({
   // OpenAI (optional - only needed for AI menu import)
   OPENAI_API_KEY: z.string().optional(),
 
-  // MercadoPago (optional - payments feature in development)
+  // MercadoPago
   MP_ACCESS_TOKEN: z.string().optional(),
+  // MercadoPago webhook signing secret (set after configuring webhook in MP panel)
+  MP_WEBHOOK_SECRET: z.string().optional(),
 
   // Node environment
   NODE_ENV: z

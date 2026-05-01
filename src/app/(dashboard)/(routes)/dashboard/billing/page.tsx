@@ -22,21 +22,24 @@ export default async function BillingPage() {
   if (!userId) {
     return redirectToSignIn()
   }
-  // TODO: switch to getStoreByUserId
   const stores = await db.store.findMany({
     where: {
       userId,
     },
-    include: {
-      subscription: true,
-    },
   })
 
-  if (!stores) {
+  if (stores.length === 0) {
     redirect('/dashboard/stores')
   }
 
-  const currentPlan = stores[0].subscription?.planType ?? 'BASIC'
+  const subscription = await db.subscription.findUnique({
+    where: {
+      userId,
+    },
+  })
+
+  const currentPlan = subscription?.planType ?? 'BASIC'
+  const subscriptionStatus = subscription?.status ?? 'INACTIVE'
   const storeCount = stores.length
 
   return (
@@ -48,7 +51,7 @@ export default async function BillingPage() {
       <Billing
         currentPlan={currentPlan}
         storeCount={storeCount}
-        storeId={stores[0].id}
+        subscriptionStatus={subscriptionStatus}
       />
     </Shell>
   )
