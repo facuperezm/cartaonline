@@ -89,6 +89,12 @@ export async function POST(request: Request) {
       create: { userId, name, email: userEmail, imageUrl },
     })
 
+    // Charge at authorization time. Without start_date, MP defaults to
+    // "first of next month" — effectively a free first cycle. We add a
+    // small future cushion so clock skew between us and MP can't make
+    // the timestamp land in the past (which MP rejects with 400).
+    const startDate = new Date(Date.now() + 60_000).toISOString()
+
     const preapproval = await new PreApproval(mercadopago).create({
       body: {
         back_url: `${clientEnv.NEXT_PUBLIC_APP_URL}/dashboard/billing`,
@@ -98,6 +104,7 @@ export async function POST(request: Request) {
           frequency_type: 'months',
           transaction_amount: plan.priceArs,
           currency_id: 'ARS',
+          start_date: startDate,
         },
         payer_email: payerEmail,
         status: 'pending',
