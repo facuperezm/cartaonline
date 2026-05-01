@@ -19,14 +19,24 @@ import {
   X,
 } from 'lucide-react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { CityCard } from '@/app/(lobby)/_components/city-card'
+import { HeroPreview } from '@/app/(lobby)/_components/hero-preview'
 import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
+import { ENTERPRISE_CARD, PLANS } from '@/config/plans'
 import { clientEnv } from '@/env'
 import { CITIES } from '@/lib/constants/cities'
 import { cn } from '@/lib/utils'
+
+const BASIC_PLAN = PLANS.find((plan) => plan.planType === 'BASIC')
+const PRO_PLAN = PLANS.find((plan) => plan.planType === 'PRO')
+
+if (!(BASIC_PLAN && PRO_PLAN)) {
+  throw new Error('BASIC or PRO plan missing from PLANS config')
+}
+
+const formatArs = (amount: number) => `$${amount.toLocaleString('es-AR')}`
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -159,18 +169,10 @@ export default function Home() {
                 <ChefHat className="h-8 w-8 text-secondary-foreground" />
               </div>
 
-              {/* Main image */}
+              {/* Main preview */}
               <div className="relative overflow-hidden rounded-3xl border-4 border-card bg-card shadow-2xl">
-                <div className="aspect-[4/3] w-full">
-                  <Image
-                    alt="Demo de carta digital"
-                    className="h-full w-full object-cover"
-                    height={600}
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    src="/images/demo-web.webp"
-                    width={800}
-                  />
+                <div className="aspect-[5/4] w-full">
+                  <HeroPreview />
                 </div>
               </div>
             </div>
@@ -573,27 +575,21 @@ export default function Home() {
           </div>
 
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-            {/* Basic */}
+            {/* Gratis */}
             <div className="relative overflow-hidden rounded-3xl border-2 border-border bg-card p-8 transition-all hover:border-primary/50 hover:shadow-warm">
               <div className="mb-6">
-                <h3 className="font-bold text-2xl">Básico</h3>
+                <h3 className="font-bold text-2xl">{BASIC_PLAN.name}</h3>
                 <div className="mt-4 flex items-baseline gap-1">
-                  <span className="font-bold text-5xl">$19</span>
-                  <span className="text-muted-foreground">/mes</span>
+                  <span className="font-bold text-5xl">Gratis</span>
                 </div>
                 <p className="mt-2 text-muted-foreground text-sm">
-                  Perfecto para pequeños restaurantes
+                  {BASIC_PLAN.description}
                 </p>
               </div>
 
               <ul className="mb-8 space-y-3">
-                {[
-                  'Menú digital ilimitado',
-                  'Código QR personalizado',
-                  'Actualizaciones en tiempo real',
-                  'Soporte por email',
-                ].map((feature, i) => (
-                  <li className="flex items-center gap-3" key={i}>
+                {BASIC_PLAN.features.map((feature) => (
+                  <li className="flex items-center gap-3" key={feature}>
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10">
                       <Check className="h-3 w-3 text-primary" />
                     </span>
@@ -608,7 +604,7 @@ export default function Home() {
                 size="lg"
                 variant="outline"
               >
-                <Link href="/sign-in">Comenzar gratis</Link>
+                <Link href="/sign-up">Comenzar gratis</Link>
               </Button>
             </div>
 
@@ -620,25 +616,21 @@ export default function Home() {
               </div>
 
               <div className="mb-6">
-                <h3 className="font-bold text-2xl">Pro</h3>
+                <h3 className="font-bold text-2xl">{PRO_PLAN.name}</h3>
                 <div className="mt-4 flex items-baseline gap-1">
-                  <span className="font-bold text-5xl text-primary">$49</span>
+                  <span className="font-bold text-5xl text-primary">
+                    {formatArs(PRO_PLAN.priceArs)}
+                  </span>
                   <span className="text-muted-foreground">/mes</span>
                 </div>
                 <p className="mt-2 text-muted-foreground text-sm">
-                  Para restaurantes que buscan crecer
+                  {PRO_PLAN.description}
                 </p>
               </div>
 
               <ul className="mb-8 space-y-3">
-                {[
-                  'Todo lo del plan Básico',
-                  'Múltiples idiomas',
-                  'Análisis de visitas',
-                  'Soporte prioritario 24/7',
-                  'Personalización avanzada',
-                ].map((feature, i) => (
-                  <li className="flex items-center gap-3" key={i}>
+                {PRO_PLAN.features.map((feature) => (
+                  <li className="flex items-center gap-3" key={feature}>
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary">
                       <Check className="h-3 w-3 text-primary-foreground" />
                     </span>
@@ -652,16 +644,18 @@ export default function Home() {
                 className="w-full rounded-full shadow-warm"
                 size="lg"
               >
-                <Link href="/sign-in">Comenzar prueba gratuita</Link>
+                <Link href="/sign-up">Empezar ahora</Link>
               </Button>
             </div>
           </div>
 
           <p className="mx-auto mt-8 max-w-xl text-center text-muted-foreground text-sm">
-            Todos los planes incluyen actualizaciones gratuitas. ¿Necesitas algo
-            específico?{' '}
-            <Link className="font-medium text-primary hover:underline" href="#">
-              Contáctanos
+            ¿Necesitás algo a medida para tu cadena o franquicia?{' '}
+            <Link
+              className="font-medium text-primary hover:underline"
+              href={ENTERPRISE_CARD.contactUrl}
+            >
+              Contactanos
             </Link>
           </p>
         </Shell>
@@ -732,8 +726,8 @@ export default function Home() {
                   ¿Listo para modernizar tu restaurante?
                 </h2>
                 <p className="mx-auto mt-4 max-w-xl text-lg text-primary-foreground/90">
-                  Únete a la revolución digital. Comienza hoy con nuestra prueba
-                  gratuita de 14 días, sin compromiso.
+                  Empezá hoy con el plan Gratis. Sin tarjeta de crédito, sin
+                  compromiso.
                 </p>
 
                 <div className="mt-8 flex flex-col items-center gap-4">
@@ -743,8 +737,8 @@ export default function Home() {
                     size="lg"
                     variant="secondary"
                   >
-                    <Link href="/sign-in">
-                      Comenzar prueba gratuita
+                    <Link href="/sign-up">
+                      Crear mi carta gratis
                       <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>
