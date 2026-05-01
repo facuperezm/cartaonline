@@ -126,6 +126,7 @@ type BillingProps = {
     | 'CANCELLED'
     | 'EXPIRED'
     | 'PENDING'
+  justReturnedFromMp?: boolean
 }
 
 export function Billing({

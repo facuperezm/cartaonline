@@ -1,4 +1,4 @@
-import type { Prisma, SubscriptionStatus } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 import { PreApproval } from 'mercadopago'
 import { revalidatePath } from 'next/cache'
 
@@ -6,25 +6,10 @@ import { serverEnv } from '@/env'
 import { db } from '@/lib/db'
 import {
   fetchAuthorizedPayment,
+  mapMercadoPagoStatus,
   mercadopago,
   verifyMercadoPagoSignature,
 } from '@/lib/mercadopago'
-
-const mapStatus = (status?: string): SubscriptionStatus => {
-  switch (status) {
-    case 'authorized':
-      return 'ACTIVE'
-    case 'cancelled':
-      return 'CANCELLED'
-    case 'paused':
-      return 'INACTIVE'
-    case 'expired':
-    case 'finished':
-      return 'EXPIRED'
-    default:
-      return 'PENDING'
-  }
-}
 
 const parseDate = (value?: string | null) =>
   value ? new Date(value) : undefined
@@ -37,7 +22,7 @@ async function syncPreapprovalById(preapprovalId: string) {
     return
   }
 
-  const status = mapStatus(preapproval.status)
+  const status = mapMercadoPagoStatus(preapproval.status)
   const nextPaymentDate = parseDate(preapproval.next_payment_date)
 
   const updated = await db.subscription.updateMany({

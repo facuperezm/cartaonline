@@ -1,6 +1,7 @@
 import 'server-only'
 
 import crypto from 'node:crypto'
+import type { SubscriptionStatus } from '@prisma/client'
 import { MercadoPagoConfig } from 'mercadopago'
 
 import { serverEnv } from '@/env'
@@ -8,6 +9,24 @@ import { serverEnv } from '@/env'
 export const mercadopago = new MercadoPagoConfig({
   accessToken: serverEnv.MP_ACCESS_TOKEN ?? '',
 })
+
+export const mapMercadoPagoStatus = (
+  status?: string | null,
+): SubscriptionStatus => {
+  switch (status) {
+    case 'authorized':
+      return 'ACTIVE'
+    case 'cancelled':
+      return 'CANCELLED'
+    case 'paused':
+      return 'INACTIVE'
+    case 'expired':
+    case 'finished':
+      return 'EXPIRED'
+    default:
+      return 'PENDING'
+  }
+}
 
 export type SignatureVerifyResult =
   | { valid: true; reason?: string }

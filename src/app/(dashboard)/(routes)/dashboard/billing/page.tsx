@@ -1,6 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
 import {
   PageHeader,
   PageHeaderDescription,
@@ -8,6 +7,7 @@ import {
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
 import { db } from '@/lib/db'
+import { refreshSubscriptionFromPreapproval } from '@/lib/queries/subscription'
 
 import { Billing } from './_components/billing'
 
@@ -16,31 +16,35 @@ export const metadata: Metadata = {
   description: 'Administra tu suscripción y plan',
 }
 
-export default async function BillingPage() {
+type BillingPageProps = {
+  searchParams: Promise<{ preapproval_id?: string | string[] }>
+}
+
+export default async function BillingPage({ searchParams }: BillingPageProps) {
   const { userId, redirectToSignIn } = await auth()
 
   if (!userId) {
     return redirectToSignIn()
   }
-  const stores = await db.store.findMany({
-    where: {
-      userId,
-    },
-  })
 
-  if (stores.length === 0) {
-    redirect('/dashboard/stores')
+  const params = await searchParams
+  const preapprovalParam = Array.isArray(params.preapproval_id)
+    ? params.preapproval_id[0]
+    : params.preapproval_id
+
+  const justReturnedFromMp = Boolean(preapprovalParam)
+
+  if (preapprovalParam) {
+    await refreshSubscriptionFromPreapproval(preapprovalParam)
   }
 
-  const subscription = await db.subscription.findUnique({
-    where: {
-      userId,
-    },
-  })
+  const [storeCount, subscription] = await Promise.all([
+    db.store.count({ where: { userId } }),
+    db.subscription.findUnique({ where: { userId } }),
+  ])
 
   const currentPlan = subscription?.planType ?? 'BASIC'
   const subscriptionStatus = subscription?.status ?? 'INACTIVE'
-  const storeCount = stores.length
 
   return (
     <Shell className="overflow-hidden" variant="sidebar">
@@ -50,6 +54,7 @@ export default async function BillingPage() {
       </PageHeader>
       <Billing
         currentPlan={currentPlan}
+        justReturnedFromMp={justReturnedFromMp}
         storeCount={storeCount}
         subscriptionStatus={subscriptionStatus}
       />
