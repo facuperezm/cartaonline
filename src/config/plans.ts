@@ -6,8 +6,8 @@ export const PLANS = [
     description: 'Para empezar',
     priceArs: 0,
     storeLimit: 1,
-    productLimit: 30,
-    features: ['1 tienda', 'Hasta 30 productos', 'URL pública con código QR'],
+    productLimit: 3,
+    features: ['1 tienda', 'Hasta 3 productos', 'URL pública con código QR'],
   },
   {
     planType: 'PRO',

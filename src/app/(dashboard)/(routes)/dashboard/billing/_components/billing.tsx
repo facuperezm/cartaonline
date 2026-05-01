@@ -40,6 +40,7 @@ type BillingProps = {
   uiState: SubscriptionUiState
   activePlan: Plan
   storeCount: number
+  productCount: number
   justReturnedFromMp?: boolean
 }
 
@@ -47,6 +48,7 @@ export function Billing({
   uiState,
   activePlan,
   storeCount,
+  productCount,
   justReturnedFromMp = false,
 }: BillingProps) {
   const showPendingBanner = uiState.kind === 'pending' && justReturnedFromMp
@@ -80,11 +82,16 @@ export function Billing({
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="grid gap-6">
+        <CardContent className="grid gap-6 md:grid-cols-2">
           <UsageCard
             count={storeCount}
             limit={activePlan.storeLimit}
-            title="Tiendas disponibles"
+            title="Tiendas"
+          />
+          <UsageCard
+            count={productCount}
+            limit={activePlan.productLimit}
+            title="Productos"
           />
         </CardContent>
       </Card>

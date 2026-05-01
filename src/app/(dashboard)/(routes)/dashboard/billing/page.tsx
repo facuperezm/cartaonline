@@ -39,8 +39,9 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
     await refreshSubscriptionFromPreapproval(preapprovalParam)
   }
 
-  const [storeCount, subscription] = await Promise.all([
+  const [storeCount, productCount, subscription] = await Promise.all([
     db.store.count({ where: { userId } }),
+    db.product.count({ where: { store: { userId } } }),
     db.subscription.findUnique({ where: { userId } }),
   ])
 
@@ -56,6 +57,7 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
       <Billing
         activePlan={activePlan}
         justReturnedFromMp={justReturnedFromMp}
+        productCount={productCount}
         storeCount={storeCount}
         uiState={uiState}
       />

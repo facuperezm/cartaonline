@@ -11,8 +11,7 @@ import { cn } from '@/lib/utils'
 interface UsageCardProps extends React.ComponentPropsWithoutRef<typeof Card> {
   title: string
   count: number
-  limit: number
-  moreInfo?: string
+  limit: number | null
 }
 
 export function UsageCard({
@@ -22,7 +21,9 @@ export function UsageCard({
   className,
   ...props
 }: UsageCardProps) {
-  const progress = Math.round((count / limit) * 100)
+  const isUnlimited = limit === null
+  const rawProgress = isUnlimited ? 0 : Math.round((count / limit) * 100)
+  const clampedProgress = Math.min(100, rawProgress)
 
   return (
     <Card className={cn(className)} {...props}>
@@ -31,12 +32,16 @@ export function UsageCard({
           <CardTitle>{title}</CardTitle>
         </div>
         <CardDescription>
-          {count} / {limit} Tiendas ({progress}%)
+          {isUnlimited
+            ? `${count} en uso · Sin límite`
+            : `${count} / ${limit} (${rawProgress}%)`}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Progress className="w-full" max={100} value={progress} />
-      </CardContent>
+      {isUnlimited ? null : (
+        <CardContent>
+          <Progress className="w-full" max={100} value={clampedProgress} />
+        </CardContent>
+      )}
     </Card>
   )
 }
