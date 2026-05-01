@@ -8,6 +8,7 @@ import {
 } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import { ensureCanCreateProducts } from '@/lib/limits'
 import { updateProductSchema } from '@/lib/validations/product'
 
 import { db } from '../db'
@@ -167,6 +168,8 @@ export async function addProduct(data: AddProductData) {
       'Tienda no encontrada o no tienes permiso para agregar productos.',
     )
   }
+
+  await ensureCanCreateProducts(userId, storeId, 1)
 
   await db.product.create({
     data: { name, price: Number(price), category, description, storeId },

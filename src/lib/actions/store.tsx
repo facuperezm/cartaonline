@@ -5,6 +5,7 @@ import { revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { db } from '@/lib/db'
+import { ensureCanCreateStore, PlanLimitError } from '@/lib/limits'
 
 import { storeSchema, updateStoreSchema } from '../validations/store'
 
@@ -316,6 +317,8 @@ export async function createStore(
       },
     })
 
+    await ensureCanCreateStore(userId)
+
     await db.store.create({
       data: {
         name: validatedFields.name,
@@ -350,6 +353,15 @@ export async function createStore(
       (error as { digest: string }).digest.startsWith('NEXT_REDIRECT')
     ) {
       throw error
+    }
+
+    if (error instanceof PlanLimitError) {
+      return {
+        success: false,
+        error: error.message,
+        message: '',
+        formData: Object.fromEntries(formData),
+      }
     }
 
     console.error('Store Creation Error:', error)

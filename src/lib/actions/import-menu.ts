@@ -6,6 +6,7 @@ import { generateObject } from 'ai'
 import { revalidatePath } from 'next/cache'
 
 import { db } from '@/lib/db'
+import { ensureCanCreateProducts, PlanLimitError } from '@/lib/limits'
 import { aiMenuExtractionSchema } from '@/lib/validations/product'
 
 export async function importMenuFromFile(formData: FormData) {
@@ -87,6 +88,8 @@ export async function importMenuFromFile(formData: FormData) {
       }
     }
 
+    await ensureCanCreateProducts(userId, storeId, products.length)
+
     // Insert products into database
     const createdProducts = await db.product.createMany({
       data: products.map((product) => ({
@@ -107,6 +110,9 @@ export async function importMenuFromFile(formData: FormData) {
       message: `${createdProducts.count} productos importados correctamente`,
     }
   } catch (error) {
+    if (error instanceof PlanLimitError) {
+      return { success: false, error: error.message }
+    }
     console.error('Error importing menu:', error)
     return {
       success: false,
