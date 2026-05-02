@@ -4,6 +4,7 @@ import { permanentRedirect } from 'next/navigation'
 import { ImageResponse } from 'next/og'
 
 import { db } from '@/lib/db'
+import { getSiteUrl } from '@/lib/site-url'
 
 export const size = {
   width: 765,
@@ -11,6 +12,12 @@ export const size = {
 }
 
 export const contentType = 'image/png'
+
+const PROTOCOL_REGEX = /^https?:\/\//
+
+function stripProtocol(url: string) {
+  return url.replace(PROTOCOL_REGEX, '')
+}
 
 export default async function Image({
   params,
@@ -112,9 +119,9 @@ export default async function Image({
           color: 'white',
         }}
       >
-        {store?.slug
-          ? `cartaonline.facupm.dev/share/${store?.slug}`
-          : 'cartaonline.facupm.dev'}
+        {store
+          ? `${stripProtocol(getSiteUrl())}/stores/${store.citySlug}/${store.id}`
+          : stripProtocol(getSiteUrl())}
       </div>
     </div>,
     {

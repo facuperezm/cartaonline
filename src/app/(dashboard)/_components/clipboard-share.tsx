@@ -12,7 +12,11 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
-export default function ClipboardShare({ storeId }: { storeId: string }) {
+type ClipboardShareProps = {
+  shareUrl: string
+}
+
+export default function ClipboardShare({ shareUrl }: ClipboardShareProps) {
   return (
     <Card>
       <CardHeader>
@@ -28,16 +32,14 @@ export default function ClipboardShare({ storeId }: { storeId: string }) {
               aria-describedby="store-url"
               id="store-url"
               readOnly={true}
-              value={`https://cartaonline.facupm.dev/share/${storeId}`}
+              value={shareUrl}
             />
           </div>
           <Button
             className="shrink-0"
             onClick={() => {
               toast.success('Link copiado al portapapeles')
-              navigator.clipboard.writeText(
-                `https://cartaonline.facupm.dev/share/${storeId}`,
-              )
+              navigator.clipboard.writeText(shareUrl)
             }}
           >
             Copiar link

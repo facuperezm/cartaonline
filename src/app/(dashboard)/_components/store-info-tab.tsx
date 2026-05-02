@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { updateStore } from '@/lib/actions/store'
+import { getSiteUrl } from '@/lib/site-url'
 
 type StoreInfoTabProps = {
   store: Store & {
@@ -23,6 +24,8 @@ type StoreInfoTabProps = {
 }
 
 export function StoreInfoTab({ store }: StoreInfoTabProps) {
+  const shareUrl = `${getSiteUrl()}/stores/${store.citySlug}/${store.id}`
+
   return (
     <div className="space-y-6">
       {/* Two-column layout for media on larger screens */}
@@ -95,7 +98,7 @@ export function StoreInfoTab({ store }: StoreInfoTabProps) {
       </Card>
 
       {/* Share Section - belongs with store info */}
-      <ClipboardShare storeId={store.id} />
+      <ClipboardShare shareUrl={shareUrl} />
     </div>
   )
 }
