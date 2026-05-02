@@ -1,5 +1,6 @@
 import type { Banner, Logo, Store } from '@prisma/client'
 import ClipboardShare from '@/app/(dashboard)/_components/clipboard-share'
+import { StoreAddressDialog } from '@/app/(dashboard)/_components/store-address-dialog'
 import BannerBtn from '@/app/(dashboard)/_components/upload-btn-banner'
 import UploadBtn from '@/app/(dashboard)/_components/upload-btn-logo'
 import { LoadingButton } from '@/components/loading-button'
@@ -24,6 +25,7 @@ type StoreInfoTabProps = {
 export function StoreInfoTab({ store }: StoreInfoTabProps) {
   return (
     <div className="space-y-6">
+      {/* Two-column layout for media on larger screens */}
       <Card>
         <CardHeader>
           <CardTitle>Imágenes de la tienda</CardTitle>
@@ -42,6 +44,7 @@ export function StoreInfoTab({ store }: StoreInfoTabProps) {
         </CardContent>
       </Card>
 
+      {/* Store Information Form */}
       <Card>
         <CardHeader>
           <CardTitle>Información de la tienda</CardTitle>
@@ -72,12 +75,26 @@ export function StoreInfoTab({ store }: StoreInfoTabProps) {
             </div>
           </form>
           <div className="mt-6 rounded-md border p-4">
-            <p className="font-medium text-sm">Dirección</p>
-            <p className="mt-1">{store.address}</p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-medium text-sm">Dirección</p>
+                <p className="mt-1">{store.address}</p>
+                <p className="text-muted-foreground text-sm">
+                  {store.cityName}, {store.province}
+                </p>
+              </div>
+              <StoreAddressDialog
+                address={store.address}
+                cityName={store.cityName}
+                province={store.province}
+                storeId={store.id}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
 
+      {/* Share Section - belongs with store info */}
       <ClipboardShare storeId={store.id} />
     </div>
   )
