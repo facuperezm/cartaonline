@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { StoreLobbyCard } from '@/app/(lobby)/_components/store-lobby-card'
 import {
   PageHeader,
@@ -6,6 +7,7 @@ import {
   PageHeaderHeading,
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
+import { Button } from '@/components/ui/button'
 import { getStoresByCity } from '@/lib/queries/store'
 import { normalizeCityName } from '@/lib/utils'
 
@@ -17,11 +19,19 @@ export async function generateMetadata({
   params,
 }: CityPageProps): Promise<Metadata> {
   const { city } = await params
+  const stores = await getStoresByCity(city)
   const cityName = normalizeCityName(city)
 
   return {
     title: `${cityName} | CartaOnline`,
     description: `Los mejores restaurantes de ${cityName} | Esta página fue creada con Carta Online, crea tu carta online en minutos.`,
+    robots:
+      stores.length === 0
+        ? {
+            index: false,
+            follow: true,
+          }
+        : undefined,
   }
 }
 
@@ -65,11 +75,14 @@ export default async function CityPage({ params }: CityPageProps) {
         id="subcategory-page-header"
       >
         <PageHeaderHeading className="text-balance">
-          Estamos trabajando para traerte los mejores restaurants de la ciudad
+          Aún no hay tiendas registradas en esta ciudad
         </PageHeaderHeading>
         <PageHeaderDescription>
-          Mientras tanto podes ver los que tenemos disponibles en otras ciudades
+          {cityName} puede ser la próxima ciudad con cartas online.
         </PageHeaderDescription>
+        <Button asChild className="mt-4 w-fit">
+          <Link href="/sign-up">Crear tu carta gratis</Link>
+        </Button>
       </PageHeader>
     </Shell>
   )
