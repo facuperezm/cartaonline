@@ -53,26 +53,16 @@ model Banner {
   @@index([storeId])
 }
 
-model City {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  displayName String
-  state       String
-  imgUrl      String?
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  stores Store[]
-
-  @@index([active])
-}
-
 model Store {
   id          String    @id @default(cuid())
   name        String    @unique
   description String    @db.Text
   address     String
+  citySlug    String
+  cityName    String
+  province    String
+  latitude    Float
+  longitude   Float
   phone       String
   slug        String?   @unique
   createdAt   DateTime  @default(now())
@@ -85,12 +75,10 @@ model Store {
   banner       Banner?       @relation("StoreBanner")
   products     Product[]
   status       Status        @default(ACTIVE)
-  cityId       String
-  city         City          @relation(fields: [cityId], references: [id])
 
   @@index([userId])
   @@index([status])
-  @@index([cityId])
+  @@index([citySlug])
 }
 
 model Product {

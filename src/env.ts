@@ -19,6 +19,9 @@ const serverEnvSchema = z.object({
   // OpenAI (optional - only needed for AI menu import)
   OPENAI_API_KEY: z.string().optional(),
 
+  // Mapbox (server-side retrieve for selected search results)
+  MAPBOX_SECRET_TOKEN: z.string().optional(),
+
   // MercadoPago
   MP_ACCESS_TOKEN: z.string().optional(),
   // MercadoPago webhook signing secret (set after configuring webhook in MP panel)
@@ -44,6 +47,9 @@ const clientEnvSchema = z.object({
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().default('/sign-up'),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().default('/dashboard/stores'),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().default('/dashboard/stores'),
+
+  // Mapbox (client-side Search Box suggestions)
+  NEXT_PUBLIC_MAPBOX_TOKEN: z.string().optional(),
 })
 
 // Validate server environment variables
@@ -68,6 +74,7 @@ const clientEnvResult = clientEnvSchema.safeParse({
     process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
     process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+  NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
 })
 
 if (!clientEnvResult.success) {

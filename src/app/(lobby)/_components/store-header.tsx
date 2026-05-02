@@ -44,7 +44,9 @@ export function StoreHeader({ store }: StoreHeaderProps) {
             <div className="flex flex-wrap items-center gap-4 text-primary-foreground">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                <span>{store.address}</span>
+                <span>
+                  {store.address}, {store.cityName}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />

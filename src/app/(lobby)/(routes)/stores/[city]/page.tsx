@@ -49,7 +49,7 @@ export default async function CityPage({ params }: CityPageProps) {
           <StoreLobbyCard
             address={store.address}
             banner={store.banner?.url}
-            city={store.city.name}
+            city={store.citySlug}
             id={store.id}
             key={store.id}
             logoUrl={store.logo?.url}

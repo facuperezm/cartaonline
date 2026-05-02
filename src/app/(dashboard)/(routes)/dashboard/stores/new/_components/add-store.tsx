@@ -2,23 +2,14 @@
 
 import { AlertCircle } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
+import { MapboxAddressSearch } from '@/app/(dashboard)/_components/mapbox-address-search'
 import { Icons } from '@/components/icons'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { createStore } from '@/lib/actions/store'
-import { CITIES } from '@/lib/constants/cities'
 
 const initialState = {
   success: false,
@@ -29,12 +20,11 @@ const initialState = {
 
 export function AddStoreForm() {
   const [state, action, isPending] = useActionState(createStore, initialState)
+  const [sessionToken] = useState(() => crypto.randomUUID())
   const [formData, setFormData] = useState({
     name: '',
-    address: '',
     phone: '',
     description: '',
-    city: '',
   })
 
   // Restore form data if there was an error
@@ -42,10 +32,8 @@ export function AddStoreForm() {
     if (state?.formData) {
       setFormData({
         name: (state.formData.name as string) || '',
-        address: (state.formData.address as string) || '',
         phone: (state.formData.phone as string) || '',
         description: (state.formData.description as string) || '',
-        city: (state.formData.city as string) || '',
       })
     }
   }, [state?.formData])
@@ -56,13 +44,6 @@ export function AddStoreForm() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSelectChange = (value: string) => {
-    setFormData({
-      ...formData,
-      city: value,
     })
   }
 
@@ -93,16 +74,7 @@ export function AddStoreForm() {
           value={formData.name}
         />
       </Label>
-      <Label className="flex flex-col gap-2" htmlFor="address">
-        Dirección
-        <Input
-          name="address"
-          onChange={handleInputChange}
-          placeholder="Av. Corrientes 1234, CABA, Argentina"
-          required
-          value={formData.address}
-        />
-      </Label>
+      <MapboxAddressSearch required sessionToken={sessionToken} />
       <Label className="flex flex-col gap-2" htmlFor="phone">
         Teléfono
         <Input
@@ -123,34 +95,6 @@ export function AddStoreForm() {
           placeholder="El mejor restaurant de empanadas del planeta tierra"
           value={formData.description}
         />
-      </Label>
-      <Label className="flex flex-col gap-2" htmlFor="city">
-        Ciudad
-        <Select
-          onValueChange={handleSelectChange}
-          required
-          value={formData.city}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Elegí tu ciudad" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Ciudad</SelectLabel>
-              {CITIES.map((city) => (
-                <SelectItem
-                  disabled={!city.active}
-                  key={city.name}
-                  value={city.name}
-                >
-                  {city.displayName}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        {/* Hidden input to submit the city value with the form */}
-        <input name="city" type="hidden" value={formData.city} />
       </Label>
       <Button
         className="w-fit transition-all"

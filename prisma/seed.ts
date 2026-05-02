@@ -18,73 +18,32 @@ async function main() {
   await prisma.store.deleteMany()
   await prisma.payment.deleteMany()
   await prisma.subscription.deleteMany()
-  await prisma.city.deleteMany()
   await prisma.user.deleteMany()
   console.timeEnd('\n✨ Database cleaned!')
 
-  console.log('\n🌆 Creating cities...')
-  console.time('🌆 Cities created!')
-  const cities = [
-    {
-      name: 'puerto_iguazu',
-      displayName: 'Puerto Iguazú',
-      state: 'Misiones',
-      imgUrl: '/images/puertoiguazu.webp',
-      active: true,
+  const locations = {
+    puertoIguazu: {
+      citySlug: 'puerto-iguazu',
+      cityName: 'Puerto Iguazú',
+      province: 'Misiones',
+      latitude: -25.5972,
+      longitude: -54.5786,
     },
-    {
-      name: 'corrientes',
-      displayName: 'Corrientes',
-      state: 'Corrientes',
-      imgUrl: '/images/corrientes.webp',
-      active: true,
+    corrientes: {
+      citySlug: 'corrientes',
+      cityName: 'Corrientes',
+      province: 'Corrientes',
+      latitude: -27.4692,
+      longitude: -58.8306,
     },
-    {
-      name: 'posadas',
-      displayName: 'Posadas',
-      state: 'Misiones',
-      imgUrl: '/images/posadas.webp',
-      active: true,
+    posadas: {
+      citySlug: 'posadas',
+      cityName: 'Posadas',
+      province: 'Misiones',
+      latitude: -27.3621,
+      longitude: -55.9009,
     },
-    {
-      name: 'buenos_aires',
-      displayName: 'Buenos Aires',
-      state: 'Buenos Aires',
-      imgUrl: '/images/buenosaires.webp',
-      active: false,
-    },
-    {
-      name: 'cordoba',
-      displayName: 'Córdoba',
-      state: 'Córdoba',
-      imgUrl: '/images/cordoba.webp',
-      active: false,
-    },
-    {
-      name: 'ushuaia',
-      displayName: 'Ushuaia',
-      state: 'Tierra del Fuego',
-      imgUrl: '/images/ushuaia.webp',
-      active: false,
-    },
-  ]
-
-  const createdCities = await Promise.all(
-    cities.map((city) => prisma.city.create({ data: city })),
-  )
-
-  const cityIds = {
-    puerto_iguazu:
-      createdCities.find((city) => city.name === 'puerto_iguazu')?.id ?? '',
-    corrientes:
-      createdCities.find((city) => city.name === 'corrientes')?.id ?? '',
-    posadas: createdCities.find((city) => city.name === 'posadas')?.id ?? '',
   } as const
-
-  if (!(cityIds.puerto_iguazu && cityIds.corrientes && cityIds.posadas)) {
-    throw new Error('Failed to create cities')
-  }
-  console.timeEnd('🌆 Cities created!')
 
   console.log('\n🏪 Creating stores...')
   console.time('🏪 Stores created!')
@@ -94,7 +53,7 @@ async function main() {
       address: 'Calle 123',
       phone: '123456789',
       description: 'Las mejores empanadas de Puerto Iguazú',
-      cityId: cityIds.puerto_iguazu,
+      ...locations.puertoIguazu,
       slug: 'empanadas-iguazu',
       status: Status.ACTIVE,
       logo: {
@@ -204,7 +163,7 @@ async function main() {
       phone: '123456789',
       description:
         'Parrilla tradicional argentina con los mejores cortes de carne a la parrilla.',
-      cityId: cityIds.puerto_iguazu,
+      ...locations.puertoIguazu,
       slug: 'parrilla-iguazu',
       status: Status.ACTIVE,
       logo: {
@@ -331,7 +290,7 @@ async function main() {
       address: 'Av. Victoria 789',
       phone: '123456789',
       description: 'Los mejores helados artesanales de Puerto Iguazú',
-      cityId: cityIds.puerto_iguazu,
+      ...locations.puertoIguazu,
       slug: 'heladeria-iguazu',
       status: Status.ACTIVE,
       logo: {
@@ -453,7 +412,7 @@ async function main() {
       address: 'Av. 3 de Abril 234',
       phone: '123456789',
       description: 'El mejor bar de Corrientes con música en vivo',
-      cityId: cityIds.corrientes,
+      ...locations.corrientes,
       slug: 'chamame-bar',
       status: Status.ACTIVE,
       logo: {
@@ -580,7 +539,7 @@ async function main() {
       address: 'Costanera 567',
       phone: '123456789',
       description: 'Café y pastelería artesanal con vista al río',
-      cityId: cityIds.posadas,
+      ...locations.posadas,
       slug: 'cafe-del-puerto',
       status: Status.ACTIVE,
       logo: {
@@ -702,7 +661,7 @@ async function main() {
         ],
       },
     },
-    // ... rest of the stores with updated cityId
+    // Add more seeded stores here as needed.
   ]
 
   for (const store of stores) {
@@ -731,10 +690,8 @@ async function main() {
   const storesCount = await prisma.store.count()
   const productsCount = await prisma.product.count()
   const usersCount = await prisma.user.count()
-  const citiesCount = await prisma.city.count()
 
   console.log(`📊 Here's a summary:
-  - 🌆 ${citiesCount} cities
   - 🏪 ${storesCount} stores
   - 🍽️ ${productsCount} products
   - 👥 ${usersCount} users

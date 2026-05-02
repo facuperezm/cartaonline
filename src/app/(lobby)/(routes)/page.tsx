@@ -20,13 +20,11 @@ import {
 } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CityCard } from '@/app/(lobby)/_components/city-card'
 import { HeroPreview } from '@/app/(lobby)/_components/hero-preview'
 import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
 import { ENTERPRISE_CARD } from '@/config/plans'
 import { clientEnv } from '@/env'
-import { CITIES } from '@/lib/constants/cities'
 import { getPlan } from '@/lib/subscription'
 import { cn } from '@/lib/utils'
 
@@ -45,8 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  const cities = [...CITIES].sort((a, b) => Number(b.active) - Number(a.active))
-
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -344,35 +340,6 @@ export default function Home() {
                   {feature.description}
                 </p>
               </div>
-            ))}
-          </div>
-        </Shell>
-      </section>
-
-      {/* Cities Section */}
-      <section className="overflow-hidden bg-muted/30 py-20 md:py-28">
-        <Shell>
-          <div className="mb-12 text-center">
-            <span className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-2 font-medium text-accent text-sm">
-              Cobertura
-            </span>
-            <h2 className="font-bold text-3xl md:text-4xl">
-              Disponible en tu ciudad
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              Únete a los restaurantes que ya confían en nosotros
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {cities.map((city) => (
-              <CityCard
-                city={city.name}
-                disabled={!city.active}
-                href={`/stores/${city.name}`}
-                key={city.name}
-                src={city.imgUrl}
-              />
             ))}
           </div>
         </Shell>

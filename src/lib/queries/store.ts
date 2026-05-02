@@ -11,13 +11,11 @@ export const getStoresByCity = async (city: string) => {
 
   const stores = await db.store.findMany({
     where: {
-      city: {
-        name: city,
-      },
+      citySlug: city,
+      deletedAt: null,
       status: 'ACTIVE',
     },
     include: {
-      city: true,
       banner: true,
       logo: true,
     },
@@ -31,10 +29,9 @@ export const getStoreById = async (id: string) => {
   cacheTag(`store-${id}`)
   cacheLife({ stale: 300, revalidate: 3600, expire: 86_400 })
 
-  const store = await db.store.findUnique({
-    where: { id },
+  const store = await db.store.findFirst({
+    where: { id, deletedAt: null },
     include: {
-      city: true,
       banner: true,
       logo: true,
       products: {
@@ -51,6 +48,7 @@ export const getStoreByUserId = async (userId: string) => {
   const store = await db.store.findMany({
     where: {
       userId,
+      deletedAt: null,
     },
   })
   return store

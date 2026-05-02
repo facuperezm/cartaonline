@@ -6,8 +6,13 @@ import { redirect } from 'next/navigation'
 
 import { db } from '@/lib/db'
 import { ensureCanCreateStore, PlanLimitError } from '@/lib/limits'
+import { retrieveMapboxFeature } from '@/lib/mapbox'
 
 import { storeSchema, updateStoreSchema } from '../validations/store'
+
+function optionalFormString(value: FormDataEntryValue | null) {
+  return typeof value === 'string' && value.length > 0 ? value : undefined
+}
 
 export async function deleteStore(storeId: string) {
   const { userId } = await auth()
@@ -22,9 +27,6 @@ export async function deleteStore(storeId: string) {
       where: {
         id: storeId,
         userId, // Only allow deletion if user owns the store
-      },
-      include: {
-        city: true,
       },
     })
 
@@ -42,7 +44,7 @@ export async function deleteStore(storeId: string) {
     await db.store.delete({ where: { id: storeId } })
 
     // Invalidate cache for the city's store list
-    revalidateTag(`stores-city-${store.city.name}`, 'max')
+    revalidateTag(`stores-city-${store.citySlug}`, 'max')
 
     redirect('/dashboard/stores')
   } catch (err) {
@@ -66,56 +68,66 @@ export async function updateStore(storeId: string, fd: FormData) {
         id: storeId,
         userId,
       },
-      include: {
-        city: true,
-      },
     })
 
     if (!existingStore) {
       throw new Error('Tienda no encontrada o no tienes permiso para editarla.')
     }
 
-    const oldCityName = existingStore.city.name
+    const oldCitySlug = existingStore.citySlug
 
     const input = updateStoreSchema.parse({
-      name: fd.get('name'),
-      address: fd.get('address'),
-      city: fd.get('city'),
+      name: optionalFormString(fd.get('name')),
+      description: optionalFormString(fd.get('description')),
+      mapboxId: optionalFormString(fd.get('mapboxId')),
+      sessionToken: optionalFormString(fd.get('sessionToken')),
     })
 
-    const storeWithSameName = await db.store.findFirst({
-      where: {
-        name: input.name,
-        id: {
-          not: storeId,
+    if (input.name) {
+      const storeWithSameName = await db.store.findFirst({
+        where: {
+          name: input.name,
+          id: {
+            not: storeId,
+          },
         },
-      },
-    })
+      })
 
-    if (storeWithSameName) {
-      throw new Error('Ya existe una tienda con ese nombre.')
+      if (storeWithSameName) {
+        throw new Error('Ya existe una tienda con ese nombre.')
+      }
     }
 
-    await db.store.update({
+    const location =
+      input.mapboxId && input.sessionToken
+        ? await retrieveMapboxFeature(input.mapboxId, input.sessionToken)
+        : null
+
+    const updatedStore = await db.store.update({
       where: {
         id: storeId,
       },
       data: {
-        name: input.name,
-        address: input.address,
-        city: {
-          connect: {
-            name: input.city,
-          },
-        },
+        ...(input.name ? { name: input.name } : {}),
+        ...(input.description ? { description: input.description } : {}),
+        ...(location
+          ? {
+              address: location.address,
+              cityName: location.cityName,
+              citySlug: location.citySlug,
+              province: location.province,
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }
+          : {}),
       },
     })
 
     // Invalidate cache for this store and city listings
     revalidateTag(`store-${storeId}`, 'max')
-    revalidateTag(`stores-city-${oldCityName}`, 'max')
-    if (input.city !== oldCityName) {
-      revalidateTag(`stores-city-${input.city}`, 'max')
+    revalidateTag(`stores-city-${oldCitySlug}`, 'max')
+    if (updatedStore.citySlug !== oldCitySlug) {
+      revalidateTag(`stores-city-${updatedStore.citySlug}`, 'max')
     }
 
     redirect('/dashboard/stores')
@@ -140,9 +152,6 @@ export async function updateStoreStatus(storeId: string, fd: FormData) {
         id: storeId,
         userId,
       },
-      include: {
-        city: true,
-      },
     })
 
     if (!store) {
@@ -164,7 +173,7 @@ export async function updateStoreStatus(storeId: string, fd: FormData) {
 
     // Invalidate cache for this store and city listing (status affects visibility)
     revalidateTag(`store-${storeId}`, 'max')
-    revalidateTag(`stores-city-${store.city.name}`, 'max')
+    revalidateTag(`stores-city-${store.citySlug}`, 'max')
 
     redirect('/dashboard/stores')
   } catch (err) {
@@ -240,10 +249,10 @@ export async function createStore(
   try {
     const validatedFields = storeSchema.parse({
       name: formData.get('name'),
-      address: formData.get('address'),
       phone: formData.get('phone'),
       description: formData.get('description'),
-      city: formData.get('city'),
+      mapboxId: formData.get('mapboxId'),
+      sessionToken: formData.get('sessionToken'),
     })
 
     const { userId } = await auth()
@@ -270,23 +279,6 @@ export async function createStore(
         success: false,
         error:
           'Ya tienes una tienda con este nombre. Por favor, elige otro nombre.',
-        message: '',
-        formData: Object.fromEntries(formData),
-      }
-    }
-
-    // Check if city exists
-    const city = await db.city.findUnique({
-      where: {
-        name: validatedFields.city,
-      },
-    })
-
-    if (!city) {
-      return {
-        success: false,
-        error:
-          'La ciudad seleccionada no es válida. Por favor, elige una ciudad de la lista.',
         message: '',
         formData: Object.fromEntries(formData),
       }
@@ -319,18 +311,23 @@ export async function createStore(
 
     await ensureCanCreateStore(userId)
 
+    const location = await retrieveMapboxFeature(
+      validatedFields.mapboxId,
+      validatedFields.sessionToken,
+    )
+
     await db.store.create({
       data: {
         name: validatedFields.name,
-        address: validatedFields.address,
+        address: location.address,
+        cityName: location.cityName,
+        citySlug: location.citySlug,
+        province: location.province,
+        latitude: location.latitude,
+        longitude: location.longitude,
         description: validatedFields.description,
         phone: validatedFields.phone,
         status: 'ACTIVE',
-        city: {
-          connect: {
-            name: validatedFields.city,
-          },
-        },
         user: {
           connect: {
             userId,
@@ -340,7 +337,7 @@ export async function createStore(
     })
 
     // Invalidate cache for the city's store list
-    revalidateTag(`stores-city-${validatedFields.city}`, 'max')
+    revalidateTag(`stores-city-${location.citySlug}`, 'max')
 
     redirect('/dashboard/stores')
   } catch (error: unknown) {
@@ -386,10 +383,7 @@ export async function createStore(
     if (error instanceof Error) {
       let errorMessage = 'Error al crear la tienda. '
 
-      if (error.message.includes('Foreign key constraint')) {
-        errorMessage +=
-          'La ciudad seleccionada no existe. Por favor, selecciona una ciudad válida.'
-      } else if (error.message.includes('Unique constraint')) {
+      if (error.message.includes('Unique constraint')) {
         errorMessage += 'Ya existe una tienda con este nombre.'
       } else {
         errorMessage += error.message

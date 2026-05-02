@@ -5,6 +5,7 @@ import { type ClassValue, clsx } from 'clsx'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import * as z from 'zod'
+import { humanizeCitySlug } from '@/lib/location'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -91,7 +92,5 @@ export async function compressImage(file: Blob, quality: number, name: string) {
 }
 
 export function normalizeCityName(city: string) {
-  return city
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (l: string) => l.toUpperCase())
+  return humanizeCitySlug(city)
 }

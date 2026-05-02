@@ -20,7 +20,6 @@ import {
 import { Shell } from '@/components/shell'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getCities } from '@/lib/queries/city'
 import { getStoreById } from '@/lib/queries/store'
 import { cn } from '@/lib/utils'
 
@@ -57,11 +56,9 @@ export default async function StorePage({ params }: PageProps) {
     notFound()
   }
 
-  const cities = await getCities()
-
   const storeUrl = `${
     process.env.NEXT_PUBLIC_APP_URL
-  }/stores/${store.city.name.toLowerCase()}/${store.id}`
+  }/stores/${store.citySlug}/${store.id}`
 
   const isActive = store.status === 'ACTIVE'
 
@@ -115,7 +112,7 @@ export default async function StorePage({ params }: PageProps) {
         </TabsContent>
 
         <TabsContent className="space-y-4" value="store">
-          <StoreInfoTab cities={cities} store={store} />
+          <StoreInfoTab store={store} />
         </TabsContent>
 
         <TabsContent className="space-y-4" value="qr">
