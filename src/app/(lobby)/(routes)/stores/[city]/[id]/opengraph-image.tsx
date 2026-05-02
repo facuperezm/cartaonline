@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+
+import { permanentRedirect } from 'next/navigation'
 import { ImageResponse } from 'next/og'
 
 import { db } from '@/lib/db'
@@ -10,14 +12,22 @@ export const size = {
 
 export const contentType = 'image/png'
 
-export default async function Image({ params }: { params: { id: string } }) {
-  const { id } = await params
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ city: string; id: string }>
+}) {
+  const { city, id } = await params
   const store = await db.store.findFirst({
-    where: { id },
+    where: { id, deletedAt: null },
     include: {
       banner: true,
     },
   })
+
+  if (store && city !== store.citySlug) {
+    permanentRedirect(`/stores/${store.citySlug}/${store.id}/opengraph-image`)
+  }
 
   return new ImageResponse(
     <div
@@ -82,7 +92,7 @@ export default async function Image({ params }: { params: { id: string } }) {
               fontSize: '45px',
               textAlign: 'center',
               lineHeight: '40px',
-              letterSpacing: '-0.025em',
+              letterSpacing: 0,
               fontWeight: '900',
             }}
           >

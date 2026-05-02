@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { ProductList } from '@/app/(lobby)/_components/product-list'
 import { ReserveButton } from '@/app/(lobby)/_components/reserve-button'
 import { StoreHeader } from '@/app/(lobby)/_components/store-header'
@@ -46,12 +46,16 @@ export async function generateMetadata({
 }
 
 export default async function StorePage({ params }: StorePageProps) {
-  const { id } = await params
+  const { city, id } = await params
 
   const store = await getStoreById(id)
 
   if (!store) {
     notFound()
+  }
+
+  if (city !== store.citySlug) {
+    permanentRedirect(`/stores/${store.citySlug}/${store.id}`)
   }
 
   return (
