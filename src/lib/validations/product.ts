@@ -1,11 +1,13 @@
 import { z } from 'zod'
 
+import { PRODUCT_CATEGORIES } from '@/config/products'
+
 export const AddProductsSchema = z.object({
   // id: z.string(),
   name: z.string(),
   price: z.string(),
   description: z.string(),
-  category: z.enum(['Comida', 'Bebida', 'Postre']),
+  category: z.enum(PRODUCT_CATEGORIES),
 })
 
 export type Inputs = z.infer<typeof AddProductsSchema>
@@ -27,11 +29,11 @@ export const updateProductSchema = z.object({
   description: z.string({
     error: 'La descripción debe ser un texto',
   }),
-  category: z.enum(['Comida', 'Bebida', 'Postre']),
+  category: z.enum(PRODUCT_CATEGORIES),
 })
 
 // Schema for AI menu extraction
-export const aiExtractedProductSchema = z.object({
+const aiExtractedProductSchema = z.object({
   name: z.string().describe('Product name from the menu'),
   price: z
     .number()
@@ -42,7 +44,7 @@ export const aiExtractedProductSchema = z.object({
       "Product description or ingredients in Spanish, not in English. Don't exceed 120 characters.",
     ),
   category: z
-    .enum(['Comida', 'Bebida', 'Postre'])
+    .enum(PRODUCT_CATEGORIES)
     .describe(
       'Product category: Comida (food), Bebida (drink), or Postre (dessert)',
     ),
@@ -53,6 +55,3 @@ export const aiMenuExtractionSchema = z.object({
     .array(aiExtractedProductSchema)
     .describe('Array of all menu items found in the image or PDF'),
 })
-
-export type AIExtractedProduct = z.infer<typeof aiExtractedProductSchema>
-export type AIMenuExtraction = z.infer<typeof aiMenuExtractionSchema>

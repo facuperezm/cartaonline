@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { PRODUCT_CATEGORIES } from '@/config/products'
 import { addProduct } from '@/lib/actions/product'
 import { catchError } from '@/lib/utils'
 import { AddProductsSchema, type Inputs } from '@/lib/validations/product'
@@ -113,9 +114,11 @@ export function AddProductForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Bebida">Bebida</SelectItem>
-                  <SelectItem value="Postre">Postre</SelectItem>
-                  <SelectItem value="Comida">Comida</SelectItem>
+                  {PRODUCT_CATEGORIES.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

@@ -14,5 +14,3 @@ export const storeSchema = z.object({
   mapboxId: z.string().min(1, 'Seleccioná una dirección de la lista.'),
   sessionToken: z.string().min(1, 'La sesión de búsqueda expiró.'),
 })
-
-export type Inputs = z.infer<typeof storeSchema>

@@ -87,9 +87,3 @@ if (!clientEnvResult.success) {
 
 export const serverEnv = serverEnvResult.data
 export const clientEnv = clientEnvResult.data
-
-// Type-safe environment access
-export const env = {
-  ...serverEnv,
-  ...clientEnv,
-} as const

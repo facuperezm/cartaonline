@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getErrorMessage(err: unknown) {
+function getErrorMessage(err: unknown) {
   if (err instanceof z.ZodError) {
     return (
       err.issues[0]?.message ??
@@ -41,22 +41,6 @@ export function getUserEmail(user: User | null) {
       ?.emailAddress ?? ''
 
   return email
-}
-
-export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
-}
-
-export function formatDate(
-  date: Date | string | number,
-  opts: Intl.DateTimeFormatOptions = {},
-) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: opts.month ?? 'long',
-    day: opts.day ?? 'numeric',
-    year: opts.year ?? 'numeric',
-    ...opts,
-  }).format(new Date(date))
 }
 
 export function catchError(err: unknown) {

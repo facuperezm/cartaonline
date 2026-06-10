@@ -8,6 +8,7 @@ import {
 } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import type { ProductCategory } from '@/config/products'
 import { ensureCanCreateProducts } from '@/lib/limits'
 import { updateProductSchema } from '@/lib/validations/product'
 
@@ -141,7 +142,7 @@ export async function updateProduct(
 type AddProductData = {
   name: string
   price: string | number
-  category: 'Comida' | 'Bebida' | 'Postre'
+  category: ProductCategory
   description: string
   storeId: string
 }

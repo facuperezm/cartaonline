@@ -17,7 +17,3 @@ export const verifyEmailSchema = z.object({
     })
     .max(6),
 })
-
-export const checkEmailSchema = z.object({
-  email: authSchema.shape.email,
-})

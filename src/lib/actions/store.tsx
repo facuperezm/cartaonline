@@ -10,228 +10,131 @@ import { retrieveMapboxFeature } from '@/lib/mapbox'
 
 import { storeSchema, updateStoreSchema } from '../validations/store'
 
+const UPLOADTHING_S3_URL = 'https://uploadthing-prod.s3.us-west-2.amazonaws.com'
+
 function optionalFormString(value: FormDataEntryValue | null) {
   return typeof value === 'string' && value.length > 0 ? value : undefined
 }
 
-export async function deleteStore(storeId: string) {
+async function requireStoreOwner(storeId: string) {
   const { userId } = await auth()
 
   if (!userId) {
     throw new Error('No autorizado. Por favor, inicia sesión.')
   }
 
-  try {
-    // Verify ownership before deletion
-    const store = await db.store.findFirst({
-      where: {
-        id: storeId,
-        userId, // Only allow deletion if user owns the store
-      },
-    })
+  const store = await db.store.findFirst({
+    where: {
+      id: storeId,
+      userId,
+    },
+  })
 
-    if (!store) {
-      throw new Error(
-        'Tienda no encontrada o no tienes permiso para eliminarla.',
-      )
-    }
-
-    await db.product.deleteMany({
-      where: {
-        storeId,
-      },
-    })
-    await db.store.delete({ where: { id: storeId } })
-
-    // Invalidate cache for the city's store list
-    revalidateTag(`stores-city-${store.citySlug}`, 'max')
-
-    redirect('/dashboard/stores')
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error('Ocurrió un error. Por favor, intenta de nuevo.')
+  if (!store) {
+    throw new Error(
+      'Tienda no encontrada o no tienes permiso para modificarla.',
+    )
   }
+
+  return store
+}
+
+export async function deleteStore(storeId: string) {
+  const store = await requireStoreOwner(storeId)
+
+  await db.product.deleteMany({
+    where: {
+      storeId,
+    },
+  })
+  await db.store.delete({ where: { id: storeId } })
+
+  // Invalidate cache for the city's store list
+  revalidateTag(`stores-city-${store.citySlug}`, 'max')
+
+  redirect('/dashboard/stores')
 }
 
 export async function updateStore(storeId: string, fd: FormData) {
-  const { userId } = await auth()
+  const existingStore = await requireStoreOwner(storeId)
+  const oldCitySlug = existingStore.citySlug
 
-  if (!userId) {
-    throw new Error('No autorizado. Por favor, inicia sesión.')
-  }
+  const input = updateStoreSchema.parse({
+    name: optionalFormString(fd.get('name')),
+    description: optionalFormString(fd.get('description')),
+    mapboxId: optionalFormString(fd.get('mapboxId')),
+    sessionToken: optionalFormString(fd.get('sessionToken')),
+  })
 
-  try {
-    // Verify ownership before update and get current city
-    const existingStore = await db.store.findFirst({
+  if (input.name) {
+    const storeWithSameName = await db.store.findFirst({
       where: {
-        id: storeId,
-        userId,
-      },
-    })
-
-    if (!existingStore) {
-      throw new Error('Tienda no encontrada o no tienes permiso para editarla.')
-    }
-
-    const oldCitySlug = existingStore.citySlug
-
-    const input = updateStoreSchema.parse({
-      name: optionalFormString(fd.get('name')),
-      description: optionalFormString(fd.get('description')),
-      mapboxId: optionalFormString(fd.get('mapboxId')),
-      sessionToken: optionalFormString(fd.get('sessionToken')),
-    })
-
-    if (input.name) {
-      const storeWithSameName = await db.store.findFirst({
-        where: {
-          name: input.name,
-          id: {
-            not: storeId,
-          },
-        },
-      })
-
-      if (storeWithSameName) {
-        throw new Error('Ya existe una tienda con ese nombre.')
-      }
-    }
-
-    const location =
-      input.mapboxId && input.sessionToken
-        ? await retrieveMapboxFeature(input.mapboxId, input.sessionToken)
-        : null
-
-    const updatedStore = await db.store.update({
-      where: {
-        id: storeId,
-      },
-      data: {
-        ...(input.name ? { name: input.name } : {}),
-        ...(input.description ? { description: input.description } : {}),
-        ...(location
-          ? {
-              address: location.address,
-              cityName: location.cityName,
-              citySlug: location.citySlug,
-              province: location.province,
-              latitude: location.latitude,
-              longitude: location.longitude,
-            }
-          : {}),
-      },
-    })
-
-    // Invalidate cache for this store and city listings
-    revalidateTag(`store-${storeId}`, 'max')
-    revalidateTag(`stores-city-${oldCitySlug}`, 'max')
-    if (updatedStore.citySlug !== oldCitySlug) {
-      revalidateTag(`stores-city-${updatedStore.citySlug}`, 'max')
-    }
-
-    redirect('/dashboard/stores')
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error('Ocurrió un error. Por favor, intenta de nuevo.')
-  }
-}
-
-export async function updateStoreStatus(storeId: string, fd: FormData) {
-  const { userId } = await auth()
-
-  if (!userId) {
-    throw new Error('No autorizado. Por favor, inicia sesión.')
-  }
-
-  try {
-    // Verify ownership before status change
-    const store = await db.store.findFirst({
-      where: {
-        id: storeId,
-        userId,
-      },
-    })
-
-    if (!store) {
-      throw new Error(
-        'Tienda no encontrada o no tienes permiso para modificarla.',
-      )
-    }
-
-    const status = fd.get('status')
-
-    await db.store.update({
-      where: {
-        id: storeId,
-      },
-      data: {
-        status: status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
-      },
-    })
-
-    // Invalidate cache for this store and city listing (status affects visibility)
-    revalidateTag(`store-${storeId}`, 'max')
-    revalidateTag(`stores-city-${store.citySlug}`, 'max')
-
-    redirect('/dashboard/stores')
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error('Ocurrió un error. Por favor, intenta de nuevo.')
-  }
-}
-
-export async function updateStoreSlug(storeId: string, newSlug: string) {
-  try {
-    if (!newSlug.trim()) {
-      throw new Error('El slug no puede estar vacío')
-    }
-
-    // Validar formato del slug
-    // biome-ignore lint/performance/useTopLevelRegex: Only used once in this function
-    const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-    if (!slugRegex.test(newSlug)) {
-      throw new Error(
-        'El slug solo puede contener letras minúsculas, números y guiones',
-      )
-    }
-
-    // Verificar si el slug ya existe
-    const existingStore = await db.store.findFirst({
-      where: {
-        slug: newSlug,
+        name: input.name,
         id: {
           not: storeId,
         },
       },
     })
 
-    if (existingStore) {
-      throw new Error('Este slug ya está en uso')
-    }
-
-    // Actualizar el slug
-    await db.store.update({
-      where: {
-        id: storeId,
-      },
-      data: {
-        slug: newSlug,
-      },
-    })
-
-    // Invalidate cache for this store
-    revalidateTag(`store-${storeId}`, 'max')
-
-    return { success: true }
-  } catch (err) {
-    return {
-      success: false,
-      error: err instanceof Error ? err.message : 'Error al actualizar el slug',
+    if (storeWithSameName) {
+      throw new Error('Ya existe una tienda con ese nombre.')
     }
   }
+
+  const location =
+    input.mapboxId && input.sessionToken
+      ? await retrieveMapboxFeature(input.mapboxId, input.sessionToken)
+      : null
+
+  const updatedStore = await db.store.update({
+    where: {
+      id: storeId,
+    },
+    data: {
+      ...(input.name ? { name: input.name } : {}),
+      ...(input.description ? { description: input.description } : {}),
+      ...(location
+        ? {
+            address: location.address,
+            cityName: location.cityName,
+            citySlug: location.citySlug,
+            province: location.province,
+            latitude: location.latitude,
+            longitude: location.longitude,
+          }
+        : {}),
+    },
+  })
+
+  // Invalidate cache for this store and city listings
+  revalidateTag(`store-${storeId}`, 'max')
+  revalidateTag(`stores-city-${oldCitySlug}`, 'max')
+  if (updatedStore.citySlug !== oldCitySlug) {
+    revalidateTag(`stores-city-${updatedStore.citySlug}`, 'max')
+  }
+
+  redirect('/dashboard/stores')
+}
+
+export async function updateStoreStatus(storeId: string, fd: FormData) {
+  const store = await requireStoreOwner(storeId)
+
+  const status = fd.get('status')
+
+  await db.store.update({
+    where: {
+      id: storeId,
+    },
+    data: {
+      status: status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
+    },
+  })
+
+  // Invalidate cache for this store and city listing (status affects visibility)
+  revalidateTag(`store-${storeId}`, 'max')
+  revalidateTag(`stores-city-${store.citySlug}`, 'max')
+
+  redirect('/dashboard/stores')
 }
 
 type CreateStoreState = {
@@ -407,110 +310,38 @@ export async function createStore(
   }
 }
 
-export async function createBanner(data: { key: string; storeId: string }) {
+async function upsertStoreImage(
+  kind: 'banner' | 'logo',
+  { key, storeId }: { key: string; storeId: string },
+) {
   try {
-    const { key, storeId } = data
-    const { userId } = await auth()
+    await requireStoreOwner(storeId)
 
-    if (!userId) {
-      throw new Error('No autorizado. Por favor, inicia sesión.')
-    }
+    const url = `${UPLOADTHING_S3_URL}/${key}`
+    const create = { key, name: key, url, status: 'SUCCESS' as const, storeId }
+    const update = { storeId, url }
 
-    // Fixed: added await to properly check store ownership
-    const store = await db.store.findFirst({
-      where: {
-        id: storeId,
-        userId,
-      },
-    })
+    await (kind === 'banner'
+      ? db.banner.upsert({ where: { key }, create, update })
+      : db.logo.upsert({ where: { key }, create, update }))
 
-    if (!store) {
-      throw new Error(
-        'Tienda no encontrada o no tienes permiso para modificarla.',
-      )
-    }
-
-    await db.banner.upsert({
-      where: {
-        key,
-      },
-      create: {
-        key,
-        name: key,
-        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
-        status: 'SUCCESS',
-        storeId,
-      },
-      update: {
-        storeId,
-        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
-      },
-    })
-
-    // Invalidate cache for this store (banner is part of store data)
+    // Invalidate cache for this store (image is part of store data)
     revalidateTag(`store-${storeId}`, 'max')
 
     return { success: true }
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Banner Creation Error:', error.stack)
-    } else {
-      console.error('Banner Creation Error:', error)
-    }
-    return { success: false, error: 'Error al crear el banner' }
+    console.error(
+      `Store ${kind} upsert error:`,
+      error instanceof Error ? error.stack : error,
+    )
+    return { success: false, error: `Error al crear el ${kind}` }
   }
 }
 
+export async function createBanner(data: { key: string; storeId: string }) {
+  return await upsertStoreImage('banner', data)
+}
+
 export async function createLogo(data: { key: string; storeId: string }) {
-  try {
-    const { key, storeId } = data
-    const { userId } = await auth()
-
-    if (!userId) {
-      throw new Error('No autorizado. Por favor, inicia sesión.')
-    }
-
-    // Fixed: added await to properly check store ownership
-    const store = await db.store.findFirst({
-      where: {
-        id: storeId,
-        userId,
-      },
-    })
-
-    if (!store) {
-      throw new Error(
-        'Tienda no encontrada o no tienes permiso para modificarla.',
-      )
-    }
-
-    await db.logo.upsert({
-      where: {
-        key,
-      },
-      create: {
-        key,
-        name: key,
-        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
-        status: 'SUCCESS',
-        storeId,
-      },
-      update: {
-        storeId,
-        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${key}`,
-      },
-    })
-
-    // Invalidate cache for this store (logo is part of store data)
-    revalidateTag(`store-${storeId}`, 'max')
-
-    return { success: true }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Logo Creation Error:', error.stack)
-    } else {
-      console.error('Logo Creation Error:', error)
-    }
-    return { success: false, error: 'Error al crear el logo' }
-  }
+  return await upsertStoreImage('logo', data)
 }

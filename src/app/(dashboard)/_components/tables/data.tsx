@@ -1,19 +1,15 @@
-import { Beef, CakeSlice, CupSoda } from 'lucide-react'
+import { Beef, CakeSlice, CupSoda, type LucideIcon } from 'lucide-react'
 
-export const statuses = [
-  {
-    value: 'Comida',
-    label: 'Comida',
-    icon: Beef,
-  },
-  {
-    value: 'Bebida',
-    label: 'Bebida',
-    icon: CupSoda,
-  },
-  {
-    value: 'Postre',
-    label: 'Postre',
-    icon: CakeSlice,
-  },
-]
+import { PRODUCT_CATEGORIES, type ProductCategory } from '@/config/products'
+
+const CATEGORY_ICONS: Record<ProductCategory, LucideIcon> = {
+  Comida: Beef,
+  Bebida: CupSoda,
+  Postre: CakeSlice,
+}
+
+export const statuses = PRODUCT_CATEGORIES.map((category) => ({
+  value: category,
+  label: category,
+  icon: CATEGORY_ICONS[category],
+}))

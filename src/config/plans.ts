@@ -27,7 +27,6 @@ export const PLANS = [
 ] as const
 
 export type Plan = (typeof PLANS)[number]
-export type PlanType = Plan['planType']
 
 export const PAYABLE_PLAN_TYPES = ['PRO'] as const
 export type PayablePlanType = (typeof PAYABLE_PLAN_TYPES)[number]

@@ -36,10 +36,6 @@ export function getActivePlan(subscription: SubscriptionLike): Plan {
   return entitled ? getPlan(subscription.planType) : (BASIC_PLAN as Plan)
 }
 
-export function isProActive(subscription: SubscriptionLike): boolean {
-  return getActivePlan(subscription).planType === 'PRO'
-}
-
 /**
  * Discriminated UI state for the billing page Pro card.
  */

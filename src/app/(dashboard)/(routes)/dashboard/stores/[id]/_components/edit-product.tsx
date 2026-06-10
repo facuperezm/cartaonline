@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { PRODUCT_CATEGORIES } from '@/config/products'
 import { useProduct } from '@/hooks/use-products'
 import { updateProduct } from '@/lib/actions/product'
 
@@ -133,9 +134,11 @@ export default function EditProductForm({ id }: { id: string }) {
                 />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Comida">Comida</SelectItem>
-                <SelectItem value="Bebida">Bebida</SelectItem>
-                <SelectItem value="Postre">Postre</SelectItem>
+                {PRODUCT_CATEGORIES.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </Label>

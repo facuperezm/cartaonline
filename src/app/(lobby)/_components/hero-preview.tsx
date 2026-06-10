@@ -3,49 +3,51 @@
 import { Clock, MapPin, QrCode, Share2, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-type Category = 'Comida' | 'Bebida' | 'Postre'
+import { PRODUCT_CATEGORIES, type ProductCategory } from '@/config/products'
 
-const PRODUCTS: { name: string; desc: string; price: number; cat: Category }[] =
-  [
-    {
-      name: 'Empanada de Carne',
-      desc: 'Receta tradicional cordobesa',
-      price: 800,
-      cat: 'Comida',
-    },
-    {
-      name: 'Milanesa Napo',
-      desc: 'Con papas fritas',
-      price: 4500,
-      cat: 'Comida',
-    },
-    {
-      name: 'Café con Leche',
-      desc: 'Recién hecho',
-      price: 1200,
-      cat: 'Bebida',
-    },
-    {
-      name: 'Limonada de menta',
-      desc: 'Fresca y casera',
-      price: 1500,
-      cat: 'Bebida',
-    },
-    {
-      name: 'Flan Casero',
-      desc: 'Con dulce de leche',
-      price: 2000,
-      cat: 'Postre',
-    },
-    {
-      name: 'Helado Artesanal',
-      desc: 'Dos bochas a elección',
-      price: 1800,
-      cat: 'Postre',
-    },
-  ]
-
-const CATEGORY_ORDER: Category[] = ['Comida', 'Bebida', 'Postre']
+const PRODUCTS: {
+  name: string
+  desc: string
+  price: number
+  cat: ProductCategory
+}[] = [
+  {
+    name: 'Empanada de Carne',
+    desc: 'Receta tradicional cordobesa',
+    price: 800,
+    cat: 'Comida',
+  },
+  {
+    name: 'Milanesa Napo',
+    desc: 'Con papas fritas',
+    price: 4500,
+    cat: 'Comida',
+  },
+  {
+    name: 'Café con Leche',
+    desc: 'Recién hecho',
+    price: 1200,
+    cat: 'Bebida',
+  },
+  {
+    name: 'Limonada de menta',
+    desc: 'Fresca y casera',
+    price: 1500,
+    cat: 'Bebida',
+  },
+  {
+    name: 'Flan Casero',
+    desc: 'Con dulce de leche',
+    price: 2000,
+    cat: 'Postre',
+  },
+  {
+    name: 'Helado Artesanal',
+    desc: 'Dos bochas a elección',
+    price: 1800,
+    cat: 'Postre',
+  },
+]
 
 const LOOP_MS = 11_000
 const HEADER_DELAY = 0.2
@@ -132,7 +134,7 @@ export function HeroPreview() {
           Nuestro Menú
         </h4>
 
-        {CATEGORY_ORDER.map((category, catIdx) => {
+        {PRODUCT_CATEGORIES.map((category, catIdx) => {
           const items = PRODUCTS.filter((p) => p.cat === category)
           if (items.length === 0) {
             return null
